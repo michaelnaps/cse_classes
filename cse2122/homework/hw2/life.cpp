@@ -21,7 +21,6 @@
          - A cell cannot die and be birthed simultaneously within the same generation.
 
       Once the game is initialized, it will continue until the user ends the program.
-
 */
 
 #include <iostream>
@@ -157,15 +156,13 @@ int neighbor_count(bool **world, int nrows, int ncols, int i, int j){
    // for the coordinates 'i' and 'j' given, evaluate surrounding cells
    for (int r(i - 1); r < (i + 1); ++r) {
       for (int c(j - 1); c < (j + 1); ++c) {
-         // if the cell location is equal to the coordinates given, ignore
-         if (r == i && c == j) { }
-         // if the cell value is 'true' add to total neighboring cell count
-         else if (world[r][c] == true) {
+         // if the cell value is 'true' and add to total neighboring cell count
+         if (world[r][c] == true && (r != i && c != j)) {
             ++count;
          }
       }
    }
-
+   
    // return number of neighboring alive cells
    return count;
 }
@@ -175,17 +172,18 @@ void generation(bool **world, bool **copy, int nrows, int ncols){
    // set 'copy' equal to the initial 'world' 2d array
    for (int i(0); i < nrows; ++i) {
       for (int k(0); k < ncols; ++k) {
-         world[i][k] = copy[i][k];
+         copy[i][k] = world[i][k];
       }
    }
 
    // evaluate all elements of the 'copy' array for the correct conditions to "birth" or "kill" cells
    for (int i(0); i < nrows; ++i) {
       for (int k(0); k < ncols; ++k) {
-         if (copy[i][k] == false) {
-            cout << "false" << endl;
-         }
-         else { cout << "true" << endl; }
+      	if (neighbor_count(copy, nrows, ncols, i, k) == 3) {
+      		if (copy[i][k] == false) {
+      			copy[i][k] == true;
+      		}
+      	}
       }
    }
 
@@ -199,9 +197,11 @@ void display(bool **world, int nrows, int ncols){
    for (int i(0); i < nrows; ++i) {
       // iterate over all collumns
       for (int k(0); k < ncols; ++k) {
+      	// if the cell is alive, output an asterisk
          if (world[i][k] == true) {
             cout << '*' << " ";
          }
+         // if dead, output a space
          else {
             cout << ' ' << ' '; 
          }
