@@ -1,0 +1,215 @@
+// Homework 2
+// File: life.cpp
+// Created by: Michael Napoli
+// Created on: 1/22/2020
+// Last modified on: 
+
+/*
+   Purpose: Program that simulates the game of LIFE developed by John Horton Conway
+      Game Details: The board (initial parameters given by the user) will consist of
+         "alive" and "dead" spaces. Each generation iteration, the board will evaluate 
+         certain parameters and decide whether a space will be birthed, die, remain 
+         living, or remain dead. The parameters are listed below.
+
+      LIFE Cell Parameters:
+         - If a cell is alive, it will die of overpopulation if it has more tha three alive 
+            cells surrounding it.
+         - If a cell is alive, it will die of loneliness if it has less than three surrounding
+            cells that are also alive.
+         - If a cell is dead, it will be birthed if it has exactly three surrounding alive 
+            cells that are alive.
+         - A cell cannot die and be birthed simultaneously within the same generation.
+
+      Once the game is initialized, it will continue until the user ends the program.
+
+*/
+
+#include <iostream>
+using namespace std;
+
+void initialization(bool **world, int nrows, int ncols);
+// prompts and reads the alive cells to initialize the world
+
+int neighbor_count(bool **world, int nrows, int ncols, int i, int j);
+// counts how many neighbor cells are occupied for the input cell
+
+void generation(bool **world, bool **copy, int nrows, int ncols);
+// input parameters: original world, an array to make a copy, dimensions of the array updates the world
+// generates the world by one step
+
+void display(bool **world, int nrows, int ncols);
+// prints the world to the console
+
+// feel free to define more functions if necessary
+
+
+int main(){
+   bool **world, **copy;  // pointer variables for the game matrices
+   int nrows, ncols;  // number of rows and columns in the game matrice
+   char next;  // variable used to control whether the game continues or not
+
+   // ask user for the dimensions of the game matrices 'world' and 'copy'
+   cout << "Enter world dimensions (rows and columns): ";
+   cin >> nrows >> ncols;
+
+   // allocate memory for dynamic 2d-arrays 'world' and 'copy'
+   // allocate the correct number of rows for the life game arrays
+   world = new bool *[nrows];
+   copy = new bool *[nrows];
+
+   // for each row, allocated the correct number of collumns to make a 2d-array
+   for (int i(0); i < nrows; ++i) {
+      world[i] = new bool [ncols];
+      copy[i] = new bool [ncols];
+   }
+
+   // initialize the world and display
+   initialization(world, nrows, ncols);    
+   display(world, nrows, ncols);
+
+   // prompt user input, Generation/Quit
+   cout << "next Generation or Quit (g/q): ";
+   cin >> next;
+
+   // LIFE while loop which iterates the game until the user would like to exit
+   while (next == 'g' || next == 'G'){
+      // generate and show the new world
+      generation(world, copy, nrows, ncols);
+      display(world, nrows, ncols);
+      cout << "next Generation or Quit (g/q): ";
+      cin >> next;
+   }
+
+   // deallocate memory for dynamic 2d-arrays 'world' and 'copy' using delete command
+   for (int i(0); i < nrows; ++i) {
+      // clear data from the 'world' and 'copy' collumns
+      delete [] world[i];
+      delete [] copy[i];
+   }
+   // clear data from the 'world' and 'copy' rows
+   delete [] world;
+   delete [] copy;
+
+   // set remaining pointer variables to NULL
+   world = nullptr;
+   copy = nullptr;
+
+   return 0;  // exit program
+}
+
+// function that takes game parameters and asks the user for the location of the initial alive cells
+// returns nothing
+void initialization(bool **world, int nrows, int ncols){
+   int alive_count(0);  // variable for teh number of alive cells (given by user)
+   const int x(0), y(1);  // variables for the x-y coordinate locations in the 2d array below
+   const bool ALIVE(true);  // constant true expression for alive cells
+
+   // start by setting all 2d array values to 'false'
+   for (int i(0); i < nrows; ++i) {
+      for (int k(0); k < ncols; ++k) {
+         world[i][k] = false;
+      }
+   }
+
+   cout << "Enter number of alive cells: ";
+   cin >> alive_count;
+
+   // 2d array for the x-y coordinates of alive cells
+   int coordinate[alive_count][2];
+
+   cout << "Enter coordinates of alive cells: ";
+
+   for (int i(0); i < alive_count; ++i) {
+      cin >> coordinate[i][x] >> coordinate[i][y];
+   }
+
+   // check for invalid cell locations
+   // loop through 'coordinate' 2d array
+   for (int i(0); i < alive_count; ++i) {
+      // if x-value of coordinate exceeds nrows or is negative, it is invalid
+      if (coordinate[i][x] < 0 || coordinate[i][x] > nrows) {
+         cout << "Segmentation fault (core dumped)" << endl;
+         break;
+      }
+
+      //if y-value of coordinates exceed ncols or is negative, it is invalid
+      if (coordinate[i][y] < 0 || coordinate[i][y] > ncols) {
+         cout << "Segmentation fault (core dumped)" << endl;
+         break;
+      }
+   }
+
+   // if the coordinates given by the user ae valid, enter the live cells into the 'world' matrix
+   // do this by marking the 'world' cells as true
+   for (int i(0); i < alive_count; ++i) {
+      world[coordinate[i][x]][coordinate[i][y]] = true;
+   }
+   
+   // return nothing
+   return;
+}
+
+// function that counts number of neighboring alive cells
+// returns the number of neighboring cells for use by the main program
+int neighbor_count(bool **world, int nrows, int ncols, int i, int j){
+   int count(0);  // variable used to keep track of neighboring alive cells
+
+   // for the coordinates 'i' and 'j' given, evaluate surrounding cells
+   for (int r(i - 1); r < (i + 1); ++r) {
+      for (int c(j - 1); c < (j + 1); ++c) {
+         // if the cell location is equal to the coordinates given, ignore
+         if (r == i && c == j) { }
+         // if the cell value is 'true' add to total neighboring cell count
+         else if (world[r][c] == true) {
+            ++count;
+         }
+      }
+   }
+
+   // return number of neighboring alive cells
+   return count;
+}
+
+
+void generation(bool **world, bool **copy, int nrows, int ncols){
+   // set 'copy' equal to the initial 'world' 2d array
+   for (int i(0); i < nrows; ++i) {
+      for (int k(0); k < ncols; ++k) {
+         world[i][k] = copy[i][k];
+      }
+   }
+
+   // evaluate all elements of the 'copy' array for the correct conditions to "birth" or "kill" cells
+   for (int i(0); i < nrows; ++i) {
+      for (int k(0); k < ncols; ++k) {
+         if (copy[i][k] == false) {
+            cout << "false" << endl;
+         }
+         else { cout << "true" << endl; }
+      }
+   }
+
+   // return nothing
+   return;
+}
+
+// print out the desired 2 dimensional array in row, collumn orientation
+void display(bool **world, int nrows, int ncols){
+   // iterate over all rows
+   for (int i(0); i < nrows; ++i) {
+      // iterate over all collumns
+      for (int k(0); k < ncols; ++k) {
+         if (world[i][k] == true) {
+            cout << '*' << " ";
+         }
+         else {
+            cout << ' ' << ' '; 
+         }
+      }
+      // when row is printed, enter to next collumn
+      cout << endl;
+   }
+
+   // return nothing
+   return;
+}
