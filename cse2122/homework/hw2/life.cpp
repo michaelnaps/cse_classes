@@ -20,14 +20,18 @@
             cells that are alive.
          - A cell cannot die and be birthed simultaneously within the same generation.
 
-      Once the game is initialized, it will continue until the user ends the program.
+      Once the game is initialized, it will continue until the user ends the program by
+      entering 'q' when prompted to do so.
 */
 
 #include <iostream>
 using namespace std;
 
+void allocate_ptr(bool **ptr_matrix, int nrows, int ncols);
+
+void deallocate_ptr(bool **ptr_matrix, int nrows);
+
 void initialization(bool **world, int nrows, int ncols);
-// prompts and reads the alive cells to initialize the world
 
 int neighbor_count(bool **world, int nrows, int ncols, int i, int j);
 // counts how many neighbor cells are occupied for the input cell
@@ -39,9 +43,6 @@ void generation(bool **world, bool **copy, int nrows, int ncols);
 void display(bool **world, int nrows, int ncols);
 // prints the world to the console
 
-// feel free to define more functions if necessary
-
-
 int main(){
    bool **world, **copy;  // pointer variables for the game matrices
    int nrows, ncols;  // number of rows and columns in the game matrice
@@ -51,19 +52,11 @@ int main(){
    cout << "Enter world dimensions (rows and columns): ";
    cin >> nrows >> ncols;
 
-   // allocate memory for dynamic 2d-arrays 'world' and 'copy'
-   // allocate the correct number of rows for the life game arrays
-   world = new bool *[nrows];
-   copy = new bool *[nrows];
-
-   // for each row, allocated the correct number of collumns to make a 2d-array
-   for (int i(0); i < nrows; ++i) {
-      world[i] = new bool [ncols];
-      copy[i] = new bool [ncols];
-   }
+   // allocate memory for dynamic 2d-arrays 'world' and 'copy' using 'allocate_ptr()' function
+   allocate_ptr(world, nrows, ncols);
 
    // initialize the world and display
-   initialization(world, nrows, ncols);    
+   initialization(world, nrows, ncols);
    display(world, nrows, ncols);
 
    // prompt user input, Generation/Quit
@@ -72,33 +65,60 @@ int main(){
 
    // LIFE while loop which iterates the game until the user would like to exit
    while (next == 'g' || next == 'G'){
+      // allocate memory for the 'copy' array
+      allocate_ptr(copy, nrows, ncols);
+
       // generate and show the new world
       generation(world, copy, nrows, ncols);
       display(world, nrows, ncols);
       cout << "next Generation or Quit (g/q): ";
       cin >> next;
+
+      // deallocate the memory used for the 'copy' array
+      deallocate_ptr(copy, nrows);
    }
 
-   // deallocate memory for dynamic 2d-arrays 'world' and 'copy' using delete command
-   for (int i(0); i < nrows; ++i) {
-      // clear data from the 'world' and 'copy' collumns
-      delete [] world[i];
-      delete [] copy[i];
-   }
-   // clear data from the 'world' and 'copy' rows
-   delete [] world;
-   delete [] copy;
-
-   // set remaining pointer variables to NULL
-   world = nullptr;
-   copy = nullptr;
+   // deallocate memory for dynamic 2d-arrays 'world' using 'deallocate_ptr()' function
+   deallocate_ptr(world, nrows);
 
    return 0;  // exit program
 }
 
-// function that takes game parameters and asks the user for the location of the initial alive cells
-// returns nothing
-void initialization(bool **world, int nrows, int ncols){
+void allocate_ptr(bool **ptr_matrix, int nrows, int ncols) {
+   // allocate memory for the correct number of rows
+   ptr_matrix = new bool *[nrows];
+
+   // for each row element, allocate memory for correct number of columns
+   for (int i(0); i < nrows; ++i) {
+      ptr_matrix[i] = new bool [ncols];
+   }
+
+   ptr_matrix[0][0] = false;
+   cout << ptr_matrix[0][0] <<endl;
+   cout << "SUCCESS" << endl;
+
+   // return nothing
+   return;
+}
+
+void deallocate_ptr(bool **ptr_matrix, int nrows) {
+   // for all rows of a 2d array, deallocate all columns
+   for (int i(0); i < nrows; ++i) {
+      delete [] ptr_matrix[i];
+   }
+   // clear data from all 'matrix' rows
+   delete [] ptr_matrix;
+
+   // set matrix pointer to null
+   ptr_matrix = nullptr;
+
+   // return nothing
+   return;
+}
+
+// function that takes game array parameters and asks the user for the location of the initial alive cells
+// returns nothing to the main program
+void initialization(bool **world, int nrows, int ncols) {
    int alive_count(0);  // variable for teh number of alive cells (given by user)
    int **coordinate;  // 2d dynamic array for the coordiantes of given LIFE cells
    const int x(0), y(1);  // variables for the x-y coordinate locations in the 2d array below
@@ -116,10 +136,10 @@ void initialization(bool **world, int nrows, int ncols){
    cin >> alive_count;
 
    // allocate memory for the coordinate matrix
-// coordinate = new int [alive_count];
+   coordinate = new int *[alive_count];
 
    for (int i(0); i < alive_count; ++i) {
-//   	coordinate = new int[2];
+   	coordinate[i] = new int[2];
    }
 
    // ask user for the location of the alive cells
@@ -156,14 +176,14 @@ void initialization(bool **world, int nrows, int ncols){
    	delete [] coordinate[i];
    }
    delete [] coordinate;
-   
+
    // return nothing
    return;
 }
 
 // function that counts number of neighboring alive cells
 // returns the number of neighboring cells for use by the main program
-int neighbor_count(bool **world, int nrows, int ncols, int i, int j){
+int neighbor_count(bool **world, int nrows, int ncols, int i, int j) {
    int count(0);  // variable used to keep track of neighboring alive cells
 
    // for the coordinates 'i' and 'j' given, evaluate surrounding cells
@@ -205,7 +225,7 @@ void generation(bool **world, bool **copy, int nrows, int ncols){
 }
 
 // print out the desired 2 dimensional array in row, collumn orientation
-void display(bool **world, int nrows, int ncols){
+void display(bool **world, int nrows, int ncols) {
    // iterate over all rows
    for (int i(0); i < nrows; ++i) {
       // iterate over all collumns
