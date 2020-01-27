@@ -93,10 +93,6 @@ void allocate_ptr(bool **ptr_matrix, int nrows, int ncols) {
       ptr_matrix[i] = new bool [ncols];
    }
 
-   ptr_matrix[0][0] = false;
-   cout << ptr_matrix[0][0] <<endl;
-   cout << "SUCCESS" << endl;
-
    // return nothing
    return;
 }
@@ -123,6 +119,9 @@ void initialization(bool **world, int nrows, int ncols) {
    int **coordinate;  // 2d dynamic array for the coordiantes of given LIFE cells
    const int x(0), y(1);  // variables for the x-y coordinate locations in the 2d array below
    const bool ALIVE(true);  // constant true expression for alive cells
+
+
+	//	SEGMENTATION FAULT ERROR OCCURRING IN THE FOLLOWING FOR LOOP
 
    // start by setting all 2d array values to 'false'
    for (int i(0); i < nrows; ++i) {
