@@ -118,8 +118,8 @@ void initialization(bool **world, int nrows, int ncols) {
    int alive_count(0);  // variable for teh number of alive cells (given by user)
    int **coordinate;  // 2d dynamic array for the coordiantes of given LIFE cells
    const int x(0), y(1);  // variables for the x-y coordinate locations in the 2d array below
-   const bool ALIVE(true), EMPTY(false);  // constant true expression for alive and empty cells
-   
+   const bool ALIVE(true), EMPTY(false);  // constant expressions for alive and empty cells
+
    // ask user for the number of alive cells in the game array
    cout << "Enter number of alive cells: ";
    cin >> alive_count;
@@ -131,35 +131,37 @@ void initialization(bool **world, int nrows, int ncols) {
    	coordinate[i] = new int[2];
    }
 
-   // ask user for the location of the alive cells
-   cout << "Enter coordinates of alive cells: ";
+   if (alive_count > 0) {
+      // ask user for the location of the alive cells
+      cout << "Enter coordinates of alive cells: ";
+      
 
-   for (int i(0); i < alive_count; ++i) {
-      cin >> coordinate[i][x] >> coordinate[i][y];
-   }
-
-   // check for invalid cell locations
-   // loop through 'coordinate' 2d array
-   for (int i(0); i < alive_count; ++i) {
-      // if x-value of coordinate exceeds nrows or is negative, it is invalid
-      if (coordinate[i][x] < 0 || coordinate[i][x] > nrows) {
-         cout << "ER" << endl;
-         break;
+      for (int i(0); i < alive_count; ++i) {
+         cin >> coordinate[i][x] >> coordinate[i][y];
       }
 
-      //if y-value of coordinates exceed ncols or is negative, it is invalid
-      if (coordinate[i][y] < 0 || coordinate[i][y] > ncols) {
-         cout << "ER" << endl;
-         break;
+      // check for invalid cell locations
+      // loop through 'coordinate' 2d array
+      for (int i(0); i < alive_count; ++i) {
+         // if x-value of coordinate exceeds nrows or is negative, it is invalid
+         if (coordinate[i][x] < 0 || coordinate[i][x] > nrows) {
+            cout << "ER" << endl;
+            break;
+         }
+
+         //if y-value of coordinates exceed ncols or is negative, it is invalid
+         if (coordinate[i][y] < 0 || coordinate[i][y] > ncols) {
+            cout << "ER" << endl;
+            break;
+         }
+      }
+
+      // if the coordinates given by the user are valid, enter the live cells into the 'world' matrix
+      // do this by marking the 'world' cells as true
+      for (int i(0); i < alive_count; ++i) {
+         world[coordinate[i][x]][coordinate[i][y]] = ALIVE;
       }
    }
-
-   // if the coordinates given by the user are valid, enter the live cells into the 'world' matrix
-   // do this by marking the 'world' cells as true
-   for (int i(0); i < alive_count; ++i) {
-      world[coordinate[i][x]][coordinate[i][y]] = ALIVE;
-   }
-   
    // set remaining 'world' elements to false
    for (int i(0); i < nrows; ++i) {
       for (int k(0); k < ncols; ++k) {
@@ -168,7 +170,7 @@ void initialization(bool **world, int nrows, int ncols) {
          }
       }
    }
-
+   
    // deallocate memory used to store game cell locations
    for (int i(0); i < alive_count; ++i) {
    	delete [] coordinate[i];
