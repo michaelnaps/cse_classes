@@ -27,9 +27,9 @@
 #include <iostream>
 using namespace std;
 
-void allocate_ptr(bool **ptr_matrix, int nrows, int ncols);
+void allocate_init_ptr(bool **ptr_matrix, int nrows, int ncols);
 
-void deallocate_ptr(bool **ptr_matrix, int nrows);
+void deallocate_init_ptr(bool **ptr_matrix, int nrows);
 
 void initialization(bool **world, int nrows, int ncols);
 
@@ -48,9 +48,9 @@ int main(){
    cout << "Enter world dimensions (rows and columns): ";
    cin >> nrows >> ncols;
 
-   // allocate memory for dynamic 2d-arrays 'world' and 'copy' using 'allocate_ptr()' function
-   allocate_ptr(world, nrows, ncols);
-   allocate_ptr(copy, nrows, ncols);
+   // allocate memory for dynamic 2d-arrays 'world' and 'copy' using 'allocate_init_ptr()' function
+   allocate_init_ptr(world, nrows, ncols);
+   allocate_init_ptr(copy, nrows, ncols);
 
    // initialize the world and display
    initialization(world, nrows, ncols);
@@ -69,14 +69,14 @@ int main(){
       cin >> next;
    }
 
-   // deallocate memory for dynamic 2d-arrays 'world' and 'copy' using 'deallocate_ptr()' function
-   deallocate_ptr(world, nrows);
-   deallocate_ptr(copy, nrows);
+   // deallocate memory for dynamic 2d-arrays 'world' and 'copy' using 'deallocate_init_ptr()' function
+   deallocate_init_ptr(world, nrows);
+   deallocate_init_ptr(copy, nrows);
 
    return 0;  // exit program
 }
 
-void allocate_ptr(bool **ptr_matrix, int nrows, int ncols) {
+void allocate_init_ptr(bool **ptr_matrix, int nrows, int ncols) {
    // allocate memory for the correct number of rows
    ptr_matrix = new bool *[nrows];
 
@@ -85,11 +85,19 @@ void allocate_ptr(bool **ptr_matrix, int nrows, int ncols) {
       ptr_matrix[i] = new bool [ncols];
    }
 
+   // initialize the false values within the world 2d array
+   // for each element of the matrices, make the value false
+   for (int i(0); i < nrows; ++i) {
+      for (int k(0); k < ncols; ++k) {
+         ptr_matrix[i][k] = true;
+      }
+   }
+
    // return nothing
    return;
 }
 
-void deallocate_ptr(bool **ptr_matrix, int nrows) {
+void deallocate_init_ptr(bool **ptr_matrix, int nrows) {
    // for all rows of a 2d array, deallocate all columns
    for (int i(0); i < nrows; ++i) {
       delete [] ptr_matrix[i];
@@ -110,14 +118,7 @@ void initialization(bool **world, int nrows, int ncols) {
    int alive_count(0);  // variable for teh number of alive cells (given by user)
    int **coordinate;  // 2d dynamic array for the coordiantes of given LIFE cells
    const int x(0), y(1);  // variables for the x-y coordinate locations in the 2d array below
-   const bool ALIVE(true);  // constant true expression for alive cells
-
-   // start by setting all 2d array values to 'false'
-   for (int i(0); i < nrows; ++i) {
-      for (int k(0); k < ncols; ++k) {
-         world[i][k] = false;
-      }
-   }
+   const bool ALIVE(true), EMPTY(false);  // constant true expression for alive and empty cells
    
    // ask user for the number of alive cells in the game array
    cout << "Enter number of alive cells: ";
@@ -156,7 +157,16 @@ void initialization(bool **world, int nrows, int ncols) {
    // if the coordinates given by the user are valid, enter the live cells into the 'world' matrix
    // do this by marking the 'world' cells as true
    for (int i(0); i < alive_count; ++i) {
-      world[coordinate[i][x]][coordinate[i][y]] = true;
+      world[coordinate[i][x]][coordinate[i][y]] = ALIVE;
+   }
+   
+   // set remaining 'world' elements to false
+   for (int i(0); i < nrows; ++i) {
+      for (int k(0); k < ncols; ++k) {
+         if (world[i][k] != ALIVE) {
+            world[i][k] = EMPTY;
+         }
+      }
    }
 
    // deallocate memory used to store game cell locations
