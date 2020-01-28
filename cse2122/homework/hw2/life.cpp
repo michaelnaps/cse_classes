@@ -34,14 +34,10 @@ void deallocate_ptr(bool **ptr_matrix, int nrows);
 void initialization(bool **world, int nrows, int ncols);
 
 int neighbor_count(bool **world, int nrows, int ncols, int i, int j);
-// counts how many neighbor cells are occupied for the input cell
 
 void generation(bool **world, bool **copy, int nrows, int ncols);
-// input parameters: original world, an array to make a copy, dimensions of the array updates the world
-// generates the world by one step
 
 void display(bool **world, int nrows, int ncols);
-// prints the world to the console
 
 int main(){
    bool **world, **copy;  // pointer variables for the game matrices
@@ -119,10 +115,10 @@ void initialization(bool **world, int nrows, int ncols) {
    // start by setting all 2d array values to 'false'
    for (int i(0); i < nrows; ++i) {
       for (int k(0); k < ncols; ++k) {
-         *world[i][k] = false;
+         world[i][k] = false;
       }
    }
-
+   
    // ask user for the number of alive cells in the game array
    cout << "Enter number of alive cells: ";
    cin >> alive_count;
