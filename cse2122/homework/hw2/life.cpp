@@ -54,6 +54,7 @@ int main(){
 
    // allocate memory for dynamic 2d-arrays 'world' and 'copy' using 'allocate_ptr()' function
    allocate_ptr(world, nrows, ncols);
+   allocate_ptr(copy, nrows, ncols);
 
    // initialize the world and display
    initialization(world, nrows, ncols);
@@ -65,21 +66,16 @@ int main(){
 
    // LIFE while loop which iterates the game until the user would like to exit
    while (next == 'g' || next == 'G'){
-      // allocate memory for the 'copy' array
-      allocate_ptr(copy, nrows, ncols);
-
       // generate and show the new world
       generation(world, copy, nrows, ncols);
       display(world, nrows, ncols);
       cout << "next Generation or Quit (g/q): ";
       cin >> next;
-
-      // deallocate the memory used for the 'copy' array
-      deallocate_ptr(copy, nrows);
    }
 
-   // deallocate memory for dynamic 2d-arrays 'world' using 'deallocate_ptr()' function
+   // deallocate memory for dynamic 2d-arrays 'world' and 'copy' using 'deallocate_ptr()' function
    deallocate_ptr(world, nrows);
+   deallocate_ptr(copy, nrows);
 
    return 0;  // exit program
 }
@@ -120,13 +116,10 @@ void initialization(bool **world, int nrows, int ncols) {
    const int x(0), y(1);  // variables for the x-y coordinate locations in the 2d array below
    const bool ALIVE(true);  // constant true expression for alive cells
 
-
-	//	SEGMENTATION FAULT ERROR OCCURRING IN THE FOLLOWING FOR LOOP
-
    // start by setting all 2d array values to 'false'
    for (int i(0); i < nrows; ++i) {
       for (int k(0); k < ncols; ++k) {
-         world[i][k] = false;
+         *world[i][k] = false;
       }
    }
 
@@ -164,7 +157,7 @@ void initialization(bool **world, int nrows, int ncols) {
       }
    }
 
-   // if the coordinates given by the user ae valid, enter the live cells into the 'world' matrix
+   // if the coordinates given by the user are valid, enter the live cells into the 'world' matrix
    // do this by marking the 'world' cells as true
    for (int i(0); i < alive_count; ++i) {
       world[coordinate[i][x]][coordinate[i][y]] = true;
