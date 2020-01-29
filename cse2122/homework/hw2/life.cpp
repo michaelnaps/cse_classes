@@ -2,21 +2,21 @@
 // File: life.cpp
 // Created by: Michael Napoli
 // Created on: 1/22/2020
-// Last modified on: 
+// Last modified on:
 
 /*
    Purpose: Program that simulates the game of LIFE developed by John Horton Conway
       Game Details: The board (initial parameters given by the user) will consist of
-         "alive" and "dead" spaces. Each generation iteration, the board will evaluate 
-         certain parameters and decide whether a space will be birthed, die, remain 
+         "alive" and "dead" spaces. Each generation iteration, the board will evaluate
+         certain parameters and decide whether a space will be birthed, die, remain
          living, or remain dead. The parameters are listed below.
 
-      LIFE Cell Parameters:
-         - If a cell is alive, it will die of overpopulation if it has more tha three alive 
+      LIFE Game Parameters:
+         - If a cell is alive, it will die of overpopulation if it has more tha three alive
             cells surrounding it.
          - If a cell is alive, it will die of loneliness if it has less than three surrounding
             cells that are also alive.
-         - If a cell is dead, it will be birthed if it has exactly three surrounding alive 
+         - If a cell is dead, it will be birthed if it has exactly three surrounding alive
             cells that are alive.
          - A cell cannot die and be birthed simultaneously within the same generation.
 
@@ -84,7 +84,8 @@ int main(){
    world = nullptr;
    copy = nullptr;
 
-   return 0;  // exit program
+   // exit program
+   return 0;
 }
 
 // function that takes game array parameters and asks the user for the location of the initial alive cells
@@ -109,7 +110,7 @@ void initialization(bool **world, int nrows, int ncols) {
    if (alive_count > 0) {
       // ask user for the location of the alive cells
       cout << "Enter coordinates of alive cells: " << endl;
-      
+
 
       for (int i(0); i < alive_count; ++i) {
          cin >> coordinate[i][x] >> coordinate[i][y];
@@ -146,7 +147,7 @@ void initialization(bool **world, int nrows, int ncols) {
          }
       }
    }
-   
+
    // deallocate memory used to store alive cell locations
    for (int i(0); i < alive_count; ++i) {
    	delete [] coordinate[i];
@@ -277,7 +278,7 @@ void display(bool **world, int nrows, int ncols) {
          }
          // if dead, output a space
          else {
-            cout << ' '; 
+            cout << ' ';
          }
       }
       // when row is printed, enter to next collumn
