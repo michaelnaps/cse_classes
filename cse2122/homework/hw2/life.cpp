@@ -217,6 +217,9 @@ int neighbor_count(bool **world, int nrows, int ncols, int i, int j) {
 }
 
 void generation(bool **world, bool **copy, int nrows, int ncols){
+   int count(0);  // variable used to count number of surrounding alive game cells within loop
+   const bool ALIVE(true), EMPTY(false);
+
    // set 'copy' equal to the initial 'world' 2d array
    for (int i(0); i < nrows; ++i) {
       for (int k(0); k < ncols; ++k) {
@@ -227,9 +230,29 @@ void generation(bool **world, bool **copy, int nrows, int ncols){
    // evaluate all elements of the 'copy' array for the correct conditions to "birth" or "kill" cells
    for (int i(0); i < nrows; ++i) {
       for (int k(0); k < ncols; ++k) {
-      	cout << neighbor_count(copy, nrows, ncols, i, k);
+      	count = neighbor_count(copy, nrows, ncols, i, k);
+
+         // conditions on whether the current game cell is birthed, dies or remains the same
+         // if neighbor count is less than 3
+         if (count < 3) {
+            // and the 'world' element value is true, the element is set to false
+            if (copy[i][k] == ALIVE) {
+               world[i][k] = EMPTY;
+            }
+         }
+         // if neighbor count is equal to three
+         else if (count == 3) {
+            // and the 'world' element value is false, the element is birthed
+            if (copy[i][k] == EMPTY) {
+               world[i][k] = ALIVE;
+            }
+         }
+         else if (count > 3) {
+            if (copy[i][k] == ALIVE) {
+               world[i][k] = EMPTY;
+            }
+         }
       }
-      cout << endl;
    }
 
    // return nothing
