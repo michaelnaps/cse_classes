@@ -66,6 +66,7 @@ int main(){
       // generate and show the new world
       generation(world, copy, nrows, ncols);
       display(world, nrows, ncols);
+      display(copy, nrows, ncols);
       cout << "next Generation or Quit (g/q): ";
       cin >> next;
    }
@@ -164,16 +165,17 @@ int neighbor_count(bool **world, int nrows, int ncols, int i, int j) {
    int r(0), c(0);  // initial loop conditions
    int rf(0), cf(0); // ending loop conditions
 
-   // loop sequence conditions
+   // set loop sequence conditions
+   // value for initial row integer
    if (i == 0) {
       r = 0;  // if element number is 0, set initial r to 0
    }
    else {
       r = i - 1;  // otherwise set to the element minus 1
    }
-   
-   if (i == ncols) {
-      rf = ncols - 1;  // if element is at end of row, set final r to max column element
+   // value for final column integer
+   if (i == (nrows - 1)) {
+      rf = i;  // if element is at end of row, set final r to max column element
    }
    else {
       rf = i + 1;  // otherwise set to the following column number
@@ -188,24 +190,28 @@ int neighbor_count(bool **world, int nrows, int ncols, int i, int j) {
    }
 
    // same conditions apply to columns as did to rows
-   if (j == nrows) {
-      cf = nrows - 1;
+   if (j == (ncols - 1)) {
+      cf = j;
    }
    else {
-      cf = i + 1;
+      cf = j + 1;
    }
 
    // for the coordinates 'i' and 'j' given, evaluate surrounding cells
-   for (r; r < rf; ++r) {
-      for (c; c < cf; ++c) {
-         // if the cell value is 'true' and add to total neighboring cell count
-         if (world[r][c] == true && (r != i && c != j)) {
-            ++count;
+   for (int row(r); row < (rf + 1); ++row) {
+      for (int col(c); col < (cf + 1); ++col) {
+         // if the cell value is 'true', add to total neighboring cell count
+         if (world[row][col] == true) {
+         	++count;
          }
       }
    }
-   
-   cout << count << endl;
+
+   // if the given element is true, subtract from 'count'
+   if (world[i][j] == true) {
+   	--count;
+   }
+
    // return number of neighboring alive cells
    return count;
 }
@@ -221,12 +227,9 @@ void generation(bool **world, bool **copy, int nrows, int ncols){
    // evaluate all elements of the 'copy' array for the correct conditions to "birth" or "kill" cells
    for (int i(0); i < nrows; ++i) {
       for (int k(0); k < ncols; ++k) {
-      	if (neighbor_count(copy, nrows, ncols, i, k) == 3) {
-      		if (copy[i][k] == false) {
-      			copy[i][k] == true;
-      		}
-      	}
+      	cout << neighbor_count(copy, nrows, ncols, i, k);
       }
+      cout << endl;
    }
 
    // return nothing
@@ -237,19 +240,20 @@ void generation(bool **world, bool **copy, int nrows, int ncols){
 void display(bool **world, int nrows, int ncols) {
    // iterate over all rows
    for (int i(0); i < nrows; ++i) {
+   	cout << '|';
       // iterate over all collumns
       for (int k(0); k < ncols; ++k) {
       	// if the cell is alive, output an asterisk
          if (world[i][k] == true) {
-            cout << '*' << " ";
+            cout << '*';
          }
          // if dead, output a space
          else {
-            cout << ' ' << ' '; 
+            cout << ' '; 
          }
       }
       // when row is printed, enter to next collumn
-      cout << endl;
+      cout << '|' << endl;
    }
 
    // return nothing
