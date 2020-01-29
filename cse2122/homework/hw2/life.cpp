@@ -66,7 +66,6 @@ int main(){
       // generate and show the new world
       generation(world, copy, nrows, ncols);
       display(world, nrows, ncols);
-      display(copy, nrows, ncols);
       cout << "next Generation or Quit (g/q): ";
       cin >> next;
    }
@@ -109,7 +108,7 @@ void initialization(bool **world, int nrows, int ncols) {
 
    if (alive_count > 0) {
       // ask user for the location of the alive cells
-      cout << "Enter coordinates of alive cells: ";
+      cout << "Enter coordinates of alive cells: " << endl;
       
 
       for (int i(0); i < alive_count; ++i) {
@@ -233,8 +232,8 @@ void generation(bool **world, bool **copy, int nrows, int ncols){
       	count = neighbor_count(copy, nrows, ncols, i, k);
 
          // conditions on whether the current game cell is birthed, dies or remains the same
-         // if neighbor count is less than 3
-         if (count < 3) {
+         // if neighbor count is less than 2
+         if (count < 2) {
             // and the 'world' element value is true, the element is set to false
             if (copy[i][k] == ALIVE) {
                world[i][k] = EMPTY;
@@ -261,6 +260,12 @@ void generation(bool **world, bool **copy, int nrows, int ncols){
 
 // print out the desired 2 dimensional array in row, collumn orientation
 void display(bool **world, int nrows, int ncols) {
+	// display the top row frame
+	for (int i(0); i < (ncols + 2); ++i) {
+		cout << '=';
+	}
+	cout << endl;
+
    // iterate over all rows
    for (int i(0); i < nrows; ++i) {
    	cout << '|';
@@ -278,6 +283,12 @@ void display(bool **world, int nrows, int ncols) {
       // when row is printed, enter to next collumn
       cout << '|' << endl;
    }
+
+   // display the bottom row frame
+	for (int i(0); i < (ncols + 2); ++i) {
+		cout << '=';
+	}
+	cout << endl;
 
    // return nothing
    return;
