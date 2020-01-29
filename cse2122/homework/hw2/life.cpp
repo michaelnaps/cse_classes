@@ -27,10 +27,6 @@
 #include <iostream>
 using namespace std;
 
-void allocate_init_ptr(bool **ptr_matrix, int nrows, int ncols);
-
-void deallocate_init_ptr(bool **ptr_matrix, int nrows);
-
 void initialization(bool **world, int nrows, int ncols);
 
 int neighbor_count(bool **world, int nrows, int ncols, int i, int j);
@@ -48,9 +44,14 @@ int main(){
    cout << "Enter world dimensions (rows and columns): ";
    cin >> nrows >> ncols;
 
-   // allocate memory for dynamic 2d-arrays 'world' and 'copy' using 'allocate_init_ptr()' function
-   allocate_init_ptr(world, nrows, ncols);
-   allocate_init_ptr(copy, nrows, ncols);
+   // allocate memory for 2d arrays 'world' and 'copy'
+   world = new bool *[nrows];
+   copy = new bool *[nrows];
+
+   for (int i(0); i < nrows; ++i) {
+      world[i] = new bool [ncols];
+      copy[i] = new bool [ncols];
+   }
 
    // initialize the world and display
    initialization(world, nrows, ncols);
@@ -69,47 +70,21 @@ int main(){
       cin >> next;
    }
 
-   // deallocate memory for dynamic 2d-arrays 'world' and 'copy' using 'deallocate_init_ptr()' function
-   deallocate_init_ptr(world, nrows);
-   deallocate_init_ptr(copy, nrows);
+   // deallocate memory for dynamic 2d-arrays 'world' and 'copy'
+   // clear memory from columns
+   for (int i(0); i < nrows; i++) {
+      delete [] world[i];
+      delete [] copy[i];
+   }
+   // clear memory from remaining rows
+   delete [] world;
+   delete [] copy;
+
+   // set remaining pointers to NULL
+   world = nullptr;
+   copy = nullptr;
 
    return 0;  // exit program
-}
-
-void allocate_init_ptr(bool **ptr_matrix, int nrows, int ncols) {
-   // allocate memory for the correct number of rows
-   ptr_matrix = new bool *[nrows];
-
-   // for each row element, allocate memory for correct number of columns
-   for (int i(0); i < nrows; ++i) {
-      ptr_matrix[i] = new bool [ncols];
-   }
-
-   // initialize the false values within the world 2d array
-   // for each element of the matrices, make the value false
-   for (int i(0); i < nrows; ++i) {
-      for (int k(0); k < ncols; ++k) {
-         ptr_matrix[i][k] = true;
-      }
-   }
-
-   // return nothing
-   return;
-}
-
-void deallocate_init_ptr(bool **ptr_matrix, int nrows) {
-   // for all rows of a 2d array, deallocate all columns
-   for (int i(0); i < nrows; ++i) {
-      delete [] ptr_matrix[i];
-   }
-   // clear data from all 'matrix' rows
-   delete [] ptr_matrix;
-
-   // set matrix pointer to null
-   ptr_matrix = nullptr;
-
-   // return nothing
-   return;
 }
 
 // function that takes game array parameters and asks the user for the location of the initial alive cells
@@ -162,6 +137,7 @@ void initialization(bool **world, int nrows, int ncols) {
          world[coordinate[i][x]][coordinate[i][y]] = ALIVE;
       }
    }
+
    // set remaining 'world' elements to false
    for (int i(0); i < nrows; ++i) {
       for (int k(0); k < ncols; ++k) {
@@ -171,7 +147,7 @@ void initialization(bool **world, int nrows, int ncols) {
       }
    }
    
-   // deallocate memory used to store game cell locations
+   // deallocate memory used to store alive cell locations
    for (int i(0); i < alive_count; ++i) {
    	delete [] coordinate[i];
    }
@@ -185,10 +161,43 @@ void initialization(bool **world, int nrows, int ncols) {
 // returns the number of neighboring cells for use by the main program
 int neighbor_count(bool **world, int nrows, int ncols, int i, int j) {
    int count(0);  // variable used to keep track of neighboring alive cells
+   int r(0), c(0);  // initial loop conditions
+   int rf(0), cf(0); // ending loop conditions
+
+   // loop sequence conditions
+   if (i == 0) {
+      r = 0;  // if element number is 0, set initial r to 0
+   }
+   else {
+      r = i - 1;  // otherwise set to the element minus 1
+   }
+   
+   if (i == ncols) {
+      rf = ncols - 1;  // if element is at end of row, set final r to max column element
+   }
+   else {
+      rf = i + 1;  // otherwise set to the following column number
+   }
+
+   // same conditions apply to columns as did to rows
+   if (j == 0) {
+      c = 0;
+   }
+   else {
+      c = j - 1;
+   }
+
+   // same conditions apply to columns as did to rows
+   if (j == nrows) {
+      cf = nrows - 1;
+   }
+   else {
+      cf = i + 1;
+   }
 
    // for the coordinates 'i' and 'j' given, evaluate surrounding cells
-   for (int r(i - 1); r < (i + 1); ++r) {
-      for (int c(j - 1); c < (j + 1); ++c) {
+   for (r; r < rf; ++r) {
+      for (c; c < cf; ++c) {
          // if the cell value is 'true' and add to total neighboring cell count
          if (world[r][c] == true && (r != i && c != j)) {
             ++count;
@@ -196,10 +205,10 @@ int neighbor_count(bool **world, int nrows, int ncols, int i, int j) {
       }
    }
    
+   cout << count << endl;
    // return number of neighboring alive cells
    return count;
 }
-
 
 void generation(bool **world, bool **copy, int nrows, int ncols){
    // set 'copy' equal to the initial 'world' 2d array
