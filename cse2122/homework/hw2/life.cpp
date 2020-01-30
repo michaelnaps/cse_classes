@@ -2,7 +2,7 @@
 // File: life.cpp
 // Created by: Michael Napoli
 // Created on: 1/22/2020
-// Last modified on:
+// Last modified on: 1/29/2020
 
 /*
    Purpose: Program that simulates the game of LIFE developed by John Horton Conway
@@ -12,7 +12,7 @@
          living, or remain dead. The parameters are listed below.
 
       LIFE Game Parameters:
-         - If a cell is alive, it will die of overpopulation if it has more tha three alive
+         - If a cell is alive, it will die of overpopulation if it has more than three alive
             cells surrounding it.
          - If a cell is alive, it will die of loneliness if it has less than three surrounding
             cells that are also alive.
@@ -44,7 +44,7 @@ int main(){
    cout << "Enter world dimensions (rows and columns): ";
    cin >> nrows >> ncols;
 
-   // allocate memory for 2d arrays 'world' and 'copy'
+   // allocate memory for 2d arrays 'world' and 'copy' based on given dimensions
    world = new bool *[nrows];
    copy = new bool *[nrows];
 
@@ -53,15 +53,15 @@ int main(){
       copy[i] = new bool [ncols];
    }
 
-   // initialize the world and display
+   // initialize the world and display first iteration of game
    initialization(world, nrows, ncols);
    display(world, nrows, ncols);
 
-   // prompt user input, Generation/Quit
+   // prompt user input to either continue or quit
    cout << "next Generation or Quit (g/q): ";
    cin >> next;
 
-   // LIFE while loop which iterates the game until the user would like to exit
+   // while loop which iterates the game until the user would like to exit
    while (next == 'g' || next == 'G'){
       // generate and show the new world
       generation(world, copy, nrows, ncols);
@@ -76,7 +76,7 @@ int main(){
       delete [] world[i];
       delete [] copy[i];
    }
-   // clear memory from remaining rows
+
    delete [] world;
    delete [] copy;
 
@@ -88,54 +88,65 @@ int main(){
    return 0;
 }
 
-// function that takes game array parameters and asks the user for the location of the initial alive cells
-// returns nothing to the main program
+// function that takes the game matrix and dimensions as input values
+// it then prompts the user for the initial game layout
+// input parameters include:
+// world - primary game matices, outputted to user
+// nrows, ncols - max values for game dimensions
 void initialization(bool **world, int nrows, int ncols) {
    int alive_count(0);  // variable for teh number of alive cells (given by user)
    int **coordinate;  // 2d dynamic array for the coordiantes of given LIFE cells
    const int x(0), y(1);  // variables for the x-y coordinate locations in the 2d array below
+   bool coord_array(true);  // if the coordinate values are valid, continue through function
    const bool ALIVE(true), EMPTY(false);  // constant expressions for alive and empty cells
 
    // ask user for the number of alive cells in the game array
    cout << "Enter number of alive cells: ";
    cin >> alive_count;
 
-   // allocate memory for the coordinate matrix
-   coordinate = new int *[alive_count];
-
-   for (int i(0); i < alive_count; ++i) {
-   	coordinate[i] = new int[2];
-   }
-
+   // if the user asks for more than 0 alive cells
    if (alive_count > 0) {
+      // allocate memory for the coordinate matrix as set by the number of alive cells
+      coordinate = new int *[alive_count];
+
+      for (int i(0); i < alive_count; ++i) {
+      	coordinate[i] = new int[2];
+      }
+
       // ask user for the location of the alive cells
       cout << "Enter coordinates of alive cells: " << endl;
 
-
+      // input user coordinates until 'alive_count' value is reached
       for (int i(0); i < alive_count; ++i) {
          cin >> coordinate[i][x] >> coordinate[i][y];
       }
 
       // check for invalid cell locations
+
       // loop through 'coordinate' 2d array
       for (int i(0); i < alive_count; ++i) {
-         // if x-value of coordinate exceeds nrows or is negative, it is invalid
-         if (coordinate[i][x] < 0 || coordinate[i][x] > nrows) {
-            cout << "ER" << endl;
+         // if x-value of coordinate exceeds max indeces row or is negative, it is invalid
+         if (coordinate[i][x] < 0 || coordinate[i][x] > (nrows - 1)) {
+            cout << "ERROR: Cells entered not within given dimensions." << endl;
+            coord_array = false;
             break;
          }
 
-         //if y-value of coordinates exceed ncols or is negative, it is invalid
-         if (coordinate[i][y] < 0 || coordinate[i][y] > ncols) {
-            cout << "ER" << endl;
+         //if y-value of coordinates exceeds max indeces column or is negative, it is invalid
+         if (coordinate[i][y] < 0 || coordinate[i][y] > (ncols - 1)) {
+            cout << "ERROR: Cells entered not within given dimensions." << endl;
+            coord_array = false;
             break;
          }
       }
 
-      // if the coordinates given by the user are valid, enter the live cells into the 'world' matrix
-      // do this by marking the 'world' cells as true
-      for (int i(0); i < alive_count; ++i) {
-         world[coordinate[i][x]][coordinate[i][y]] = ALIVE;
+      // if the user enters valid coordinates, add them to the game array
+      if (coord_array) {
+         // if the coordinates given by the user are valid, enter the live cells into the 'world' matrix
+         // do this by marking the 'world' cells as true
+         for (int i(0); i < alive_count; ++i) {
+            world[coordinate[i][x]][coordinate[i][y]] = ALIVE;
+         }
       }
    }
 
@@ -160,6 +171,10 @@ void initialization(bool **world, int nrows, int ncols) {
 
 // function that counts number of neighboring alive cells
 // returns the number of neighboring cells for use by the main program
+// input parameters include:
+// world - primary game matices, outputted to user
+// nrows, ncols - max values for game dimensions
+// i, j - location for the element that is to be evaluated
 int neighbor_count(bool **world, int nrows, int ncols, int i, int j) {
    int count(0);  // variable used to keep track of neighboring alive cells
    int r(0), c(0);  // initial loop conditions
@@ -216,9 +231,14 @@ int neighbor_count(bool **world, int nrows, int ncols, int i, int j) {
    return count;
 }
 
+// function used to iterate the game matrices
+// input parameters include:
+// world - primary game matices, outputted to user
+// copy - seconday game matrices, used to evaluate cells for next board iteration
+// nrows, ncols - max values for game dimensions
 void generation(bool **world, bool **copy, int nrows, int ncols){
    int count(0);  // variable used to count number of surrounding alive game cells within loop
-   const bool ALIVE(true), EMPTY(false);
+   const bool ALIVE(true), EMPTY(false);  // constant boolean values for cells
 
    // set 'copy' equal to the initial 'world' 2d array
    for (int i(0); i < nrows; ++i) {
@@ -259,7 +279,10 @@ void generation(bool **world, bool **copy, int nrows, int ncols){
    return;
 }
 
-// print out the desired 2 dimensional array in row, collumn orientation
+// function that prints out the desired 2 dimensional array in row, collumn orientation
+// input parameters include:
+// world - primary game matices, outputted to user
+// nrows, ncols - max values for game dimensions
 void display(bool **world, int nrows, int ncols) {
 	// display the top row frame
 	for (int i(0); i < (ncols + 2); ++i) {
