@@ -4,7 +4,7 @@
 // Created on: 1/22/2020
 // Last modified on: 1/29/2020
 
-/* FINISHED
+/*
    Purpose: Program that simulates the game of LIFE developed by John Horton Conway
       Game Details: The board (initial parameters given by the user) will consist of
          "alive" and "dead" spaces. Each generation iteration, the board will evaluate
