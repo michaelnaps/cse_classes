@@ -13,22 +13,30 @@ using namespace std;
 // Default size of our dynamic coefficient array
 const int DEFAULTPOLY = 10;
 
-
 // Do NOT modify the class header.
 class Poly
 {
 private:
-
    // Data members
    int arraySize;    // size of array
    int *coeff;       // dynamic array
 
 public:
-
    // Default Class constructor
    // Allocate an array of DEFAULTPOLY elements and initialize it to the constant 0
    // post: Class object is initialized to degree-0 polynomial of 0
-   Poly();
+   Poly() {
+      // set 'arraySize' to default
+      arraySize = DEFAULTPOLY;
+
+      // create array of default size
+      coeff = new int [DEFAULTPOLY];
+
+      // set all values to 0
+      for (int i(0); i < DEFAULTPOLY; ++i) {
+         coeff[i] = 0;
+      }
+   }
 
 
    // Non-default (alternate) Class constructor
