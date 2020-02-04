@@ -1,13 +1,15 @@
+// Homework 3
+// File: poly.cpp
+// Created by: Michael Napoli
+// Created on: 2/4/2020
+// Last modified on:
+
 /*
-   File name: (your file name)
-   Created by: (your name)
-   Created on: (date)
-   Synopsis: ...
+   Purpose:
 */
 
 #include <cmath>
 #include <iostream>
-
 using namespace std;
 
 // Default size of our dynamic coefficient array
@@ -30,37 +32,53 @@ public:
       arraySize = DEFAULTPOLY;
 
       // create array of default size
-      coeff = new int [DEFAULTPOLY];
+      coeff = new int [arraySize];
 
       // set all values to 0
-      for (int i(0); i < DEFAULTPOLY; ++i) {
+      for (int i(0); i < arraySize; ++i) {
          coeff[i] = 0;
       }
    }
 
-
    // Non-default (alternate) Class constructor
    // Allocate an array of 'size' elements and initializes it to the constant 0
    // post: Class object is initialized to degree-0 polynomial of 0
-   Poly(int size);
+   Poly(int size) {
+      // set 'arraySize' to given value
+      arraySize = size;
 
+      // allocate memory for dynamic array
+      coeff = new int [arraySize];
+
+      // set values of array elements to 0
+      for (int i(0); i < arraySize; ++i) {
+         coeff[i] = 0;
+      }
+   }
 
    // Copy constructor
    // Construct a new Poly that is a copy of an existing Poly
    // post: Class object is initialized to be a copy of the argument Poly
-   Poly(const Poly& aPoly);
+   Poly(const Poly& aPoly) {
 
+   }
 
    // Destructor
    // Destroy a poly object by freeing the dynamically allocated array
-   ~Poly();
+   ~Poly() {
+      // deallocate memory for 'coeff' array
+      delete [] coeff;
 
+      // set remainding pointer to NULL
+      coeff = nullptr;
+   }
 
    // Assignment operator
    // Assign 'aPoly' Poly object to 'this' Poly object
    // Note: This function is provided, please do not modify it
-   const Poly& operator=(const Poly& aPoly);
-
+   const Poly& operator=(const Poly& aPoly) {
+      
+   }
 
    // grow
    // This method will allow us to increase the size of the dynamically allocated
@@ -70,15 +88,18 @@ public:
    // are taken.
    // Note: the maximum degree of a polynomial is one less than the size of the
    // array. The parameter newSize represents the size of the array.
-   void grow(int newSize);
+   void grow(int newSize) {
 
+   }
 
    // degree
    // Finds the degree of a polynomial (the highest power with a non-zero
    // coefficient)
    // pre: Class object exists
    // post: Returns the degree of the polynomial object.
-   int degree() const;
+   int degree() const {
+      return -1;
+   }
 
 
    // setCoeff
@@ -86,7 +107,9 @@ public:
    // pre: Class object has been initialized. i is a non-negative integer.
    // post: In the polynomial, the term with power i has coefficient
    //       value. The polynomical was grown if required.
-   void setCoeff(int value, int i);
+   void setCoeff(int value, int i) {
+
+   }
 
 
    // getCoeff
@@ -95,16 +118,18 @@ public:
    // post: Returns the value of the coefficient of the term with power i
    // note: If the object does not contain a term with power i (e.g.,
    //       i>=arraySize), a coefficient value of zero is returned.
-   int getCoeff(int i) const;
-
+   int getCoeff(int i) const {
+      return -1;
+   }
 
    // negate
    // Negate a polynomial
    // pre: The class object has been initialized.
    // post: The polynomial has been changed to represent its
    //       multiplication by -1.
-   void negate();
+   void negate() {
 
+   }
 
    // addition operator
    // Add two polynomials together and return a new polynomial that is the result
@@ -113,14 +138,12 @@ public:
    //       The parameter polynomials are not changed.
    friend Poly operator+(const Poly& aPoly, const Poly& bPoly);
 
-
    // subtraction operator
    // Subtracts one polynomial from another and return a new polynomial that is the result
    // pre: Both class objects have been initialized
    // post: The difference of two polynomials is stored in a new polynomial which is returned.
    //       The parameter polynomials are not changed.
    friend Poly operator-(const Poly& aPoly, const Poly& bPoly);
-
 
    // equality operator
    // Compare two polynomials and return true if they are the same, false otherwise
@@ -129,15 +152,12 @@ public:
    //       The parameter polynomials are not changed.
    friend bool operator==(const Poly& aPoly, const Poly& bPoly);
 
-
    // insertion operator for output
    // Print polynomials
    // pre: The class object has been initialized
    // post: several values representing the polynomial are inserted into the output stream
    friend ostream& operator<<(ostream& out, const Poly &aPoly);
-
 };
-
 
 
 int main(){
@@ -201,3 +221,19 @@ const Poly& Poly::operator=(const Poly& aPoly){
 }
 
 /* your code here */
+
+Poly operator+(const Poly& aPoly, const Poly& bPoly) {
+   return aPoly;
+}
+
+Poly operator-(const Poly& aPoly, const Poly& bPoly) {
+   return aPoly;
+}
+
+bool operator==(const Poly& aPoly, const Poly& bPoly) {
+   return false;
+}
+
+ostream& operator<<(ostream& out, const Poly &aPoly) {
+
+}
