@@ -60,7 +60,7 @@ public:
    // Construct a new Poly that is a copy of an existing Poly
    // post: Class object is initialized to be a copy of the argument Poly
    Poly(const Poly& aPoly) {
-
+      this->operator=(aPoly);
    }
 
    // Destructor
@@ -76,11 +76,11 @@ public:
    // Assignment operator
    // Assign 'aPoly' Poly object to 'this' Poly object
    // Note: This function is provided, please do not modify it
-   const Poly& operator=(const Poly& aPoly) {
-      
-   }
+   const Poly& operator=(const Poly& aPoly);
 
-   // grow
+   // MEMBER FUNCTIONS:
+
+   // member function: grow()
    // This method will allow us to increase the size of the dynamically allocated
    // array by allocating a new array of the desired size, copying the data from
    // the old array to the new array, and then releasing the old array.
@@ -89,40 +89,102 @@ public:
    // Note: the maximum degree of a polynomial is one less than the size of the
    // array. The parameter newSize represents the size of the array.
    void grow(int newSize) {
+      int* temp_arr;  // pointer variable for the temporary coefficient array
 
+      // if the given array size is equal to or less than the current
+      if (newSize <= arraySize) {
+         return;  // return nothing (no changes)
+      }
+
+      // allocate memory to the temporary array (old size)
+      temp_arr = new int [arraySize];
+
+      // create copy of old array
+      for (int i(0); i < arraySize; ++i) {
+         temp_arr[i] = coeff[i];
+      }
+
+      // deallocate memory from old array
+      delete [] coeff;
+      coeff = nullptr;
+
+      // set 'arraySize' to the new given size
+      arraySize = newSize;
+
+      // set 'coeff' array to the new size given
+      coeff = new int [arraySize];
+
+      //copy data back into the main array
+      for (int i(0); i < arraySize; ++i) {
+         coeff[i] = temp_arr[i];
+      }
+
+      // deallocate memory from the temporary array
+      delete [] temp_arr;
+      temp_arr = nullptr;
+
+      return;  // return nothing
    }
 
-   // degree
+   // member function: degree()
    // Finds the degree of a polynomial (the highest power with a non-zero
    // coefficient)
    // pre: Class object exists
    // post: Returns the degree of the polynomial object.
    int degree() const {
-      return -1;
+      int degree(0);  // variable for the largest polynomial degree in the 'coeff' array
+
+      for (int i(0); i < arraySize; ++i) {
+         // if the 'coeff' value is greater than 'degree'
+         if (coeff[i] > degree) {
+            degree = coeff[i];  // replace the current 'degree' value
+         }
+      }
+
+      return degree;  // return the largest polynomial value
    }
 
 
-   // setCoeff
+   // member function: setCoeff()
    // Sets a term, value*x^i, in a polynomial, growing the array if necessary.
    // pre: Class object has been initialized. i is a non-negative integer.
    // post: In the polynomial, the term with power i has coefficient
    //       value. The polynomical was grown if required.
    void setCoeff(int value, int i) {
+      // if 'i' is negative, output error and exit function
+      if (i < 0) {
+         cout << "ERROR: array index can not be negative." << endl;
+         return;
+      }
 
+      // if the index given is outside array bounds
+      if (i > (arraySize - 1)) {
+         this->grow(arraySize + 1);  // grow the array appropriately
+      }
+
+      // set the necessary 'coeff' index to the given value
+      coeff[i] = value;
+
+      return;  // return nothing
    }
 
 
-   // getCoeff
+   // member function: getCoeff()
    // Finds the coefficient of the x^i term in poly
    // pre: Class object has been initialized. i is a non-negative integer.
    // post: Returns the value of the coefficient of the term with power i
    // note: If the object does not contain a term with power i (e.g.,
    //       i>=arraySize), a coefficient value of zero is returned.
    int getCoeff(int i) const {
+      if (i < 0) {
+         cout << "ERROR: array index can not be negative." << endl;
+         return -1;
+      }
+
       return -1;
    }
 
-   // negate
+   // member function: negate()
    // Negate a polynomial
    // pre: The class object has been initialized.
    // post: The polynomial has been changed to represent its
@@ -130,6 +192,8 @@ public:
    void negate() {
 
    }
+
+   // FRIEND FUNCTIONS:
 
    // addition operator
    // Add two polynomials together and return a new polynomial that is the result
