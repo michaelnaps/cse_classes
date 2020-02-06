@@ -132,16 +132,16 @@ public:
    // pre: Class object exists
    // post: Returns the degree of the polynomial object.
    int degree() const {
-      int degree(0);  // variable for the largest polynomial degree in the 'coeff' array
+      int deg(0);  // variable for the largest polynomial degree in the 'coeff' array
 
       for (int i(0); i < arraySize; ++i) {
-         // if the 'coeff' value is greater than 'degree'
-         if (coeff[i] > degree) {
-            degree = coeff[i];  // replace the current 'degree' value
+         // if the 'coeff' degree value is greater than 'deg'
+         if (deg < i && coeff[i] > 0) {
+            deg = i;  // replace the current 'deg' value
          }
       }
 
-      return degree;  // return the largest polynomial value
+      return deg;  // return the largest polynomial value
    }
 
 
@@ -159,7 +159,7 @@ public:
 
       // if the index given is outside array bounds
       if (i > (arraySize - 1)) {
-         this->grow(arraySize + 1);  // grow the array appropriately
+         this->grow(i + 1);  // grow the array appropriately
       }
 
       // set the necessary 'coeff' index to the given value
@@ -298,10 +298,6 @@ const Poly& Poly::operator=(const Poly& aPoly){
 /* your code here */
 
 Poly operator+(const Poly& aPoly, const Poly& bPoly) {
-   return aPoly;
-}
-
-Poly operator-(const Poly& aPoly, const Poly& bPoly) {
    int temp_arraySize;  // variable for the maximum array size
    Poly poly_return;  // intialize the return polynomial
 
@@ -309,11 +305,34 @@ Poly operator-(const Poly& aPoly, const Poly& bPoly) {
    // apply largest value to size variable and grow the smaller polynomial to proper size
    if (aPoly.arraySize >= bPoly.arraySize) {
       temp_arraySize = aPoly.arraySize;
-      bPoly.grow(temp_arraySize);
    }
    else {
       temp_arraySize = bPoly.arraySize;
-      aPoly.grow(temp_arraySize);
+   }
+
+   // grow 'poly_return' to the proper arrays size
+   poly_return.grow(temp_arraySize);
+
+   // subtract elements of appropriate arrays
+   for (int i(0); i < temp_arraySize; ++i) {
+      poly_return = aPoly.getCoeff(i) + bPoly.getCoeff(i);
+   }
+
+   // return the new polynomial function
+   return poly_return;
+}
+
+Poly operator-(const Poly& aPoly, const Poly& bPoly) {
+   int temp_arraySize(0);  // variable for the maximum array size
+   Poly poly_return;  // intialize the return polynomial
+
+   // see which of the two arrays is largest
+   // apply largest value to size variable and grow the smaller polynomial to proper size
+   if (aPoly.arraySize >= bPoly.arraySize) {
+      temp_arraySize = aPoly.arraySize;
+   }
+   else {
+      temp_arraySize = bPoly.arraySize;
    }
 
    // grow 'poly_return' to the proper arrays size
@@ -324,18 +343,54 @@ Poly operator-(const Poly& aPoly, const Poly& bPoly) {
       poly_return = aPoly.getCoeff(i) - bPoly.getCoeff(i);
    }
 
-   // return the new polynomial
+   // return the new polynomial function
    return poly_return;
 }
 
 bool operator==(const Poly& aPoly, const Poly& bPoly) {
-   return false;
+   int temp_arraySize(0);
+
+   // see which of the two arrays is largest
+   // apply largest value to size variable and grow the smaller polynomial to proper size
+   if (aPoly.arraySize >= bPoly.arraySize) {
+      temp_arraySize = aPoly.arraySize;
+   }
+   else {
+      temp_arraySize = bPoly.arraySize;
+   }
+
+   // check that all coefficient values are equal for the two polynomial functions
+   for (int i(0); i < temp_arraySize; ++i) {
+      // if any value is not equal to the other
+      if (aPoly.coeff[i] != bPoly.coeff[i]) {
+         return false;  // return false
+      }
+   }
+
+   // if the loop iterates completely, return true
+   return true;
 }
 
 ostream& operator<<(ostream& out, const Poly &aPoly) {
-   for (int i(0); i < aPoly.arraySize; ++i) {
+   int count(0);  // variable used to evaluate need for '+' sign
 
+   for (int i(aPoly.arraySize - 1); i >= 0; --i) {
+      if (aPoly.coeff[i] != 0) {
+         // if this is not the first output, output a '+' sign before the coefficient value
+         if (count != 0) {
+            out << '+';
+         }
+
+         // if the index is 0, output only the coefficient
+         if (i == 0) {
+            out << aPoly.coeff[i];
+            ++count;
+         }
+         // otherwise, output the coefficient multiplied by x to the appropraite power
+         else {
+            out << aPoly.coeff[i] << "x^" << (aPoly.arraySize - i);
+            ++count;
+         }
+      }
    }
-
-   // return?
 }
