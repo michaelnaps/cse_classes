@@ -302,21 +302,25 @@ Poly operator+(const Poly& aPoly, const Poly& bPoly) {
 }
 
 Poly operator-(const Poly& aPoly, const Poly& bPoly) {
-   int temp_arrSize;  // variable for the maximum array size
+   int temp_arraySize;  // variable for the maximum array size
+   Poly poly_return;  // intialize the return polynomial
 
    // see which of the two arrays is largest
-   if (aPoly.degree() >= bPoly.degree()) {
-      temp_arrSize = aPoly.degree();
+   // apply largest value to size variable and grow the smaller polynomial to proper size
+   if (aPoly.arraySize >= bPoly.arraySize) {
+      temp_arraySize = aPoly.arraySize;
+      bPoly.grow(temp_arraySize);
    }
    else {
-      temp_arrSize = bPoly.degree();
+      temp_arraySize = bPoly.arraySize;
+      aPoly.grow(temp_arraySize);
    }
 
-   // declare variable of size 'temp_arrSize'
-   Poly poly_return(temp_arrSize);
+   // grow 'poly_return' to the proper arrays size
+   poly_return.grow(temp_arraySize);
 
    // subtract elements of appropriate arrays
-   for (int i(0); i < temp_arrSize; ++i) {
+   for (int i(0); i < temp_arraySize; ++i) {
       poly_return = aPoly.getCoeff(i) - bPoly.getCoeff(i);
    }
 
@@ -329,5 +333,9 @@ bool operator==(const Poly& aPoly, const Poly& bPoly) {
 }
 
 ostream& operator<<(ostream& out, const Poly &aPoly) {
+   for (int i(0); i < aPoly.arraySize; ++i) {
 
+   }
+
+   // return?
 }
