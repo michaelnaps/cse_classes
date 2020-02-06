@@ -386,6 +386,9 @@ ostream& operator<<(ostream& out, const Poly &aPoly) {
             out << aPoly.coeff[i];
             ++count;
          }
+         else if (i == 1) {
+            
+         }
          // otherwise, output the coefficient multiplied by x to the appropraite power
          else {
             out << aPoly.coeff[i] << "x^" << (aPoly.arraySize - i);
