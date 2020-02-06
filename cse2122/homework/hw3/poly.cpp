@@ -174,14 +174,20 @@ public:
    // pre: Class object has been initialized. i is a non-negative integer.
    // post: Returns the value of the coefficient of the term with power i
    // note: If the object does not contain a term with power i (e.g.,
-   //       i>=arraySize), a coefficient value of zero is returned.
+   //       i >= arraySize), a coefficient value of zero is returned.
    int getCoeff(int i) const {
       if (i < 0) {
          cout << "ERROR: array index can not be negative." << endl;
          return -1;
       }
 
-      return -1;
+      // if the desired coefficient is not a part of the current array
+      if (i > (arraySize - 1)) {
+         return 0;
+      }
+
+      // if parameters are correct, return the correct coefficient
+      return coeff[i];
    }
 
    // member function: negate()
@@ -190,7 +196,12 @@ public:
    // post: The polynomial has been changed to represent its
    //       multiplication by -1.
    void negate() {
+      // set all coefficients to itself multiplied by -1
+      for(int i(0); i < arraySize; ++i) {
+         coeff[i] *= -1;
+      }
 
+      return;  // return nothing
    }
 
    // FRIEND FUNCTIONS:
@@ -291,7 +302,26 @@ Poly operator+(const Poly& aPoly, const Poly& bPoly) {
 }
 
 Poly operator-(const Poly& aPoly, const Poly& bPoly) {
-   return aPoly;
+   int temp_arrSize;  // variable for the maximum array size
+
+   // see which of the two arrays is largest
+   if (aPoly.degree() >= bPoly.degree()) {
+      temp_arrSize = aPoly.degree();
+   }
+   else {
+      temp_arrSize = bPoly.degree();
+   }
+
+   // declare variable of size 'temp_arrSize'
+   Poly poly_return(temp_arrSize);
+
+   // subtract elements of appropriate arrays
+   for (int i(0); i < temp_arrSize; ++i) {
+      poly_return = aPoly.getCoeff(i) - bPoly.getCoeff(i);
+   }
+
+   // return the new polynomial
+   return poly_return;
 }
 
 bool operator==(const Poly& aPoly, const Poly& bPoly) {
