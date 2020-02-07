@@ -5,10 +5,11 @@
 // Last modified on:
 
 /*
-   Purpose:
+   Purpose: Test file for the polynomial class type 'Poly'
+      This class type will utilize a dynamic array and member functions to maintain
+      the data for a given polynomial function.
 */
 
-#include <cmath>
 #include <iostream>
 using namespace std;
 
@@ -24,6 +25,8 @@ private:
    int *coeff;       // dynamic array
 
 public:
+   // CLASS CONSTRUCTORS:
+
    // Default Class constructor
    // Allocate an array of DEFAULTPOLY elements and initialize it to the constant 0
    // post: Class object is initialized to degree-0 polynomial of 0
@@ -63,7 +66,8 @@ public:
       this->operator=(aPoly);
    }
 
-   // Destructor
+   // CLASS DESTRUCTOR:
+
    // Destroy a poly object by freeing the dynamically allocated array
    ~Poly() {
       // deallocate memory for 'coeff' array
@@ -89,6 +93,7 @@ public:
    // Note: the maximum degree of a polynomial is one less than the size of the
    // array. The parameter newSize represents the size of the array.
    void grow(int newSize) {
+      int oldSize(arraySize);  // variable for the previous size of the coefficient array
       int* temp_arr;  // pointer variable for the temporary coefficient array
 
       // if the given array size is equal to or less than the current
@@ -96,7 +101,7 @@ public:
          return;  // return nothing (no changes)
       }
 
-      // allocate memory to the temporary array (old size)
+      // otherwise, allocate memory to the temporary array (old size)
       temp_arr = new int [arraySize];
 
       // create copy of old array
@@ -114,8 +119,13 @@ public:
       // set 'coeff' array to the new size given
       coeff = new int [arraySize];
 
-      //copy data back into the main array
+      // initialize new array elements to '0'
       for (int i(0); i < arraySize; ++i) {
+         coeff[i] = 0;
+      }
+
+      // copy coefficient data back into the original array
+      for (int i(0); i < oldSize; ++i) {
          coeff[i] = temp_arr[i];
       }
 
@@ -178,7 +188,7 @@ public:
    int getCoeff(int i) const {
       if (i < 0) {
          cout << "ERROR: array index can not be negative." << endl;
-         return -1;
+         return 0;
       }
 
       // if the desired coefficient is not a part of the current array
@@ -256,7 +266,7 @@ int main(){
       cin >> coeffValue >> coeffDegree;
       poly2.setCoeff(coeffValue, coeffDegree);
    }
-   
+
    // Sample test cases for degree() and operator<<
    cout << endl << "Polynomial 1 = " << poly1 << endl;
    cout << "Polynomial 1 has degree " << poly1.degree() << endl;
@@ -375,7 +385,7 @@ ostream& operator<<(ostream& out, const Poly &aPoly) {
    int count(0);  // variable used to evaluate need for '+' sign
 
    // iterate from the largest polynomial value 0
-   for (int i(0); i < aPoly.degree(); ++i) {
+   for (int i(aPoly.degree()); i > -1; --i) {
          if (aPoly.coeff[i] != 0) {
             // if this is not the first output, output a '+' sign before the coefficient value
             if (count != 0) {
@@ -393,9 +403,12 @@ ostream& operator<<(ostream& out, const Poly &aPoly) {
             }
             // otherwise, output the coefficient multiplied by x to the appropraite power
             else {
-               out << aPoly.coeff[i] << "x^" << (aPoly.arraySize - i);
+               out << aPoly.coeff[i] << "x^" << i;
                ++count;
             }
       }
    }
+
+   // exit function
+   return out;
 }
