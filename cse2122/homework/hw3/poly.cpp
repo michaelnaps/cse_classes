@@ -12,7 +12,7 @@
 #include <iostream>
 using namespace std;
 
-// Default size of our dynamic coefficient array
+// Default size of the dynamic coefficient array
 const int DEFAULTPOLY = 10;
 
 // Do NOT modify the class header.
@@ -256,7 +256,7 @@ int main(){
       cin >> coeffValue >> coeffDegree;
       poly2.setCoeff(coeffValue, coeffDegree);
    }
-
+   
    // Sample test cases for degree() and operator<<
    cout << endl << "Polynomial 1 = " << poly1 << endl;
    cout << "Polynomial 1 has degree " << poly1.degree() << endl;
@@ -315,7 +315,7 @@ Poly operator+(const Poly& aPoly, const Poly& bPoly) {
 
    // subtract elements of appropriate arrays
    for (int i(0); i < temp_arraySize; ++i) {
-      poly_return = aPoly.getCoeff(i) + bPoly.getCoeff(i);
+      poly_return.coeff[i] = aPoly.coeff[i] + bPoly.coeff[i];
    }
 
    // return the new polynomial function
@@ -340,7 +340,7 @@ Poly operator-(const Poly& aPoly, const Poly& bPoly) {
 
    // subtract elements of appropriate arrays
    for (int i(0); i < temp_arraySize; ++i) {
-      poly_return = aPoly.getCoeff(i) - bPoly.getCoeff(i);
+      poly_return.coeff[i] = aPoly.coeff[i] - bPoly.coeff[i];
    }
 
    // return the new polynomial function
@@ -374,26 +374,28 @@ bool operator==(const Poly& aPoly, const Poly& bPoly) {
 ostream& operator<<(ostream& out, const Poly &aPoly) {
    int count(0);  // variable used to evaluate need for '+' sign
 
-   for (int i(aPoly.arraySize - 1); i >= 0; --i) {
-      if (aPoly.coeff[i] != 0) {
-         // if this is not the first output, output a '+' sign before the coefficient value
-         if (count != 0) {
-            out << '+';
-         }
+   // iterate from the largest polynomial value 0
+   for (int i(0); i < aPoly.degree(); ++i) {
+         if (aPoly.coeff[i] != 0) {
+            // if this is not the first output, output a '+' sign before the coefficient value
+            if (count != 0) {
+               out << '+';
+            }
 
-         // if the index is 0, output only the coefficient
-         if (i == 0) {
-            out << aPoly.coeff[i];
-            ++count;
-         }
-         else if (i == 1) {
-            
-         }
-         // otherwise, output the coefficient multiplied by x to the appropraite power
-         else {
-            out << aPoly.coeff[i] << "x^" << (aPoly.arraySize - i);
-            ++count;
-         }
+            // if the index is 0, output only the coefficient
+            if (i == 0) {
+               out << aPoly.coeff[i];
+               ++count;
+            }
+            // or, if the degree is 1, only output 'x' for the polynomial value
+            else if (i == 1) {
+               out << aPoly.coeff[i] << "x";
+            }
+            // otherwise, output the coefficient multiplied by x to the appropraite power
+            else {
+               out << aPoly.coeff[i] << "x^" << (aPoly.arraySize - i);
+               ++count;
+            }
       }
    }
 }
