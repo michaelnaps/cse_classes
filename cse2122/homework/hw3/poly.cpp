@@ -166,7 +166,7 @@ public:
          cout << "ERROR: array index can not be negative." << endl;
          return;
       }
-      
+
       // if the index given is outside array bounds
       if (i > (arraySize - 1)) {
          this->grow(i + 1);  // grow the array appropriately
@@ -313,7 +313,7 @@ Poly operator+(const Poly& aPoly, const Poly& bPoly) {
 
    // see which of the two arrays is largest
    // apply largest value to size variable and grow the smaller polynomial to proper size
-   if (aPoly.arraySize >= bPoly.arraySize) {
+   if (aPoly.arraySize > bPoly.arraySize) {
       temp_arraySize = aPoly.arraySize;
    }
    else {
@@ -323,7 +323,7 @@ Poly operator+(const Poly& aPoly, const Poly& bPoly) {
    // grow 'poly_return' to the proper arrays size
    poly_return.grow(temp_arraySize);
 
-   // subtract elements of appropriate arrays
+   // add elements of appropriate arrays
    for (int i(0); i < temp_arraySize; ++i) {
       poly_return.coeff[i] = aPoly.coeff[i] + bPoly.coeff[i];
    }
@@ -338,7 +338,7 @@ Poly operator-(const Poly& aPoly, const Poly& bPoly) {
 
    // see which of the two arrays is largest
    // apply largest value to size variable and grow the smaller polynomial to proper size
-   if (aPoly.arraySize >= bPoly.arraySize) {
+   if (aPoly.arraySize > bPoly.arraySize) {
       temp_arraySize = aPoly.arraySize;
    }
    else {
