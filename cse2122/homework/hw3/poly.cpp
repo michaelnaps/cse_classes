@@ -166,7 +166,7 @@ public:
          cout << "ERROR: array index can not be negative." << endl;
          return;
       }
-
+      
       // if the index given is outside array bounds
       if (i > (arraySize - 1)) {
          this->grow(i + 1);  // grow the array appropriately
@@ -388,7 +388,7 @@ ostream& operator<<(ostream& out, const Poly &aPoly) {
    for (int i(aPoly.degree()); i > -1; --i) {
          if (aPoly.coeff[i] != 0) {
             // if this is not the first output, output a '+' sign before the coefficient value
-            if (count != 0) {
+            if (count != 0 && aPoly.coeff[i] > 0) {
                out << '+';
             }
 
