@@ -159,10 +159,9 @@ public:
    // post: In the polynomial, the term with power i has coefficient
    //       value. The polynomical was grown if required.
    void setCoeff(int value, int i) {
-      // if 'i' is negative, output error and exit function
+      // if 'i' is negative
       if (i < 0) {
-         cout << "ERROR: array index can not be negative." << endl;
-         return;
+         return;  // return without adding coefficient to array
       }
 
       // if the index given is outside array bounds
@@ -184,9 +183,9 @@ public:
    // note: If the object does not contain a term with power i (e.g.,
    //       i >= arraySize), a coefficient value of zero is returned.
    int getCoeff(int i) const {
+      // if index is negative
       if (i < 0) {
-         cout << "ERROR: array index can not be negative." << endl;
-         return 0;
+         return 0;  // return 0
       }
 
       // if the desired coefficient is not a part of the current array
@@ -306,8 +305,8 @@ const Poly& Poly::operator=(const Poly& aPoly){
 /* your code here */
 
 Poly operator+(const Poly& aPoly, const Poly& bPoly) {
-   int temp_arraySize(0);  // variable for the maximum array size
    Poly poly_return;  // intialize the return polynomial
+   int temp_arraySize(0);  // variable for the maximum array size
 
    // see which of the two arrays is largest
    // apply largest value to size variable and grow the smaller polynomial to proper size
@@ -321,22 +320,19 @@ Poly operator+(const Poly& aPoly, const Poly& bPoly) {
    // grow 'poly_return' to the largest array size for 'aPoly' and 'bPoly'
    poly_return.grow(temp_arraySize);
 
-   // add elements of appropriate arrays
+   // add appropriate elements of coefficient arrays
    for (int i(0); i < temp_arraySize; ++i) {
-      // if either of the two polynomial's coefficients do not equal 0
-      if (aPoly.coeff[i] != 0 || bPoly.coeff[i] != 0) {
-         // if the index exceeds any of the constant array bounds
-         // make the return coefficient equal to the other polynomial
-         if (i > aPoly.arraySize - 1) {
-            poly_return.coeff[i] = bPoly.coeff[i];
-         }
-         else if (i > bPoly.arraySize - 1) {
-            poly_return.coeff[i] = aPoly.coeff[i];
-         }
-         // otherwise add the polynomial's coefficient values together
-         else {
-            poly_return.coeff[i] = aPoly.coeff[i] + bPoly.coeff[i];
-         }
+      // if the index exceeds any of the constant array bounds
+      // make the return coefficient equal to the other polynomial
+      if (i > (aPoly.arraySize - 1)) {
+         poly_return.coeff[i] = bPoly.coeff[i];
+      }
+      else if (i > (bPoly.arraySize - 1)) {
+         poly_return.coeff[i] = aPoly.coeff[i];
+      }
+      // otherwise add the polynomial's coefficient values together
+      else {
+         poly_return.coeff[i] = aPoly.coeff[i] + bPoly.coeff[i];
       }
    }
 
@@ -345,8 +341,8 @@ Poly operator+(const Poly& aPoly, const Poly& bPoly) {
 }
 
 Poly operator-(const Poly& aPoly, const Poly& bPoly) {
-   int temp_arraySize(0);  // variable for the maximum array size
    Poly poly_return;  // intialize the return polynomial
+   int temp_arraySize(0);  // variable for the maximum array size
 
    // see which of the two arrays is largest
    // apply largest value to size variable and grow the smaller polynomial to proper size
@@ -360,14 +356,14 @@ Poly operator-(const Poly& aPoly, const Poly& bPoly) {
    // grow 'poly_return' to the largest array size for 'aPoly' and 'bPoly'
    poly_return.grow(temp_arraySize);
 
-   // add elements of appropriate arrays
+   // subtract appropriate elements of coefficient arrays
    for (int i(0); i < temp_arraySize; ++i) {
       // if the index exceeds any of the constant array bounds
       // make the return coefficient equal to the other polynomial
-      if (i > aPoly.arraySize - 1) {
+      if (i > (aPoly.arraySize - 1)) {
          poly_return.coeff[i] = -1 * bPoly.coeff[i];
       }
-      else if (i > bPoly.arraySize - 1) {
+      else if (i > (bPoly.arraySize - 1)) {
          poly_return.coeff[i] = aPoly.coeff[i];
       }
       // otherwise add the polynomial's coefficient values together
@@ -431,6 +427,11 @@ ostream& operator<<(ostream& out, const Poly &aPoly) {
                ++count;
             }
       }
+   }
+
+   // if there are no non-zero coefficients, output 0
+   if (count == 0) {
+      out << 0;
    }
 
    // exit function
