@@ -70,10 +70,8 @@ public:
 
    // Destroy a poly object by freeing the dynamically allocated array
    ~Poly() {
-      // deallocate memory for 'coeff' array
+      // deallocate memory for 'coeff' array and set to NULL
       delete [] coeff;
-
-      // set remainding pointer to NULL
       coeff = nullptr;
    }
 
@@ -145,9 +143,9 @@ public:
       int deg(0);  // variable for the largest polynomial degree in the 'coeff' array
 
       for (int i(0); i < arraySize; ++i) {
-         // if the 'coeff' degree value is greater than 'deg'
-         if (deg < i && coeff[i] > 0) {
-            deg = i;  // replace the current 'deg' value
+         // if the index value is greater than 'deg'
+         if (coeff[i] != 0 && i > deg) {
+            deg = i;  // replace the current 'deg' value with the larger polynomial
          }
       }
 
@@ -308,7 +306,7 @@ const Poly& Poly::operator=(const Poly& aPoly){
 /* your code here */
 
 Poly operator+(const Poly& aPoly, const Poly& bPoly) {
-   int temp_arraySize;  // variable for the maximum array size
+   int temp_arraySize(0);  // variable for the maximum array size
    Poly poly_return;  // intialize the return polynomial
 
    // see which of the two arrays is largest
@@ -320,12 +318,26 @@ Poly operator+(const Poly& aPoly, const Poly& bPoly) {
       temp_arraySize = bPoly.arraySize;
    }
 
-   // grow 'poly_return' to the proper arrays size
+   // grow 'poly_return' to the largest array size for 'aPoly' and 'bPoly'
    poly_return.grow(temp_arraySize);
 
    // add elements of appropriate arrays
    for (int i(0); i < temp_arraySize; ++i) {
-      poly_return.coeff[i] = aPoly.coeff[i] + bPoly.coeff[i];
+      // if either of the two polynomial's coefficients do not equal 0
+      if (aPoly.coeff[i] != 0 || bPoly.coeff[i] != 0) {
+         // if the index exceeds any of the constant array bounds
+         // make the return coefficient equal to the other polynomial
+         if (i > aPoly.arraySize - 1) {
+            poly_return.coeff[i] = bPoly.coeff[i];
+         }
+         else if (i > bPoly.arraySize - 1) {
+            poly_return.coeff[i] = aPoly.coeff[i];
+         }
+         // otherwise add the polynomial's coefficient values together
+         else {
+            poly_return.coeff[i] = aPoly.coeff[i] + bPoly.coeff[i];
+         }
+      }
    }
 
    // return the new polynomial function
@@ -345,12 +357,23 @@ Poly operator-(const Poly& aPoly, const Poly& bPoly) {
       temp_arraySize = bPoly.arraySize;
    }
 
-   // grow 'poly_return' to the proper arrays size
+   // grow 'poly_return' to the largest array size for 'aPoly' and 'bPoly'
    poly_return.grow(temp_arraySize);
 
-   // subtract elements of appropriate arrays
+   // add elements of appropriate arrays
    for (int i(0); i < temp_arraySize; ++i) {
-      poly_return.coeff[i] = aPoly.coeff[i] - bPoly.coeff[i];
+      // if the index exceeds any of the constant array bounds
+      // make the return coefficient equal to the other polynomial
+      if (i > aPoly.arraySize - 1) {
+         poly_return.coeff[i] = -1 * bPoly.coeff[i];
+      }
+      else if (i > bPoly.arraySize - 1) {
+         poly_return.coeff[i] = aPoly.coeff[i];
+      }
+      // otherwise add the polynomial's coefficient values together
+      else {
+         poly_return.coeff[i] = aPoly.coeff[i] - bPoly.coeff[i];
+      }
    }
 
    // return the new polynomial function
@@ -400,6 +423,7 @@ ostream& operator<<(ostream& out, const Poly &aPoly) {
             // or, if the degree is 1, only output 'x' for the polynomial value
             else if (i == 1) {
                out << aPoly.coeff[i] << "x";
+               ++count;
             }
             // otherwise, output the coefficient multiplied by x to the appropraite power
             else {
