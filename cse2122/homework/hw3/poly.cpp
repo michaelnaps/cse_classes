@@ -243,9 +243,8 @@ public:
 
 
 int main(){
-
-   Poly poly1, poly2;
-   int numCoeff, coeffValue, coeffDegree, x;
+   Poly poly1, poly2;  // variables for the testing of the 'Poly' class
+   int numCoeff, coeffValue, coeffDegree, x;  // input variables for users
 
    // prompt user for the number of coefficients
    cout << "How many coefficients for polynomial 1?" << endl;
@@ -280,10 +279,12 @@ int main(){
    else
       cout << "Two polynomials are different." << endl;
 
-   // Try more test cases to test your class thoroughly
+   // test degree of polynomial when the array size is greater than the polynomial degree
+   Poly degree_test(15);  // set size to 15 on initialization
+   degree_test.setCoeff(1, 10);  // should return degree 10 on output
+   cout << endl << "Degree of test polynomial: " << degree_test.degree() << endl;
 
-
-
+   // end program
    return 0;
 }
 
