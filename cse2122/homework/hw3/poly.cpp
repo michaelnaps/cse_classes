@@ -77,12 +77,17 @@ public:
      // set new poly array to the correct size
      arraySize = aPoly.arraySize;
 
-     // grow array to the new size
-     this->grow(arraySize);
+     // allocate memory for the new array
+     coeff = new int [arraySize];
+
+     // inititalize array values to 0
+     for (int i(0); i < arraySize; ++i) {
+        coeff[i] = 0;
+     }
 
      // set all array values equal
      for (int i(0); i < arraySize; ++i) {
-       coeff[i] = aPoly.coeff[i];
+        coeff[i] = aPoly.coeff[i];
      }
    }
 
@@ -114,21 +119,24 @@ public:
       int* temp_arr;  // pointer variable for the temporary coefficient array
 
       // if the given array size is equal to or less than the current
-      if (newSize <= arraySize) {
+      if (newSize <= oldSize) {
          return;  // return nothing (no changes)
+      }
+      else {
+	arraySize = newSize;  // otherwise, give 'arraySize' the new value
       }
 
       // otherwise, allocate memory to the temporary array (old size)
-      temp_arr = new int [arraySize];
+      temp_arr = new int [oldSize];
 
       // create copy of old array
-      for (int i(0); i < arraySize; ++i) {
+      for (int i(0); i < oldSize; ++i) {
          temp_arr[i] = coeff[i];
       }
 
       // deallocate memory from old array
       delete [] coeff;
-      coeff = nullptr;
+      coeff = NULL;
 
       // set 'coeff' array to the new size given
       coeff = new int [arraySize];
@@ -145,7 +153,7 @@ public:
 
       // deallocate memory from the temporary array
       delete [] temp_arr;
-      temp_arr = nullptr;
+      temp_arr = NULL;
 
       return;  // return nothing
    }
@@ -452,11 +460,6 @@ ostream& operator<<(ostream& out, const Poly &aPoly) {
             // if the index is 0, output only the coefficient
             if (i == 0) {
                out << aPoly.coeff[i];
-               ++count;
-            }
-            // or, if the degree is 1, only output 'x' for the polynomial value
-            else if (i == 1) {
-               out << aPoly.coeff[i] << "x";
                ++count;
             }
             // otherwise, output the coefficient multiplied by x to the appropraite power
