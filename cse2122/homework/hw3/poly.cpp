@@ -74,8 +74,16 @@ public:
    // If the user initializes a 'Poly' variable with another 'Poly'
    // variable, the new variable is equal to that of the first.
    Poly(const Poly& aPoly) {
-      // call '=' operator
-      this->operator=(aPoly);
+     // set new poly array to the correct size
+     arraySize = aPoly.arraySize;
+
+     // grow array to the new size
+     this->grow(arraySize);
+
+     // set all array values equal
+     for (int i(0); i < arraySize; ++i) {
+       coeff[i] = aPoly.coeff[i];
+     }
    }
 
    // CLASS DESTRUCTOR:
@@ -85,7 +93,7 @@ public:
    ~Poly() {
       // deallocate memory for 'coeff' array and set to NULL
       delete [] coeff;
-      coeff = nullptr;
+      coeff = NULL;
    }
 
    // Assignment operator
@@ -121,9 +129,6 @@ public:
       // deallocate memory from old array
       delete [] coeff;
       coeff = nullptr;
-
-      // set 'arraySize' to the new given size
-      arraySize = newSize;
 
       // set 'coeff' array to the new size given
       coeff = new int [arraySize];
@@ -279,8 +284,9 @@ int main(){
 
    // test degree of polynomial when the array size is greater than the polynomial degree
    Poly degree_test(15);  // set size to 15 on initialization
-   degree_test.setCoeff(1, 10);  // should return degree 10 on output
-   cout << endl << "Degree of test polynomial: " << degree_test.degree() << endl << endl;
+   degree_test.setCoeff(1, 9);  // should return degree 9 on output
+   cout << endl << "Degree of test polynomial: " << degree_test.degree() << endl;
+   cout << "Degree test polynomial = " << degree_test << endl << endl;
 
    // test the copy operator by initializing to an already declared polynomial
    Poly poly1_copy(poly1);
