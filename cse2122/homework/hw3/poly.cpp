@@ -123,7 +123,7 @@ public:
          return;  // return nothing (no changes)
       }
       else {
-	arraySize = newSize;  // otherwise, give 'arraySize' the new value
+	      arraySize = newSize;  // otherwise, give 'arraySize' the new value
       }
 
       // otherwise, allocate memory to the temporary array (old size)
