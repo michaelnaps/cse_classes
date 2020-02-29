@@ -34,7 +34,7 @@ class Stack {
 
 public:
    // default constructor
-   // initializes the stack to an empty stack
+   // initializes the stack to empty
    Stack();
 
    // default destructor
