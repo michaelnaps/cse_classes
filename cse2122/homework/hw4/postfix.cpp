@@ -31,7 +31,6 @@ int calculate(int o1, int o2, char op);
 int charToInt(char c);
 
 class Stack {
-
 public:
    // default constructor
    // initializes the stack to empty
@@ -67,20 +66,20 @@ int main() {
    cout << "Enter a postfix expression (ending with " << SENTINEL << " and press Enter):" << endl;
    cin >> in ;
    while (in != SENTINEL) {
-      if (isOperator( in )) {
+      if (isOperator(in)) {
          // pop two numbers from stack
          int n1, n2;
          if (operandStack.isEmpty()) {
             // print error message
-            /*your code here*/
+            cout << "ERROR: Stack is empty." << endl;
 
             exit(1); // end the program
-            }
+         }
             n2 = operandStack.top();
             operandStack.pop();
             if (operandStack.isEmpty()) {
                // print error message
-               /*your code here*/
+               cout << "ERROR: Stack is empty." << endl;
 
                exit(1);
             }
@@ -108,40 +107,96 @@ int main() {
    if (operandStack.isEmpty()) { // nothing left in the stack
       cout << "\nThe result is: " << result << endl;
    }
-   else {// if there are still numbers in the stack, print an error message
-      /*your code here*/
-
+   else {
+      cout << "ERROR: There are still values in the stack." << endl;
    }
 
    return 0;
 }
 
 Stack::Stack() {
-   /*your code here*/
+   // allocate memory for the linked list first value
+   listHead = new Node;
+
+   // initialize 'data' and 'link' of the list head variable
+   listHead->data = 0;
+   listHead->link = NULL;  // first pointer set to NULL
 }
 
 Stack::~Stack() {
-   /*your code here*/
+   Node *current;  // variable for current location of node
+   Node *next;  // variable for the next variable in the linked list
+
+   // initialize 'current' to the head of the linked list
+   current = listHead;
+
+   // until the end of the list is reached, delete nodes
+   while (current != NULL) {
+      // link of the next variable in the list
+      next = current->link;
+
+      // deallocate memory for the list variable
+      delete current;
+
+      // for next iteration of the loop
+      current = next;
+   }
 }
 
 bool Stack::isEmpty() const {
-   /*your code here*/
+   // return the output of the following boolean statement
+   return (listHead->link == NULL);
 }
 
 int Stack::top() const {
-   /*your code here*/
+   return (listHead->data);
 }
 
 void Stack::pop() {
-   /*your code here*/
+   // if list is empty, do nothing
+   if (this->isEmpty()) {
+      return;
+   }
+
+   Node *remove = listHead;  // temporary variable for removal of current head
+
+   // set new head of stack to the next node
+   listHead = listHead->link;
+
+   // deallocate memory for the top of the stack
+   delete remove;
 }
 
 void Stack::push(int data) {
-   /*your code here*/
+   Node *temp;  // temporary value for new node
+
+   // allocate memory for new node
+   temp = new Node;
+
+   // set link of the new node to the location of the current head
+   temp->data = data;
+   temp->link = listHead;
+
+   // set head to new node variable
+   listHead = temp;
 }
 
 int calculate(int o1, int o2, char op) {
-   /*your code here*/
+   if (op == '+') {
+      return (o1 + o2);
+   }
+   else if (op == '-') {
+      return (o1 - o2);
+   }
+   else if (op == '*') {
+      return (o1 * o2);
+   }
+   else if (op == '/') {
+      return (o1 / o2);
+   }
+   else {
+      return 0;
+   }
 }
 
 bool isOperator(char c) {
