@@ -55,7 +55,7 @@ public:
    void pop();
 
 private:
-   Node *listHead; // pointer to the head of a linked list
+   Node *listHead;  // pointer to the head of a linked list
 
 };
 
@@ -86,27 +86,27 @@ int main() {
             n1 = operandStack.top();
             operandStack.pop();
 
-            // push the calculation result to the top of operandStack
+            // push the calculation result to the top of 'operandStack'
             /*your code here*/
-
          }
          else {
             // push the number to the top of opernadStack
             // (pay attention to the data type)
             /*your code here*/
-
          }
       cin >> in ;
    }
 
-    // pop a number from the top of stack
+   // pop a number from the top of stack
    int result;
    result = operandStack.top();
    operandStack.pop();
 
-   if (operandStack.isEmpty()) { // nothing left in the stack
+   // if the stack is empty, output the results
+   if (operandStack.isEmpty()) {
       cout << "\nThe result is: " << result << endl;
    }
+   // otherwise, tell the user the stack is not empty
    else {
       cout << "ERROR: There are still values in the stack." << endl;
    }
