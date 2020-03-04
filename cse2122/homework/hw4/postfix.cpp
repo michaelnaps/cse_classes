@@ -64,36 +64,44 @@ int main() {
    Stack operandStack;
 
    cout << "Enter a postfix expression (ending with " << SENTINEL << " and press Enter):" << endl;
-   cin >> in ;
+   cin >> in;
+
    while (in != SENTINEL) {
       if (isOperator(in)) {
          // pop two numbers from stack
          int n1, n2;
+
          if (operandStack.isEmpty()) {
             // print error message
-            cout << "ERROR: Stack is empty." << endl;
-
+            cout << "ERROR: Not enough operands entered for operator: " << in << endl;
             exit(1); // end the program
          }
-            n2 = operandStack.top();
-            operandStack.pop();
-            if (operandStack.isEmpty()) {
-               // print error message
-               cout << "ERROR: Stack is empty." << endl;
 
-               exit(1);
-            }
-            n1 = operandStack.top();
-            operandStack.pop();
+         n2 = operandStack.top();
+         operandStack.pop();
 
-            // push the calculation result to the top of 'operandStack'
-            /*your code here*/
+         if (operandStack.isEmpty()) {
+            // print error message
+            cout << "ERROR: Not enough operands entered for operator: " << in << endl;
+            exit(1);  // end program
          }
-         else {
-            // push the number to the top of opernadStack
-            // (pay attention to the data type)
-            /*your code here*/
-         }
+
+         n1 = operandStack.top();
+         operandStack.pop();
+
+         // push the calculation result to the top of 'operandStack'
+         int new_top = calculate(n1, n2, in);
+         cout << new_top << endl;
+         operandStack.push(new_top);
+      }
+      else {
+         // push the number to the top of 'operandStack'
+         // (pay attention to the data type)
+         int in_operand = charToInt(in);
+         operandStack.push(in);
+      }
+
+      // grab next character enterered
       cin >> in ;
    }
 
@@ -108,10 +116,10 @@ int main() {
    }
    // otherwise, tell the user the stack is not empty
    else {
-      cout << "ERROR: There are still values in the stack." << endl;
+      cout << "ERROR: Not enough operators entered." << endl;
    }
 
-   return 0;
+   return 0;  // end program
 }
 
 // Constructor for Class type 'Stack'
@@ -219,10 +227,9 @@ int calculate(int o1, int o2, char op) {
    else if (op == '/') {
       return (o1 / o2);
    }
-   else {
-      // if 'op' is not an operator symbol, return 0
-      return 0;
-   }
+
+   // if the 'op' is not an operator, return 0
+   return 0;
 }
 
 bool isOperator(char c) {
