@@ -55,7 +55,7 @@ public:
    void pop();
 
 private:
-   Node *listHead;  // pointer to the head of a linked list
+   Node *listHead;  // pointer to the head of the 'Stack' linked list
 
 };
 
@@ -73,7 +73,7 @@ int main() {
 
          if (operandStack.isEmpty()) {
             // print error message
-            cout << "ERROR: Not enough operands entered for operator: " << in << endl;
+            cout << "Not enough operands entered for operator: " << in << endl;
             exit(1); // end the program
          }
 
@@ -82,7 +82,7 @@ int main() {
 
          if (operandStack.isEmpty()) {
             // print error message
-            cout << "ERROR: Not enough operands entered for operator: " << in << endl;
+            cout << "Not enough operands entered for operator: " << in << endl;
             exit(1);  // end program
          }
 
@@ -114,7 +114,7 @@ int main() {
    }
    // otherwise, tell the user the stack is not empty
    else {
-      cout << "ERROR: Not enough operators entered." << endl;
+      cout << "Not enough operators entered." << endl;
    }
 
    return 0;  // end program
