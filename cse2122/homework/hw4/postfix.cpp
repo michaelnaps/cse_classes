@@ -114,6 +114,8 @@ int main() {
    return 0;
 }
 
+// Constructor for Class type 'Stack'
+// allocates memory for the head of a 'Stack' of integer values
 Stack::Stack() {
    // allocate memory for the linked list first value
    listHead = new Node;
@@ -123,6 +125,9 @@ Stack::Stack() {
    listHead->link = NULL;  // first pointer set to NULL
 }
 
+// Destructor for Class type 'Stack'
+// properly deallocate memory from the associated 'Stack' variable
+// intput: pre-initialized Stack variable
 Stack::~Stack() {
    Node *current;  // variable for current location of node
    Node *next;  // variable for the next variable in the linked list
@@ -143,15 +148,30 @@ Stack::~Stack() {
    }
 }
 
+// Member function: isEmpty()
+// function which checks the given 'Stack' variable for values after
+//    the head pointer
+// input: pre-initialized 'Stack' variable
+// output: boolean value
+//    'true' - if given stack is empty
+//    'false' - if given value is NOT empty
 bool Stack::isEmpty() const {
    // return the output of the following boolean statement
    return (listHead->link == NULL);
 }
 
+// Member function: top()
+// Function that returns the top value of a given 'Stack' variable
+// input: pre-initialized 'Stack' variable
+// output: value located at the head of the 'Stack' variable
 int Stack::top() const {
    return (listHead->data);
 }
 
+// Member function: pop()
+// Function deletes the head value from a given 'Stack' variable
+// input: pre-initialized 'Stack' variable
+// output: nothing
 void Stack::pop() {
    // if list is empty, do nothing
    if (this->isEmpty()) {
@@ -167,6 +187,11 @@ void Stack::pop() {
    delete remove;
 }
 
+// Member function: push()
+// Function that adds a given variable to the head of a 'Stack' variable
+// intput: pre-initialized 'Stack' variable
+//    'data' - value to be intputted into the 'Stack'
+// output: nothing
 void Stack::push(int data) {
    Node *temp;  // temporary value for new node
 
@@ -195,6 +220,7 @@ int calculate(int o1, int o2, char op) {
       return (o1 / o2);
    }
    else {
+      // if 'op' is not an operator symbol, return 0
       return 0;
    }
 }
