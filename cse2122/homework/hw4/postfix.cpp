@@ -63,7 +63,7 @@ int main() {
    char in;
    Stack operandStack;
 
-   cout << "Enter a postfix expression (ending with " << SENTINEL << " and press Enter):" << endl;
+   cout << "Enter a postfix expression (ending with '" << SENTINEL << "' and press Enter):" << endl;
    cin >> in;
 
    while (in != SENTINEL) {
@@ -91,14 +91,13 @@ int main() {
 
          // push the calculation result to the top of 'operandStack'
          int new_top = calculate(n1, n2, in);
-         cout << new_top << endl;
          operandStack.push(new_top);
       }
       else {
          // push the number to the top of 'operandStack'
          // (pay attention to the data type)
-         int in_operand = charToInt(in);
-         operandStack.push(in);
+         int temp = charToInt(in);
+         operandStack.push(temp);
       }
 
       // grab next character enterered
@@ -106,8 +105,7 @@ int main() {
    }
 
    // pop a number from the top of stack
-   int result;
-   result = operandStack.top();
+   int result = operandStack.top();
    operandStack.pop();
 
    // if the stack is empty, output the results
@@ -137,11 +135,8 @@ Stack::Stack() {
 // properly deallocate memory from the associated 'Stack' variable
 // intput: pre-initialized Stack variable
 Stack::~Stack() {
-   Node *current;  // variable for current location of node
+   Node *current = listHead;  // variable for current node in linked list, initialized to head node
    Node *next;  // variable for the next variable in the linked list
-
-   // initialize 'current' to the head of the linked list
-   current = listHead;
 
    // until the end of the list is reached, delete nodes
    while (current != NULL) {
