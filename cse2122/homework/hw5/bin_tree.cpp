@@ -81,7 +81,17 @@ TreeNode* insertNodes(int nodeValues[], TreeNode* root, int i, int n){
 }
 
 int size(TreeNode* root){
-   /* your code here */
+   int count(0);
+
+   if (root->left == NULL && root->right == NULL) {
+      return 1;
+   }
+   else {
+      count = size(root->left);
+      count += size(root->right);
+   }
+
+   return count;
 }
 
 
