@@ -81,22 +81,46 @@ TreeNode* insertNodes(int nodeValues[], TreeNode* root, int i, int n){
 }
 
 int size(TreeNode* root){
-   int count(0);
+   int num(0);  // variable for the number of branches in a given tree
 
+   // stopping case - both of the following leafs are empty
    if (root->left == NULL && root->right == NULL) {
       return 1;
    }
+   // otherwise check the following branches
    else {
-      count = size(root->left);
-      count += size(root->right);
+      if (root->left != NULL) {
+         num += size(root->left);
+      }
+      if (root->right != NULL) {
+         num += size(root->right);
+      }
    }
 
-   return count;
+   // return the number of branches in tree
+   return num;
 }
 
 
 int count(TreeNode* root, int target){
-   /* your code here */
+   int num(0);  // variable for number of 'target' values within the given tree
+
+   // if the current branch equals the target value, iterate 'num'
+   if (root->data == target) {
+      num = num + 1;
+   }
+
+   // if the following left branch is not empty, check
+   if (root->left != NULL) {
+      num += count(root->left, target);
+   }
+   // if the following right branch is not empty, check
+   if (root->right != NULL) {
+      num += count(root->right, target);
+   }
+
+   // return final 'num' value
+   return num;
 }
 
 
@@ -106,7 +130,11 @@ int height(TreeNode* root){
 
 
 bool isSameTree(TreeNode* root1, TreeNode* root2){
-   /* your code here */
+   // stopping case - both the follwing branches are empty
+   return (root1->left == NULL && root1->right == NULL && root2->left == NULL && root2->right == NULL);
+
+   // if the trees are not empty, continue checking their branches
+   return (isSameTree(root1->left, root2->left) && isSameTree(root1->right, root2->right));
 }
 
 
