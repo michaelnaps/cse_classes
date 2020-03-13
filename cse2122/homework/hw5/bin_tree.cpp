@@ -4,7 +4,9 @@
 // Last modified on:
 
 /*
-   Purpose:
+   Purpose: Program to test the 'TreeNode' structure along with
+      its helper functions. This data structure is meant to be used
+      with binary tree based data sets.
 */
 
 #include <iostream>
