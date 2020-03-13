@@ -28,7 +28,9 @@ bool hasPathSum(TreeNode* root, int target);
 bool isBalanced(TreeNode* root);
 
 // feel free to define your own helper functions
-/* your code here */
+
+bool isEmpty(TreeNode* root);
+void clean_tree(TreeNode* root);
 
 
 
@@ -50,6 +52,8 @@ int main(){
    root = insertNodes(nodedatas, root, 0, 15);
    root2 = insertNodes(nodedatas2, root2, 0, 15);
 
+   cout << size(root) << endl;
+
    assert(size(root) == 10);
    assert(size(root->left) == 5);
    assert(count(root,1) == 3);
@@ -63,6 +67,10 @@ int main(){
    assert(isSameTree(root->left,root2->left) == true);
 
    cout << "Congratulation!" << endl;
+
+   clean_tree(root);
+   clean_tree(root2);
+
    return 0;
 }
 
@@ -80,14 +88,22 @@ TreeNode* insertNodes(int nodeValues[], TreeNode* root, int i, int n){
    return root;
 }
 
+// function: isEmpty()
+// function that returns whether or not a give branch is empty
+// intput: a single binary tree variable
+// output: boolean value
+bool isEmpty(TreeNode* root) {
+   return (root->left == NULL && root->right == NULL);
+}
+
 int size(TreeNode* root){
    int num(0);  // variable for the number of branches in a given tree
 
-   // stopping case - both of the following leafs are empty
-   if (root->left == NULL && root->right == NULL) {
-      return 1;
+   // stopping case - reach end of branches, i.e. given root is empty
+   if (isEmpty(root)) {
+      return ++num;
    }
-   // otherwise check the following branches
+   // otherwise, check the following branches
    else {
       if (root->left != NULL) {
          num += size(root->left);
@@ -107,7 +123,7 @@ int count(TreeNode* root, int target){
 
    // if the current branch equals the target value, iterate 'num'
    if (root->data == target) {
-      num = num + 1;
+      ++num;
    }
 
    // if the following left branch is not empty, check
@@ -128,13 +144,45 @@ int height(TreeNode* root){
    /* your code here */
 }
 
-
+// function: isSameTree()
+// Function that checks whether or not two given binary trees are equal
+// intput: two 'TreeNode' varaibles - 'root1', 'root2'
+// output: boolean value
 bool isSameTree(TreeNode* root1, TreeNode* root2){
-   // stopping case - both the follwing branches are empty
-   return (root1->left == NULL && root1->right == NULL && root2->left == NULL && root2->right == NULL);
+   // stopping case - one/both of the given roots are empty
+   // must check both of the given roots
+   if (isEmpty(root1)) {
+      if (isEmpty(root2)) {
+         return (root1->data == root2->data);
+      }
+      else {
+         return false;
+      }
+   }
+   else if (isEmpty(root2)) {
+      return false;
+   }
 
-   // if the trees are not empty, continue checking their branches
-   return (isSameTree(root1->left, root2->left) && isSameTree(root1->right, root2->right));
+   // for the case where the branches are not empty
+   // check if their data values are equal
+   if (root1->data == root2->data) {
+      // if so, check if left side is equal
+      if (!isSameTree(root1->left, root2->left)) {
+         return false;
+      }
+      // check if right side is equal
+      else if (!isSameTree(root1->right, root2->right)) {
+         return false;
+      }
+      // if all are equal, return true
+      else {
+         return true;
+      }
+   }
+   // otherwise, return false
+   else {
+      return false;
+   }
 }
 
 
@@ -145,4 +193,33 @@ bool hasPathSum(TreeNode* root, int target){
 
 bool isBalanced(TreeNode* root){
    /* your code here */
+}
+
+// function: clean_tree()
+// Function that deallocates the memory for a given initialized binary tree
+// intput: initialized binary tree variable
+// output: nothing
+void clean_tree(TreeNode* root) {
+   TreeNode* current = root;  // variable for the current root location
+
+   // stopping case - if the next branches are empty, deallocate current
+   if (current->left == NULL && current->right == NULL) {
+      delete current;
+   }
+   else {
+      // check left branch and deallocate
+      if (current->left != NULL) {
+         clean_tree(current->left);
+      }
+      // check right branch and deallocate
+      if (current->right != NULL) {
+         clean_tree(current->right);
+      }
+
+      // deallocate memory from current location
+      delete current;
+   }
+
+   // return nothing
+   return;
 }
