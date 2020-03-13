@@ -101,7 +101,7 @@ int size(TreeNode* root){
 
    // stopping case - reach end of branches, i.e. given root is empty
    if (isEmpty(root)) {
-      return ++num;
+      return 1;
    }
    // otherwise, check the following branches
    else {
@@ -112,6 +112,9 @@ int size(TreeNode* root){
          num += size(root->right);
       }
    }
+   
+   // iterate for current branch
+   ++num;
 
    // return the number of branches in tree
    return num;
