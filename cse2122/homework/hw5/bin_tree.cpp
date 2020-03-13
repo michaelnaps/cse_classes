@@ -52,7 +52,7 @@ int main(){
    root = insertNodes(nodedatas, root, 0, 15);
    root2 = insertNodes(nodedatas2, root2, 0, 15);
 
-   cout << size(root) << endl;
+   cout << height(root) << endl;
 
    assert(size(root) == 10);
    assert(size(root->left) == 5);
@@ -112,12 +112,9 @@ int size(TreeNode* root){
          num += size(root->right);
       }
    }
-   
-   // iterate for current branch
-   ++num;
 
-   // return the number of branches in tree
-   return num;
+   // iterate count and return
+   return ++num;
 }
 
 
@@ -144,7 +141,21 @@ int count(TreeNode* root, int target){
 
 
 int height(TreeNode* root){
-   /* your code here */
+   int num(0);  // variable for number of branch nodes
+
+   // stopping case - reach the end of the leafs of the initially given root
+   if (isEmpty(root)) {
+      return 1;
+   }
+
+   if (height(root->left) > height(root->right)) {
+      num += height(root->left);
+      return ++num;
+   }
+   else {
+      num += height(root->right);
+      return ++num;
+   }
 }
 
 // function: isSameTree()
