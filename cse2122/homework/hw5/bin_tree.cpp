@@ -52,8 +52,6 @@ int main(){
    root = insertNodes(nodedatas, root, 0, 15);
    root2 = insertNodes(nodedatas2, root2, 0, 15);
 
-   cout << height(root) << endl;
-
    assert(size(root) == 10);
    assert(size(root->left) == 5);
    assert(count(root,1) == 3);
@@ -141,29 +139,27 @@ int count(TreeNode* root, int target){
 
 
 int height(TreeNode* root){
-   int left_num(0), right_num(0);  // variables for height count of given binary tree
+   int left_num(0), right_num(0);  // variables for count of left and right side
 
-   // stopping case - reach end of the given tree
+   // stopping case - given root is empty
    if (isEmpty(root)) {
-      return -1;
+      return 0;
    }
 
-   // add previous height of lower branches to total
+   // check if left branch is empty
    if (root->left != NULL) {
-      if (isEmpty(root->left)) {
-         ++left_num;
-      }
+      // if not, add its height to total count
       left_num += height(root->left);
    }
+
+   // check if right branch is empty
    if (root->right != NULL) {
-      if (isEmpty(root->right)) {
-         ++right_num;
-      }
+      // if not, add its height to total count
       right_num += height(root->right);
    }
 
-   // check for largest half and return height
-   else if (left_num > right_num) {
+   // iterate and return total
+   if (left_num > right_num) {
       return ++left_num;
    }
    else {
