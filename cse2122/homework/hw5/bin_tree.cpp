@@ -30,10 +30,8 @@ bool hasPathSum(TreeNode* root, int target);
 bool isBalanced(TreeNode* root);
 
 // feel free to define your own helper functions
-
 bool isLeaf(TreeNode* root);
 void clean_tree(TreeNode* root);
-
 
 // A helper function to build a tree, you do not need to modify it
 // Inputs:
@@ -44,7 +42,7 @@ void clean_tree(TreeNode* root);
 // Postcondition: a tree is built with the second input argument as its root pointer
 TreeNode* insertNodes(int nodeValues[], TreeNode* root, int i, int n);
 
-int main(){
+int main() {
    // the binary trees in instruction examples
    TreeNode *root, *root2;
    int nodedatas[] = {1,2,3,4,5,6,7,8,1,-1,-1,-1,-1,-1,1};
@@ -60,7 +58,7 @@ int main(){
    assert(height(root->left->right) == 0);
    // assert(hasPathSum(root,10) == true);
    // assert(hasPathSum(root,1) == false);
-   // assert(isBalanced(root) == true);
+   assert(isBalanced(root) == true);
    assert(isSameTree(root,root2) == false);
    assert(isSameTree(root->left,root2->left) == true);
 
@@ -73,7 +71,7 @@ int main(){
 }
 
 // A helper function to build the test cases. You do not need to modify it.
-TreeNode* insertNodes(int nodeValues[], TreeNode* root, int i, int n){
+TreeNode* insertNodes(int nodeValues[], TreeNode* root, int i, int n) {
    if(i<n && nodeValues[i]!=-1){
       root = new TreeNode;
       root->data = nodeValues[i];
@@ -94,7 +92,7 @@ bool isLeaf(TreeNode* root) {
    return (root->left == NULL && root->right == NULL);
 }
 
-int size(TreeNode* root){
+int size(TreeNode* root) {
    int num(0);  // variable for the number of branches in a given tree
 
    // stopping case - reach end of branches, i.e. given root is empty
@@ -115,8 +113,12 @@ int size(TreeNode* root){
    return ++num;
 }
 
-
-int count(TreeNode* root, int target){
+// function: count()
+// Function that counts the number of nodes that contain a given target value.
+// input: 'root' - initialized 'TreeNode' pointer variable
+// 'target' - target value to be found within the binary tree
+// output: number of 'target' values within tree
+int count(TreeNode* root, int target) {
    int num(0);  // variable for number of 'target' values within 'root'
 
    // if the current branch contains the target value, iterate 'num'
@@ -137,11 +139,15 @@ int count(TreeNode* root, int target){
    return num;
 }
 
-
-int height(TreeNode* root){
+// function: height()
+// function that counts and returns the maximum height of a given binary tree.
+// This height is the number of nodes between the 'root' and the leafs
+// intput: 'root' - initialized 'TreeNode' variable
+// output: maximum height of the tree (integer)
+int height(TreeNode* root) {
    int left_num(0), right_num(0);  // variables for count of left and right side
 
-   // stopping case - given root is empty
+   // stopping case - given root variable is a leaf
    if (isLeaf(root)) {
       return 0;
    }
@@ -171,7 +177,7 @@ int height(TreeNode* root){
 // Function that checks whether or not two given binary trees are equal
 // intput: two 'TreeNode' varaibles - 'root1', 'root2'
 // output: boolean value
-bool isSameTree(TreeNode* root1, TreeNode* root2){
+bool isSameTree(TreeNode* root1, TreeNode* root2) {
    // stopping case - reached leaf node of one/both of roots
    if (root1 == NULL && root2 == NULL) {
       return true;  // return true if trees end at same place
@@ -194,25 +200,33 @@ bool isSameTree(TreeNode* root1, TreeNode* root2){
 }
 
 
-bool hasPathSum(TreeNode* root, int target){
+bool hasPathSum(TreeNode* root, int target) {
    return false;
 }
 
-
-bool isBalanced(TreeNode* root){
-   return false;
+// function: isBalanced()
+// Function that compares two sides of a given root node to see if they
+// are balanced. For a binary tree to be balanced, the height of the opposite sides of each
+// node must differ by no more than 1.
+// input: initialized binary tree pointer variable
+// output: boolean value
+bool isBalanced(TreeNode* root) {
+   return (abs(height(root->left) - height(root->right)) <= 1);
 }
 
 // function: clean_tree()
 // Function that deallocates the memory for a given binary tree
-// intput: initialized binary tree variable
+// intput: initialized binary tree pointer variable
 // output: nothing
 void clean_tree(TreeNode* root) {
 
-   // stopping case - current root is not empty
+   // stopping case - current root is empty
    if (root != NULL) {
+      // clean both sides of the remaining tree
       clean_tree(root->left);
       clean_tree(root->right);
+
+      // deallocate memory from current root
       delete root;
    }
 
