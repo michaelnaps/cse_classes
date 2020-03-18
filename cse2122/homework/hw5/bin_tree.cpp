@@ -117,9 +117,9 @@ int size(TreeNode* root){
 
 
 int count(TreeNode* root, int target){
-   int num(0);  // variable for number of 'target' values within the given tree
+   int num(0);  // variable for number of 'target' values within 'root'
 
-   // if the current branch equals the target value, iterate 'num'
+   // if the current branch contains the target value, iterate 'num'
    if (root->data == target) {
       ++num;
    }
