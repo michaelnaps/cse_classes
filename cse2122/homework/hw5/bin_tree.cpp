@@ -31,7 +31,7 @@ bool isBalanced(TreeNode* root);
 
 // feel free to define your own helper functions
 
-bool isEmpty(TreeNode* root);
+bool isLeaf(TreeNode* root);
 void clean_tree(TreeNode* root);
 
 
@@ -86,11 +86,11 @@ TreeNode* insertNodes(int nodeValues[], TreeNode* root, int i, int n){
    return root;
 }
 
-// function: isEmpty()
+// function: isLeaf()
 // function that returns whether or not a give branch is empty
 // intput: a single binary tree variable
 // output: boolean value
-bool isEmpty(TreeNode* root) {
+bool isLeaf(TreeNode* root) {
    return (root->left == NULL && root->right == NULL);
 }
 
@@ -98,7 +98,7 @@ int size(TreeNode* root){
    int num(0);  // variable for the number of branches in a given tree
 
    // stopping case - reach end of branches, i.e. given root is empty
-   if (isEmpty(root)) {
+   if (isLeaf(root)) {
       return 1;
    }
    // otherwise, check the following branches
@@ -142,7 +142,7 @@ int height(TreeNode* root){
    int left_num(0), right_num(0);  // variables for count of left and right side
 
    // stopping case - given root is empty
-   if (isEmpty(root)) {
+   if (isLeaf(root)) {
       return 0;
    }
 
@@ -158,7 +158,7 @@ int height(TreeNode* root){
       right_num += height(root->right);
    }
 
-   // iterate and return total
+   // iterate and return maximum height
    if (left_num > right_num) {
       return ++left_num;
    }
@@ -172,29 +172,25 @@ int height(TreeNode* root){
 // intput: two 'TreeNode' varaibles - 'root1', 'root2'
 // output: boolean value
 bool isSameTree(TreeNode* root1, TreeNode* root2){
-   // stopping case 1 - one or both trees are empty
-   if (isEmpty(root1) && isEmpty(root2)) {
-      return true;
+   // stopping case - reached leaf node of one/both of roots
+   if (root1 == NULL && root2 == NULL) {
+      return true;  // return true if trees end at same place
    }
-   else if (isEmpty(root1)) {
-      return false;
+   else if (root1 == NULL || root2 == NULL) {
+      return false;  // one tree ends before the other
    }
-   else if (isEmpty(root2)) {
-      return false;
-   }
-
-   // stopping case 2 - given root's data values are not equal
-   if (root1 != NULL && root2 != NULL) {
-      if (root1->data != root2->data) {
+   // otherwise, check if data values are equal
+   else {
+      // if root data values are equal
+      if (root1->data == root2->data) {
+         // check if next is equal and return
+         return (isSameTree(root1->left, root2->left) && isSameTree(root1->right, root2->right));
+      }
+      // otherwise, return false
+      else {
          return false;
       }
    }
-   else {
-      return false;
-   }
-
-   // otherwise return the condition of the next series
-   return (isSameTree(root1->left, root2->left) && isSameTree(root2->right, root2->right));
 }
 
 
