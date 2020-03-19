@@ -92,6 +92,10 @@ bool isLeaf(TreeNode* root) {
    return (root->left == NULL && root->right == NULL);
 }
 
+// function: size()
+// Function that returns the total number of nodes within a given binary tree.
+// input: initialized 'TreeNode' pointer variable
+// output: node count - integer
 int size(TreeNode* root) {
    int num(0);  // variable for the number of branches in a given tree
 
@@ -116,7 +120,7 @@ int size(TreeNode* root) {
 // function: count()
 // Function that counts the number of nodes that contain a given target value.
 // input: 'root' - initialized 'TreeNode' pointer variable
-// 'target' - target value to be found within the binary tree
+//    'target' - target value to be found within the binary tree
 // output: number of 'target' values within tree
 int count(TreeNode* root, int target) {
    int num(0);  // variable for number of 'target' values within 'root'
@@ -126,11 +130,10 @@ int count(TreeNode* root, int target) {
       ++num;
    }
 
-   // if the following left branch is not empty, check
+   // if the following left and right branches are not empty, check
    if (root->left != NULL) {
       num += count(root->left, target);
    }
-   // if the following right branch is not empty, check
    if (root->right != NULL) {
       num += count(root->right, target);
    }
@@ -199,7 +202,7 @@ bool isSameTree(TreeNode* root1, TreeNode* root2) {
    }
 }
 
-
+// not completed for full credit
 bool hasPathSum(TreeNode* root, int target) {
    return false;
 }
@@ -211,7 +214,30 @@ bool hasPathSum(TreeNode* root, int target) {
 // input: initialized binary tree pointer variable
 // output: boolean value
 bool isBalanced(TreeNode* root) {
-   return (abs(height(root->left) - height(root->right)) <= 1);
+   int left_height(0), right_height(0);  // variables for height of left an right branches
+
+   // stopping case - node is empty
+   if (root == NULL) {
+      return true;  // empty nodes are always balanced (no branches on either side)
+   }
+   else {
+      // if right and left are not NULL, get their max heights
+      if (root->left != NULL) {
+         left_height = height(root->left);
+      }
+      if (root->right != NULL) {
+         right_height = height(root->right);
+      }
+
+      // check if balanced (use absolute value)
+      if (abs(left_height - right_height) <= 1) {
+         // check next branches
+         return (isBalanced(root->left) && isBalanced(root->right));
+      }
+      else {
+         return false;
+      }
+   }
 }
 
 // function: clean_tree()
