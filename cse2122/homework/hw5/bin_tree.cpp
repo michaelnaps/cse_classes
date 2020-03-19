@@ -45,22 +45,23 @@ TreeNode* insertNodes(int nodeValues[], TreeNode* root, int i, int n);
 int main() {
    // the binary trees in instruction examples
    TreeNode *root, *root2;
-   int nodedatas[] = {1,2,3,4,5,6,7,8,1,-1,-1,-1,-1,-1,1};
-   int nodedatas2[] = {1,2,3,4,5,6,7,8,1,-1,-1,-1,-1,1,-1};
+   int nodedatas[] = {1,2,3,4,5,6,7,8,1,-1,-1,-1,-1,1,-1};
+   int nodedatas2[] = {1,2,3,4,5,-1,7,8,1,-1,-1,-1,-1,1,-1};
    root = insertNodes(nodedatas, root, 0, 15);
    root2 = insertNodes(nodedatas2, root2, 0, 15);
-
+   
    assert(size(root) == 10);
    assert(size(root->left) == 5);
-   assert(count(root,1) == 3);
-   assert(count(root,9) == 0);
+   assert(count(root, 1) == 3);
+   assert(count(root, 9) == 0);
    assert(height(root) == 3);
    assert(height(root->left->right) == 0);
    // assert(hasPathSum(root,10) == true);
    // assert(hasPathSum(root,1) == false);
    assert(isBalanced(root) == true);
-   assert(isSameTree(root,root2) == false);
-   assert(isSameTree(root->left,root2->left) == true);
+   assert(isBalanced(root2) == false);
+   assert(isSameTree(root, root2) == false);
+   assert(isSameTree(root->left, root2->left) == true);
 
    cout << "Congratulation!" << endl;
 
@@ -150,7 +151,12 @@ int count(TreeNode* root, int target) {
 int height(TreeNode* root) {
    int left_num(0), right_num(0);  // variables for count of left and right side
 
-   // stopping case - given root variable is a leaf
+   // stopping case 1 - given root is NULL
+   if (root == NULL) {
+      return -1;
+   }
+
+   // stopping case 2 - given root variable is a leaf
    if (isLeaf(root)) {
       return 0;
    }
@@ -221,13 +227,9 @@ bool isBalanced(TreeNode* root) {
       return true;  // empty nodes are always balanced (no branches on either side)
    }
    else {
-      // if right and left are not NULL, get their max heights
-      if (root->left != NULL) {
-         left_height = height(root->left);
-      }
-      if (root->right != NULL) {
-         right_height = height(root->right);
-      }
+      // get maximum heights for left and right branches
+      left_height = height(root->left);
+      right_height = height(root->right);
 
       // check if balanced (use absolute value)
       if (abs(left_height - right_height) <= 1) {
