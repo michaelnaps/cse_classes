@@ -1,7 +1,7 @@
 // File: bin_tree.cpp
 // Created by: Michael Napoli
 // Created on: 3/11/2020
-// Last modified on:
+// Last modified on: 3/18/2020
 
 /*
    Purpose: Program to test the 'TreeNode' structure along with
@@ -49,7 +49,7 @@ int main() {
    int nodedatas2[] = {1,2,3,4,5,-1,7,8,1,-1,-1,-1,-1,1,-1};
    root = insertNodes(nodedatas, root, 0, 15);
    root2 = insertNodes(nodedatas2, root2, 0, 15);
-   
+
    assert(size(root) == 10);
    assert(size(root->left) == 5);
    assert(count(root, 1) == 3);
