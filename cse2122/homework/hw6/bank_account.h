@@ -23,9 +23,14 @@ class BankAccount
 {
 private:
    string owner_name;
+
+protected:
    double balance;
 
 public:
+   // CONSTRUCTORS:
+   BankAccount() : owner_name("Joe Doe"), balance(0) {}
+
    BankAccount(const string& owner) : balance(0) {
       owner_name = owner;
    }
@@ -35,17 +40,39 @@ public:
       balance = amount;
    }
 
+   // ACCESSOR FUNCTIONS:
    string getName() {
       return owner_name;
    }
 
-   // function: withdraw()
-   // type - virtual
+   double getBalance() {
+      return balance;
+   }
+
+   // MEMBER FUNCTIONS:
+   bool deposit(const double& amount) {
+      if (amount <= 0) {
+         return false;
+      }
+      else {
+         balance += amount;
+         return true;
+      }
+   }
+
+   // function: withdraw() - virtual function
    // Withdraw a given amount from the associated bank account.
    // intput: initialized bank account variable
    //    'amount' - type double
    // output: boolean value - depends on completion of withdraw
    virtual bool withdraw(const double& amount) {
+      return false;
+   }
+
+   bool transfer(BankAccount& from, BankAccount& to, const double& amount) {
+      if (from.withdraw(amount)) {
+
+      }
       return false;
    }
 };

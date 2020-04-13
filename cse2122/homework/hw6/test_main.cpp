@@ -19,7 +19,6 @@ void userTransfer(BankAccount &from, BankAccount &to);
 void printAccountInfo(BankAccount &acc);
 bool transfer(BankAccount &fromAccount, BankAccount &toAccount, double transAmount);
 
-
 int main()
 {
    string name;
