@@ -14,7 +14,7 @@
 #include <iostream>
 using namespace std;
 
-class CDAccount : BankAccount
+class CDAccount : public BankAccount
 {
 private:
    double int_rate;
@@ -28,11 +28,13 @@ public:
    }
 
    virtual bool withdraw(const double& amount) {
-      if (amount > balance) {
+      double wd_penalty(balance * int_rate * 0.25);  // withdraw penalty
+
+      if ((amount +  wd_penalty) > balance || amount <= 0) {
          return false;
       }
       else {
-         balance -= (amount + (int_rate * amount));
+         balance -= (amount + wd_penalty);
       }
    }
 };

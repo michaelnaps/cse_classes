@@ -14,7 +14,7 @@
 #include <iostream>
 using namespace std;
 
-class MoneyMarketingAccount : BankAccount
+class MoneyMarketingAccount : public BankAccount
 {
 private:
    int wd_count;  // number of withdraws, always initialized to 0
@@ -26,13 +26,19 @@ public:
    MoneyMarketingAccount(const string& name, const double& amount) : BankAccount(name, amount), wd_count(0) {}
 
    virtual bool withdraw(const double& amount) {
-      // owner is given 2 free withdraws
-      if (wd_count < 3) {
-         balance -= amount;  // no fee
+      if (amount > 0) {
+         if (wd_count < 3 && amount < balance) {
+            ++wd_count;  // iterate withdraw count variable
+            balance -= amount;  // withdraw amount
+            return true;  // successful withdraw
+         }
+         else if (amount < (balance - 1.50)) {
+            balance -= (amount + 1.50);  // withdraw amount and fee
+            return true;  // successful withdraw
+         }
       }
-      else {
-         balance -= (amount + 1.50);  // fee $1.50
-      }
+
+      return false;  // unsuccessful withdraw
    }
 };
 

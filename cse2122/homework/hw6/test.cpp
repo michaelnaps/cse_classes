@@ -106,5 +106,11 @@ void printAccountInfo(BankAccount &acc)
 
 
 bool transfer(BankAccount &fromAccount, BankAccount &toAccount, double transAmount){
+   if (fromAccount.withdraw(transAmount)) {
+      // return whether deposit was successful
+      return toAccount.deposit(transAmount);
+   }
+
+   // if withdraw not successful, return false
    return false;
 }

@@ -50,6 +50,11 @@ public:
    }
 
    // MEMBER FUNCTIONS:
+
+   // function: deposit()
+   // Deposit given amount into bank account.
+   // input: initialized 'BankAccount' or child class variable
+   // output: boolean value - successful/not successful
    bool deposit(const double& amount) {
       if (amount <= 0) {
          return false;
@@ -62,11 +67,11 @@ public:
 
    // function: withdraw() - virtual function
    // Withdraw a given amount from the associated bank account.
-   // intput: initialized bank account variable
+   // intput: initialized 'BankAccount' child class variable
    //    'amount' - type double
-   // output: boolean value - depends on completion of withdraw
+   // output: boolean value - successful/not successful
    virtual bool withdraw(const double& amount) {
-      return false;
+      return false;  // invalid child class variable input
    }
 };
 
