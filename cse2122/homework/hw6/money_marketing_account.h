@@ -27,7 +27,7 @@ public:
 
    virtual bool withdraw(const double& amount) {
       if (amount > 0) {
-         if (wd_count < 3 && amount < balance) {
+         if (wd_count < 2 && amount < balance) {
             ++wd_count;  // iterate withdraw count variable
             balance -= amount;  // withdraw amount
             return true;  // successful withdraw
