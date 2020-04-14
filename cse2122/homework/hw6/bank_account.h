@@ -68,13 +68,6 @@ public:
    virtual bool withdraw(const double& amount) {
       return false;
    }
-
-   bool transfer(BankAccount& from, BankAccount& to, const double& amount) {
-      if (from.withdraw(amount)) {
-
-      }
-      return false;
-   }
 };
 
 #endif

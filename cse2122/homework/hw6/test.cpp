@@ -106,5 +106,5 @@ void printAccountInfo(BankAccount &acc)
 
 
 bool transfer(BankAccount &fromAccount, BankAccount &toAccount, double transAmount){
-   /* your code here */
+   return false;
 }

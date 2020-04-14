@@ -10,8 +10,8 @@
 #ifndef CDACCOUNT_H
 #define CDACCOUNT_H
 
-#include <iostream>
 #include "bank_account.h"
+#include <iostream>
 using namespace std;
 
 class CDAccount : BankAccount
@@ -28,7 +28,12 @@ public:
    }
 
    virtual bool withdraw(const double& amount) {
-      return false;
+      if (amount > balance) {
+         return false;
+      }
+      else {
+         balance -= (amount + (int_rate * amount));
+      }
    }
 };
 
