@@ -106,7 +106,12 @@ void printAccountInfo(BankAccount &acc)
    cout << endl << acc.getName() << "'s account balance: " << acc.getBalance() << endl;
 }
 
-
+// function: transfer()
+// Take two variables of class 'BankAccount' or one of its child classes
+//    and transfer the amount given to the appropriate account.
+// input: two initialized 'BankAccount' variables
+//    amount two be transferred
+// output: boolean - successful/not successful
 bool transfer(BankAccount &fromAccount, BankAccount &toAccount, double transAmount){
    // if withdraw is successful
    if (fromAccount.withdraw(transAmount)) {

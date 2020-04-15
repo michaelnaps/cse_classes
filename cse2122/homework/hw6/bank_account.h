@@ -6,9 +6,8 @@
    Purpose: Base class for the bank account class types.
 
    This class will have the following operations:
-      - withdraw from the account - virtual function
-      - transfer money between different accounts - utilize withdraw
-         - returns boolean
+      - deposit into the account - return boolean
+      - withdraw from the account - return boolean
 */
 
 // check if the 'bank_account.h' has already been included
@@ -37,18 +36,7 @@ namespace hw6_napoli {
       double getBalance();
 
       // MEMBER FUNCTIONS:
-
-      // function: deposit()
-      // Deposit given amount into bank account.
-      // input: initialized 'BankAccount' or child class variable
-      // output: boolean value - successful/not successful
       bool deposit(const double& amount);
-
-      // function: withdraw() - virtual function
-      // Withdraw a given amount from the associated bank account.
-      // intput: initialized 'BankAccount' child class variable
-      //    'amount' - type double
-      // output: boolean value - successful/not successful
       virtual bool withdraw(const double& amount);
    };
 }

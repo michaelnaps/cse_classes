@@ -7,27 +7,36 @@
       definitions.
 */
 
-#include "bank_account.h"
+#include "bank_account.h"  // include header file
 #include <string>
 
 namespace hw6_napoli {
    // CONSTRUCTORS:
+   // default constructor
    BankAccount::BankAccount() : owner_name("Joe Doe"), balance(0) {}
+
+   // given name of account owner
    BankAccount::BankAccount(const std::string& name) : balance(0)
    {
       owner_name = name;
    }
+
+   // given name of account owner and initial deposit
    BankAccount::BankAccount(const std::string& name, const double& amount) {
       owner_name = name;
       balance = amount;
    }
 
    // ACCESSOR FUNCTIONS:
+   // function: getName()
+   // returns the name of the current account owner
    std::string BankAccount::getName()
    {
       return owner_name;
    }
 
+   // function: getBalance()
+   // returns the balance of the current bank account
    double BankAccount::getBalance()
    {
       return balance;
