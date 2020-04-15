@@ -11,21 +11,20 @@
 #define CDACCOUNT_H
 
 #include "bank_account.h"
-#include <string>
 
 namespace hw6_napoli {
-   class CDAccount : public hw6_napoli::BankAccount
+   class CDAccount : public BankAccount
    {
    private:
       double int_rate;
 
    public:
       // class constructors
-      inline CDAccount();
-      inline CDAccount(const std::string& name);
-      inline CDAccount(const std::string& name, const double& rate);
+      CDAccount();
+      CDAccount(const std::string& name);
+      CDAccount(const std::string& name, const double& rate);
 
-      inline bool withdraw(const double& amount);
+      virtual bool withdraw(const double& amount);
    };
 }
 

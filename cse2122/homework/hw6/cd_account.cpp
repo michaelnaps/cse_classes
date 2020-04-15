@@ -7,7 +7,6 @@
 */
 
 #include "cd_account.h"
-#include <string>
 
 namespace hw6_napoli {
    // class constructors

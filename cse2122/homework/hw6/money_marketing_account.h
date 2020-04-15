@@ -11,7 +11,6 @@
 #define MONEYMARKETINGACCOUNT_H
 
 #include "bank_account.h"
-#include <string>
 
 namespace hw6_napoli {
    class MoneyMarketingAccount : public BankAccount
@@ -21,11 +20,11 @@ namespace hw6_napoli {
 
    public:
       // class constructors
-      inline MoneyMarketingAccount();
-      inline MoneyMarketingAccount(const std::string& name);
-      inline MoneyMarketingAccount(const std::string& name, const double& amount);
+      MoneyMarketingAccount();
+      MoneyMarketingAccount(const std::string& name);
+      MoneyMarketingAccount(const std::string& name, const double& amount);
 
-      inline bool withdraw(const double& amount);
+      virtual bool withdraw(const double& amount);
    };
 }
 
