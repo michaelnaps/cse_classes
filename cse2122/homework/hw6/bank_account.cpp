@@ -13,9 +13,13 @@
 namespace hw6_napoli {
    // CONSTRUCTORS:
    BankAccount::BankAccount() : owner_name("Joe Doe"), balance(0) {}
-   BankAccount::BankAccount(const std::string& owner) : balance(0)
+   BankAccount::BankAccount(const std::string& name) : balance(0)
    {
-      owner_name = owner;
+      owner_name = name;
+   }
+   BankAccount::BankAccount(const std::string& name, const double& amount) {
+      owner_name = name;
+      balance = amount;
    }
 
    // ACCESSOR FUNCTIONS:

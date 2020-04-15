@@ -29,7 +29,8 @@ namespace hw6_napoli {
    public:
       // CONSTRUCTORS:
       BankAccount();
-      BankAccount(const std::string& owner);
+      BankAccount(const std::string& name);
+      BankAccount(const std::string& name, const double& amount);
 
       // ACCESSOR FUNCTIONS:
       std::string getName();
