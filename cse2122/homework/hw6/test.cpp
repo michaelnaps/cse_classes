@@ -8,10 +8,12 @@
 */
 
 #include <iostream>
+#include <string>
 #include "bank_account.h"
 #include "cd_account.h"
 #include "money_marketing_account.h"
 using namespace std;
+using namespace hw6_napoli;
 
 void userDeposit(BankAccount &acc);
 void userWithdraw(BankAccount &acc);
@@ -106,6 +108,7 @@ void printAccountInfo(BankAccount &acc)
 
 
 bool transfer(BankAccount &fromAccount, BankAccount &toAccount, double transAmount){
+   // if withdraw is successful
    if (fromAccount.withdraw(transAmount)) {
       // return whether deposit was successful
       return toAccount.deposit(transAmount);

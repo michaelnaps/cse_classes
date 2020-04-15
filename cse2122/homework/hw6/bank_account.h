@@ -15,64 +15,42 @@
 #ifndef BANKACCOUNT_H
 #define BANKACCOUNT_H
 
-#include <iostream>
 #include <string>
-using namespace std;
 
-class BankAccount
-{
-private:
-   string owner_name;
+namespace hw6_napoli {
+   class BankAccount
+   {
+   private:
+      std::string owner_name;
 
-protected:
-   double balance;
+   protected:
+      double balance;
 
-public:
-   // CONSTRUCTORS:
-   BankAccount() : owner_name("Joe Doe"), balance(0) {}
+   public:
+      // CONSTRUCTORS:
+      inline BankAccount();
+      inline BankAccount(const std::string& owner);
+      inline BankAccount(const std::string& owner, const double& amount);
 
-   BankAccount(const string& owner) : balance(0) {
-      owner_name = owner;
-   }
+      // ACCESSOR FUNCTIONS:
+      inline std::string getName();
+      inline double getBalance();
 
-   BankAccount(const string& owner, const double& amount) {
-      owner_name = owner;
-      balance = amount;
-   }
+      // MEMBER FUNCTIONS:
 
-   // ACCESSOR FUNCTIONS:
-   string getName() {
-      return owner_name;
-   }
+      // function: deposit()
+      // Deposit given amount into bank account.
+      // input: initialized 'BankAccount' or child class variable
+      // output: boolean value - successful/not successful
+      inline bool deposit(const double& amount);
 
-   double getBalance() {
-      return balance;
-   }
-
-   // MEMBER FUNCTIONS:
-
-   // function: deposit()
-   // Deposit given amount into bank account.
-   // input: initialized 'BankAccount' or child class variable
-   // output: boolean value - successful/not successful
-   bool deposit(const double& amount) {
-      if (amount <= 0) {
-         return false;
-      }
-      else {
-         balance += amount;
-         return true;
-      }
-   }
-
-   // function: withdraw() - virtual function
-   // Withdraw a given amount from the associated bank account.
-   // intput: initialized 'BankAccount' child class variable
-   //    'amount' - type double
-   // output: boolean value - successful/not successful
-   virtual bool withdraw(const double& amount) {
-      return false;  // invalid child class variable input
-   }
-};
+      // function: withdraw() - virtual function
+      // Withdraw a given amount from the associated bank account.
+      // intput: initialized 'BankAccount' child class variable
+      //    'amount' - type double
+      // output: boolean value - successful/not successful
+      inline virtual bool withdraw(const double& amount);
+   };
+}
 
 #endif

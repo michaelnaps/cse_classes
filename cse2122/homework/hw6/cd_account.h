@@ -11,32 +11,22 @@
 #define CDACCOUNT_H
 
 #include "bank_account.h"
-#include <iostream>
-using namespace std;
+#include <string>
 
-class CDAccount : public BankAccount
-{
-private:
-   double int_rate;
+namespace hw6_napoli {
+   class CDAccount : public hw6_napoli::BankAccount
+   {
+   private:
+      double int_rate;
 
-public:
-   // class constructors
-   CDAccount() : BankAccount(), int_rate(0.02) {}
-   CDAccount(const string& name) : BankAccount(name), int_rate(0.02) {}
-   CDAccount(const string& name, const double& rate) : BankAccount(name) {
-      int_rate = rate;
-   }
+   public:
+      // class constructors
+      inline CDAccount();
+      inline CDAccount(const std::string& name);
+      inline CDAccount(const std::string& name, const double& rate);
 
-   virtual bool withdraw(const double& amount) {
-      double wd_penalty(balance * int_rate * 0.25);  // withdraw penalty
-
-      if ((amount +  wd_penalty) > balance || amount <= 0) {
-         return false;
-      }
-      else {
-         balance -= (amount + wd_penalty);
-      }
-   }
-};
+      inline bool withdraw(const double& amount);
+   };
+}
 
 #endif
