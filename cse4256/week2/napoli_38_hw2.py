@@ -3,9 +3,15 @@
 # Created on: 5/21/2021
 
 # import necessary directories
+import numpy
 
 # Problem 1
-# create test list
-olist = ['test', 'test1', 'omitted', 'pie', 'michael', 'napoli', 'ava', 'jane']
-nlist = [word for word in olist if len(word) <= 4]
-print(nlist)
+# create string list
+str_list = ['test', 'test1', 'omitted', 'pie', 'michael', 'napoli', 'ava', 'jane']
+n_str_list = [word for word in str_list if len(word) <= 4]
+print(n_str_list)
+
+# Problem 2
+# create integer list
+int_list = [i ** 2 for i in range(1, 11) if not ((str(i ** 2)[-1] == str(5)) or (str(i ** 2)[-1] == str(6)))]
+print(int_list)
