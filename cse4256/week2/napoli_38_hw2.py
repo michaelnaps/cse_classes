@@ -3,20 +3,26 @@
 # Created on: 5/21/2021
 
 # Problem 1
-# create string list
-str_list = ['test', 'test1', 'omitted', 'pie', 'michael', 'napoli', 'ava', 'jane']
-n_str_list = [word for word in str_list if len(word) <= 4]
+# function for applying given conditions to a list of strings
+def adj_string_list(s):
+    return [word for word in str_list if len(word) <= 4]
 
-print('Problem 1')
-print(n_str_list)  # print string list
+# print('Problem 1')
+# list of arbitrary words for testing
+# str_list = ['test', 'test_', 'omitted', 'pie', 'michael', 'napoli', 'ava', 'jane']
+# print(four_or_less(str_list))  # print string list
 
 
 # Problem 2
-# create integer list and apply given conditions
-int_list = [(10 + i ** 2) for i in range(1, 11) if not ((str(i ** 2)[-1] == str(5)) or (str(i ** 2)[-1] == str(6)))]
+# function for apply given conditions to a list of integers
+def adj_integer_list(n):
+    return [(10 + i ** 2) for i in n if not ((str(i ** 2)[-1] == str(5)) or (str(i ** 2)[-1] == str(6)))]
 
-print('\nProblem 2')
-print(int_list)  # print integer list
+# print('\nProblem 2')
+# int_list = [i for i in range(1, 16)]  # create array of integers from 1-15
+# print(int_list)  # print integer list
+# print([(i ** 2 + 10) for i in int_list])
+# print(adj_integers(int_list))
 
 
 # Problem 3
@@ -36,9 +42,9 @@ def largest_diff(num_list):
     return (max - min)  # return the difference
 
 # run some test cases
-print('\nProblem 3')
-print(largest_diff([1, 2, 3, 4, 5, 6, 7]))  # for ordered array
-print(largest_diff([1, 2, -3, 11, 18, 5]))  # for non-ordered array
+# print('\nProblem 3')
+# print(largest_diff([1, 2, 3, 4, 5, 6, 7]))  # for ordered array
+# print(largest_diff([1, 2, -3, 11, 18, 5]))  # for non-ordered array
 
 
 # Problem 4
@@ -57,8 +63,8 @@ def equal_split(list):
     return False
 
 # run test cases
-print('\nProblem 4')
-print(equal_split([1, 3, 4, 8]))            # case where condition is true
-print(equal_split([8, 4, 4]))               # case where condition is true
-print(equal_split([100, 325, 175, 250]))    # case where condition is true
-print(equal_split([1, 2, 5]))               # case where condition is false
+# print('\nProblem 4')
+# print(equal_split([1, 3, 4, 8]))            # case where condition is true
+# print(equal_split([8, 4, 4]))               # case where condition is true
+# print(equal_split([100, 325, 175, 250]))    # case where condition is true
+# print(equal_split([1, 2, 5]))               # case where condition is false
