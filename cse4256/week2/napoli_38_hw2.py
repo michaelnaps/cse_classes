@@ -4,8 +4,8 @@
 
 # Problem 1
 # function for applying given conditions to a list of strings
-def adj_string_list(s):
-    return [word for word in str_list if len(word) <= 4]
+def four_or_less(s):
+    return [word for word in s if len(word) <= 4]
 
 # print('Problem 1')
 # list of arbitrary words for testing
