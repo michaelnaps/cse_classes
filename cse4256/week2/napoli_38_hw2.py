@@ -22,7 +22,7 @@ def adj_integer_list(n):
 # int_list = [i for i in range(1, 16)]  # create array of integers from 1-15
 # print(int_list)  # print integer list
 # print([(i ** 2 + 10) for i in int_list])
-# print(adj_integers(int_list))
+# print(adj_integer_list(int_list))
 
 
 # Problem 3
