@@ -8,7 +8,7 @@
 # NOTE: assumption that list is made up of integers, but any type
 #       list should also work
 def unique_list(n):
-    # if the length of the set is equat to the array, unique list
+    # if the length of the set is equal to the array, unique list
     return len(n) == len(set(n))
 
 # test cases
@@ -18,8 +18,8 @@ def unique_list(n):
 
 # Problem 2
 # determine if given string contains all vowels, return bool
-def vowel_search(s):
-    s = set(s.lower())  # create set of lower characters
+def vowel_search(S):
+    s = set(S.lower())  # create set of lower characters
     # check for each vowel in the given string
     return ('a' in s) and ('e' in s) and ('i' in s) and ('o' in s) and ('u' in s)
 
