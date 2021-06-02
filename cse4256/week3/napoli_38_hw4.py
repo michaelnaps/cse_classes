@@ -27,7 +27,7 @@ def most_common_letter(s):
 
 # test cases
 # print(most_common_letter('AAAaa NNNNNNNNNN,ppPPPp Hht'))
-# print(most_common_letter('My name is Michael Napoli!!'))
+# leaprint(most_common_letter('My name is Michael Napoli!!'))
 
 
 # Problem 2
