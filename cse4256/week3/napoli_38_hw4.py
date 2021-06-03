@@ -13,6 +13,8 @@ def most_common_letter(s):
     n = numpy.zeros(26)                     # array for counts of each letter
     alph = 'abcdefghijklmnopqrstuvwxyz'     # alphabet array for search
 
+    alph_n = {}
+
     # loop for letter count
     for i in range(0, len(alph)):
         for j in range(0, len(c)):
@@ -31,3 +33,10 @@ def most_common_letter(s):
 
 
 # Problem 2
+# create dictionary variable from two string variables
+def create_dict(index, items):
+    # check that lists are of equal length
+    if (len(index) != len(items)):
+        return -1
+
+    return d
