@@ -80,12 +80,16 @@ def bisection_count(n):
 # Problem 4
 # create dictionary variable of number of guesses from bisection method (max 7)
 def bisection_dict():
-    # initialize number of guess dictionary variable
-    d = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0}
+    d = {}  # initialize empty dictionary
     for i in range(1, 101):
-        d[bisection_count(i)] += 1
+        c = bisection_count(i)  # create count variable
+
+        if (d.get(c) == None):
+            d[c] = 1  # initialize new counts to 1
+        else:
+            d[c] += 1  # increment count values
 
     return d
 
-# test
-# print(bisection_dict())
+# test dictionary function
+print(bisection_dict())
