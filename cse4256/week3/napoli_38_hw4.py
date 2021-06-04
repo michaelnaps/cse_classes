@@ -7,18 +7,18 @@ import numpy
 # Problem 1
 # given a sentence, find the most common letter
 def most_common_letter(s):
-    max = 0                 # max element location
     c = s.lower()           # convert sentence to lower case
-    alph = {}               # initialize empty dict. for letter count
+    max = c[0]              # max element location (set to first letter)
+    alph = {element: 0 for element in set(c)}
 
     # loop for letter count
     for i in range(0, len(c)):
-        if (alph.get(c[i]) == None):
-            alph[c[i]] = 1  # initialize new letters
-        else:
-            alph[c[i]] += 1  # iterate count
+        alph[c[i]] += 1  # iterate count for current letter
 
-    return max(alph.values())  # return most common letter found
+        if (alph[c[i]] > alph[max]):
+            max = c[i]  # switch to new max element location
+
+    return max  # return most common letter found
 
 # test cases
 print(most_common_letter('AAAaa NNNNNNNNNN,ppPPPp Hht'))
