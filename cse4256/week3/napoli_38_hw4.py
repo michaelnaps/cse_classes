@@ -2,45 +2,47 @@
 # Created by: Michael Napoli
 # Due Date: 6/6/2021
 
-import numpy
+import string
 
 # Problem 1
 # given a sentence, find the most common letter
 def most_common_letter(s):
     c = s.lower()           # convert sentence to lower case
-    max = c[0]              # max element location (set to first letter)
-    alph = {element: 0 for element in set(c)}
+    max = c[0]              # max element location (arbitrarily set to first letter)
+    # create count dict. variable for letters in alphabet
+    alph = {element: 0 for element in string.ascii_lowercase}
 
     # loop for letter count
     for i in range(0, len(c)):
-        alph[c[i]] += 1  # iterate count for current letter
+        # check to ignore spacing and punctuation
+        if (alph.get(c[i]) != None):
+            # iterate count for current letter
+            alph[c[i]] += 1
 
-        if (alph[c[i]] > alph[max]):
-            max = c[i]  # switch to new max element location
+            # switch to new max element location
+            if (alph[c[i]] > alph[max]):
+                max = c[i]
 
     return max  # return most common letter found
 
 # test cases
-print(most_common_letter('AAAaa NNNNNNNNNN,ppPPPp Hht'))
-print(most_common_letter('My name is Michael Napoli!!'))
+# print(most_common_letter('AAAaa NNNNNNNNNN,ppPPPp Hht'))
+# print(most_common_letter('My name is Michael Napoli!!'))
 
 
 # Problem 2
 # create dictionary variable from two string variables
 def create_dict(index, item):
-    # check that lists are of equal length, if not return -1
+    # check that arrays are equal
     if (len(index) != len(item)):
-        return -1
+        print('ERROR: Arrays are not equal length.')
+        return -1  # print message and return '-1'
 
-    d = {}  # initialize empty dictionary variable
-    for i in range(0, len(index)):
-        # create appropriately indexed dictionary
-        d[index[i]] = item[i]
-
-    return d
-
+    # otherwise, return dictionary created from two arrays
+    return {index[i]: item[i] for i in range(0, len(index))}
 
 # test cases
+# print(create_dict(['a'], ['a', 'b']))  # error message test
 # print(create_dict(['cat'], ['egg']))
 # print(create_dict(['cat', 'dog', 'parrot'], ['egg', 'bacon', 'toast']))
 
@@ -50,7 +52,7 @@ def create_dict(index, item):
 def bisection_count(n):
     c = 1    # initialize count variable to 0
     g = 50   # initialize guess to 50 (always)
-    l = 0    # initialize range variables to 1 and 100
+    l = 0    # initialize range variables to 0 and 101
     h = 101
 
 
@@ -71,6 +73,7 @@ def bisection_count(n):
 # print(bisection_count(50))
 # print(bisection_count(25))
 # print(bisection_count(12))
+# print(bisection_count(37))
 
 
 # Problem 4
@@ -88,4 +91,4 @@ def bisection_dict():
     return d
 
 # test dictionary function
-print(bisection_dict())
+# print(bisection_dict())
