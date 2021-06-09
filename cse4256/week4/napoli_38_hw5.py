@@ -17,36 +17,28 @@ def balanced(s):
     return (o == c)
 
 # test cases
-print(balanced('())'))
-print(balanced('((())'))
-print(balanced('(())()'))
+# print(balanced('())'))
+# print(balanced('((())'))
+# print(balanced('(())()'))
 
 
 # Problem 2
 def bfs(graph, start):
-    v = []  # keep track of visited node
-    q = []  # queue for tracking
-    c = 0   # count from start
-    d = []  # list of distances from start
+    c = len(graph)  # count variable for distance
+    d = [[i] for i in range(1, len(graph) + 1)]  # distance from start varaible
+    index = list(graph.keys())
 
-    v.append(start)
-    q.append(start)
+    for i in range(0, len(index)):
+        for j in range(0, len(graph[index[i]])):
+            c += 1
+            d[i].append(c)
 
-    while q:
-        c += 1
-        i = q.pop(0)
-        for n in graph[i]:
-            if n not in v:
-                v.append(n)
-                q.append(n)
-                d.append(c)
     return d
 
 # test case
 graph = {
-    '1': ['2', '5'],
-    '3': [],
-    '4': ['3', '3', '7']
+    0: [2, 5],
+    1: [3, 6]
 }
 
-print(bfs(graph, '1'))
+print(bfs(graph, 1))
