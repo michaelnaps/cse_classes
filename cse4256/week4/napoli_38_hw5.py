@@ -23,3 +23,30 @@ print(balanced('(())()'))
 
 
 # Problem 2
+def bfs(graph, start):
+    v = []  # keep track of visited node
+    q = []  # queue for tracking
+    c = 0   # count from start
+    d = []  # list of distances from start
+
+    v.append(start)
+    q.append(start)
+
+    while q:
+        c += 1
+        i = q.pop(0)
+        for n in graph[i]:
+            if n not in v:
+                v.append(n)
+                q.append(n)
+                d.append(c)
+    return d
+
+# test case
+graph = {
+    '1': ['2', '5'],
+    '3': [],
+    '4': ['3', '3', '7']
+}
+
+print(bfs(graph, '1'))
