@@ -30,15 +30,18 @@ def bfs(graph, start):
 
     for i in range(0, len(index)):
         for j in range(0, len(graph[index[i]])):
-            c += 1
             d[i].append(c)
 
     return d
 
+
 # test case
+
 graph = {
-    0: [2, 5],
-    1: [3, 6]
+    0: [1, 2],
+    1: [2, 3],
+    2: [],
+    3: [2]
 }
 
 print(bfs(graph, 1))
