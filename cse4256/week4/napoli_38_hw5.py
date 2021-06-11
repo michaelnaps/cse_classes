@@ -33,10 +33,11 @@ def bfs(graph, start):
     while q:
         i = q.pop(0)
 
-        for j in range(0, len(graph[i])):
-            if d[graph[i][j]] == None:
-                q.append(graph[i][j])
-                d[graph[i][j]] = d[i] + 1
+        if graph[i] != None:
+            for j in range(0, len(graph[i])):
+                if d[graph[i][j]] == None:
+                    q.append(graph[i][j])
+                    d[graph[i][j]] = d[i] + 1
 
     return d
 
@@ -90,13 +91,23 @@ def connected_components(graph):
 
     # else, count components individually
     n = 0  # count integer
+    g = dict(graph)  # copy of given graph variable
     cc = {}  # arbitrary starting point for loop
-    k = list(graph.keys())
-    while k:
-        cc = bfs(graph, k[0])
+    while g:
+        # update variables
+        k = list(g.keys())
+
+        # look for starting point in graph
+        for i in range(0, len(k)):
+            if g[k[i]] != None:
+                st = k[i]
+
+        cc = bfs(g, st)  # arbitrary starting point
         for i in range(0, len(k)):
             if cc[k[i]] != None:
-                del k[i]
+                del g[k[i]]
+
+        # iterate count
         n += 1
 
     return n
