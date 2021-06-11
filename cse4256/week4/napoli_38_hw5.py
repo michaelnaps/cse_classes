@@ -62,7 +62,7 @@ graph_2 = {
 }
 
 # print(bfs(graph_1, 2))
-print(bfs(graph_2, 0))
+print(bfs(graph_1, 0))
 print(bfs(graph_2, 6))
 
 
@@ -113,5 +113,13 @@ def connected_components(graph):
     return n
 
 # test cases
+graph_3 = {
+    0: [1],
+    1: [0],
+    2: [],
+    3: []
+}
+
 print(connected_components(graph_1))  # output should be 1
 print(connected_components(graph_2))  # output should be 2
+print(connected_components(graph_3))  # output should be 3
