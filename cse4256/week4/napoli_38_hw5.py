@@ -24,24 +24,83 @@ def balanced(s):
 
 # Problem 2
 def bfs(graph, start):
-    c = len(graph)  # count variable for distance
-    d = [[i] for i in range(1, len(graph) + 1)]  # distance from start varaible
-    index = list(graph.keys())
+    k = list(graph.keys())
+    d = {k[i]: None for i in range(0, len(k))}
 
-    for i in range(0, len(index)):
-        for j in range(0, len(graph[index[i]])):
-            d[i].append(c)
+    d[start] = 0  # set start node to 0
+    q = [start]  # initialize queue
+
+    while q:
+        i = q.pop(0)
+
+        for j in range(0, len(graph[i])):
+            if d[graph[i][j]] == None:
+                q.append(graph[i][j])
+                d[graph[i][j]] = d[i] + 1
 
     return d
 
-
 # test case
-
-graph = {
+graph_1 = {
     0: [1, 2],
-    1: [2, 3],
-    2: [],
+    1: [0, 2],
+    2: [0, 3],
     3: [2]
 }
 
-print(bfs(graph, 1))
+graph_2 = {
+    0: [1, 2],
+    1: [0, 4],
+    2: [0, 4, 5],
+    3: [5],
+    4: [1, 2, 6],
+    5: [2, 3, 6],
+    6: [4, 5],
+    7: [8],
+    8: [7]
+}
+
+# print(bfs(graph_1, 2))
+print(bfs(graph_2, 0))
+print(bfs(graph_2, 6))
+
+
+# Problem 3
+def is_connected(graph):
+    k = list(graph.keys())
+
+    for i in range(0, len(k)):
+        d = bfs(graph, k[i])
+        if None in d.values():
+            return False
+
+    # if loop exits, graph is connected
+    return True
+
+# test cases
+# print(is_connected(graph_1))  # connected graph
+# print(is_connected(graph_2))  # disconnected graph
+
+
+# Problem 4
+def connected_components(graph):
+    # if graph is connected, there is only 1 component
+    if is_connected(graph):
+        return 1
+
+    # else, count components individually
+    n = 0  # count integer
+    cc = {}  # arbitrary starting point for loop
+    k = list(graph.keys())
+    while k:
+        cc = bfs(graph, k[0])
+        for i in range(0, len(k)):
+            if cc[k[i]] != None:
+                del k[i]
+        n += 1
+
+    return n
+
+# test cases
+print(connected_components(graph_1))  # output should be 1
+print(connected_components(graph_2))  # output should be 2
