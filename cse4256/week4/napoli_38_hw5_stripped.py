@@ -52,12 +52,10 @@ def is_connected(graph):
 
 # Problem 4
 def connected_components(graph):
-    if is_connected(graph):
-        return 1
-
     n = 0
     g = dict(graph)
     cc = {}
+    
     while g:
         k = list(g.keys())
 

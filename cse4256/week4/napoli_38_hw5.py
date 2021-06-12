@@ -85,14 +85,12 @@ def is_connected(graph):
 
 # Problem 4
 def connected_components(graph):
-    # if graph is connected, there is only 1 component
-    if is_connected(graph):
-        return 1
-
-    # else, count components individually
+    # count components individually
     n = 0  # count integer
     g = dict(graph)  # copy of given graph variable
     cc = {}  # arbitrary starting point for loop
+
+    # while 'g' has elements
     while g:
         # update variables
         k = list(g.keys())
