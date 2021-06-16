@@ -67,5 +67,45 @@ list_2 = dict_to_list(graph_2)
 
 # Problem 4
 def list_to_matrix(l):
-    m = []  # empty matrix variable
+    # create key variable list
+    k = list({l[i][j] for i in range(0, len(l)) for j in range(0, len(l[i]))})
+    # initialize matrix of graph details, set all to 0
+    m = [[0 for i in range(0, len(k))] for i in range(0, len(k))]
+
+    for i in range(0, len(k)):
+        for j in range(0, len(l)):
+            if k[i] == l[j][0]:
+                m[k[i]][l[j][1]] = 1
+            if k[i] == l[j][1]:
+                m[k[i]][l[j][0]] = 1
+
     return m
+
+# test cases
+print(list_1)
+print(list_to_matrix(list_1))
+
+
+# Problem 5
+def matrix_to_dict(m):
+    d = {i: None for i in range(0, len(m))}
+
+    for i in range(0, len(m)):
+        for j in range(0, len(m[i])):
+            if m[i][j] == 1:
+                if d[i] == None:
+                    d[i] = [j]
+                else:
+                    d[i].append(j)
+
+    return d
+
+# test cases
+matrix_1 = list_to_matrix(list_1)
+print(matrix_1)
+print(matrix_to_dict(matrix_1))
+
+
+# Problem 6
+def matrix_to_list(m):
+    return l
