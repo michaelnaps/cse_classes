@@ -102,10 +102,22 @@ def matrix_to_dict(m):
 
 # test cases
 matrix_1 = list_to_matrix(list_1)
-print(matrix_1)
-print(matrix_to_dict(matrix_1))
+# print(matrix_1)
+# print(matrix_to_dict(matrix_1))
 
 
 # Problem 6
 def matrix_to_list(m):
+    l = []  # empty list
+    k = [i for i in range(0, len(m))]  # list of keys
+
+    for i in range(0, len(m)):
+        for j in range(0, len(m[i])):
+            if m[i][j] != 0 and (j, i) not in l:
+                l.append((i, j))
+
     return l
+
+# test cases
+print(matrix_1)
+print(matrix_to_list(matrix_1))
