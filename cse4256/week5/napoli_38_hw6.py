@@ -109,7 +109,6 @@ matrix_1 = list_to_matrix(list_1)
 # Problem 6
 def matrix_to_list(m):
     l = []  # empty list
-    k = [i for i in range(0, len(m))]  # list of keys
 
     for i in range(0, len(m)):
         for j in range(0, len(m[i])):
