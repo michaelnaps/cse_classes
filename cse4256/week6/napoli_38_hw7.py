@@ -22,7 +22,6 @@ mat_1 = [
     [0, 0, 0, 1],
     [0, 1, 1, 0]
 ]
-
 # print(complementw2(mat_1))
 
 
@@ -49,13 +48,19 @@ d_1 = {
     3: [2, 4],
     4: [1, 3]
 }
-
-print(complement2(d_1))
+# print(complement2(d_1))
 
 
 # Problem 3
 def transpose1(m):
     tm = [[0 for j in range(0, len(m))] for i in range(0, len(m))]
+
+    for i in range(0, len(m)):
+        for j in range(0, len(m[i])):
+            if m[i][j] == 1:
+                m[i][j] = 0
+                tm[j][i] = 1
+
     return tm
 
 # test cases
@@ -65,5 +70,29 @@ mat_2 = [
     [1, 1, 0, 1],
     [0, 1, 1, 0]
 ]
+# print(transpose1(mat_2))
 
-print(transpose1(mat_2))
+
+# Problem 4
+def transpose2(d):
+    k = list(d.keys())
+    td = {k[i]: None for i in range(0, len(k))}
+
+    for i in range(0, len(d)):
+        for j in range(0, len(d[k[i]])):
+            if d[k[i]] != None:
+                if td[k[j]] == None:
+                    td[k[j]] = [d[k[i]][j]]
+                else:
+                    td[k[j]].append(d[k[i]][j])
+
+    return td
+
+# test cases
+d_2 = {
+    0: [2],
+    1: [3],
+    2: [1, 3],
+    3: [1]
+}
+print(transpose2(d_2))
