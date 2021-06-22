@@ -80,11 +80,11 @@ def transpose2(d):
 
     for i in range(0, len(d)):
         for j in range(0, len(d[k[i]])):
-            if d[k[i]] != None:
-                if td[k[j]] == None:
-                    td[k[j]] = [d[k[i]][j]]
+            if d[k[i]] is not None:
+                if td[d[k[i]][j]] is None:
+                    td[d[k[i]][j]] = [k[i]]
                 else:
-                    td[k[j]].append(d[k[i]][j])
+                    td[d[k[i]][j]].append(k[i])
 
     return td
 
