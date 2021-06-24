@@ -50,3 +50,39 @@ enc = encode(dec)
 
 
 # Problem 3: Balanced Braces
+# check if given brace is closing brace
+def is_closing_brace(c):
+    return c == ')' or c == ']' or c == '}'
+
+# check if two braces are compatible
+def is_appr_brace(open, close):
+    if open == '(':
+        return close == ')'
+    elif open == '[':
+        return close == ']'
+    elif open == '{':
+        return close == '}'
+
+    return False  # if given character(s) are not braces
+
+# check if string of braces are valid
+def is_balanced(s):
+    b = list(s)  # create deque variable from string
+
+    c = [b.pop(0)]  # pop first element into character deque
+    if is_closing_brace(c[0]):  # check if first brace is closing
+        return False
+
+    for i in range(0, len(b)):
+        c.append(b.pop(0))
+        if is_closing_brace(c[-1]) and is_appr_brace(c[-2], c[-1]):
+            c.pop(-1)  # pop last two elements
+            c.pop(-1)
+
+    # check that c and b are empty
+    return len(c) == 0 and len(b) == 0
+
+# test cases
+# print(is_balanced('[]{}{()}'))
+# print(is_balanced('[{{]'))
+# print(is_balanced('[{]}'))
