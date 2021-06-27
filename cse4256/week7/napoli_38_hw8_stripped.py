@@ -2,6 +2,8 @@
 # Created by: Michael Napoli
 # Due Date: 6/29/2021
 
+# Comments and test cases removed by request of Professor.
+
 import math
 import random as rdm
 
