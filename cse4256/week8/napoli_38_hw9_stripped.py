@@ -5,12 +5,12 @@
 # Comments and test cases removed for submission.
 
 # Problem 1
-def look_and_say(data, row_num):
-    d = data
+def look_and_say(row_num):
+    d = 1
 
     for i in range(0, row_num):
-        if i == 1:
-            print(data)
+        if i == 0:
+            print(d)
         else:
             l = [int(q) for q in str(d)]
             c = 1
@@ -29,7 +29,6 @@ def look_and_say(data, row_num):
             print(d)
 
     return True
-
 
 # Problem 2
 def shortest_path(s):
