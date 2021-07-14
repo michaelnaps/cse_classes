@@ -1,6 +1,8 @@
 # Complete the class below, which represents complex numbers, and upload your file to Carmen.
 # This assignment is due on Friday, July 23.
 
+import numpy as np
+
 # You should do some research using Google if you have forgotten (or never knew) what some of the terms mean.
 class Complex:
     def __init__(self, i, j):
@@ -43,20 +45,21 @@ class Complex:
 
 
     def modulus(self):
-        pass
+        return np.sqrt(self.i**2 + self.j**2)
 
 
     def midpoint(self, other):
-        pass
+        return Complex((self.i + other.i) / 2, (self.j + other.j) / 2)
 
 
     def argument(self):
-        pass
+        return np.arctan(self.j / self.i)
 
 
 c_num_1 = Complex(1, 3)
 c_num_2 = Complex(2, 1)  # arbitrary values
 print(c_num_1)
+print(c_num_2)
 
 # test case - addition
 print(c_num_1 + c_num_2)
@@ -72,3 +75,12 @@ print(c_num_1.conjugate())
 
 # test case - division
 print(c_num_1 / c_num_2)
+
+# test case - modulus
+print(c_num_1.modulus())
+
+# test case - midpoint
+print(c_num_1.midpoint(c_num_2))
+
+# test case - argument
+print(c_num_1.argument())
