@@ -1,9 +1,11 @@
-# Complete the class below, which represents complex numbers, and upload your file to Carmen.
-# This assignment is due on Friday, July 23.
+# File: napoli_38_hw11.py
+# Created by: Michael Napoli
+# Due date: 7/23/2021
+
+# Comments and test cases removed by request.
 
 import numpy as np
 
-# You should do some research using Google if you have forgotten (or never knew) what some of the terms mean.
 class Complex:
     def __init__(self, i, j):
         self.i = i

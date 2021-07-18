@@ -1,5 +1,6 @@
-# Complete the class below, which represents complex numbers, and upload your file to Carmen.
-# This assignment is due on Friday, July 23.
+# File: napoli_38_hw11.py
+# Created by: Michael Napoli
+# Due date: 7/23/2021
 
 import numpy as np
 
