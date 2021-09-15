@@ -1,0 +1,66 @@
+.pos 0x800
+.align 8
+array:				#array data
+.quad 32
+.quad 15
+.quad 48
+.quad 10
+.quad 12
+.quad 8
+size:
+.quad 6
+
+.pos 0x900
+.align 8
+output:
+
+.pos 0xf00
+.align 8
+stack:
+
+.pos 0x0
+main:
+   irmovq stack, %rsp	 #set stack pointer
+   rrmovq %rsp, %rbp	 #set bottom of stack
+   irmovq array, %rdi	 #put array address in rdi
+   irmovq size, %rbx	 #put address of size in rbx
+   mrmovq (%rbx), %rdx	 #put size of array in rdx
+   pushq %rdx		 #push size parameter onto stack
+   pushq %rdi		 #push array address parameter onto stack
+   call mystery		 #call mystery function
+   irmovq output, %rcx	 #put output address in rcx
+   rmmovq %rax, (%rcx)	 #move value returned by sum function to output
+   halt
+
+mystery:
+   pushq %rbp		 #save caller's frame pointer
+   rrmovq %rsp, %rbp	 #set function's frame pointer
+   mrmovq 24(%rbp), %rdi #put size parameter in rdi
+   mrmovq 16(%rbp), %rsi #put array address in rsi	
+   irmovq $8, %rdx	 #put constant in rdx to increment array address
+   irmovq $1, %r8 	 #put constant in r8 to decrement size
+   irmovq $0, %r9	 #put constant in r9 to determine when size is 0
+   mrmovq (%rsi), %rax	 #set return register to initial value
+   addq %rdx, %rsi	 #increment array element address by 8
+   subq %r8, %rdi	 #sub 1 from size
+mystery_loop:
+   subq %r9, %rdi	 #compare size to 0
+   je mystery_finish	 #if equal to 0, jump out of loop
+   mrmovq (%rsi), %rcx	 #move next element from array to rcx
+   rrmovq %rax, %r10	 #copy current return value to r10
+   subq %rcx, %r10	 #compare
+   jl swap
+   jmp continue
+swap:
+   rrmovq %rcx, %rax
+continue:
+   addq %rdx, %rsi	 #increment array element address by 8
+   subq %r8, %rdi	 #sub 1 from size
+   jmp mystery_loop	 #jump back to top of loop
+mystery_finish:
+   rrmovq %rbp, %rsp	 #set stack pointer back to saved caller's frame pointer
+   popq %rbp		 #restore caller's frame pointer
+   ret			 #return to caller
+	
+
+
