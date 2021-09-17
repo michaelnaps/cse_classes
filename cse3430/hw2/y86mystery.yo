@@ -1,0 +1,66 @@
+0x800:                      | .pos 0x800
+0x800:                      | .align 8
+0x800:                      | array:				#array data
+0x800: 2000000000000000     | .quad 32
+0x808: 0f00000000000000     | .quad 15
+0x810: 3000000000000000     | .quad 48
+0x818: 0a00000000000000     | .quad 10
+0x820: 0c00000000000000     | .quad 12
+0x828: 0800000000000000     | .quad 8
+0x830:                      | size:
+0x830: 0600000000000000     | .quad 6
+                            | 
+0x900:                      | .pos 0x900
+0x900:                      | .align 8
+0x900:                      | output:
+                            | 
+0xf00:                      | .pos 0xf00
+0xf00:                      | .align 8
+0xf00:                      | stack:
+                            | 
+0x000:                      | .pos 0x0
+0x000:                      | main:
+0x000: 30f4000f000000000000 |    irmovq stack, %rsp	 #set stack pointer
+0x00a: 2045                 |    rrmovq %rsp, %rbp	 #set bottom of stack
+0x00c: 30f70008000000000000 |    irmovq array, %rdi	 #put array address in rdi
+0x016: 30f33008000000000000 |    irmovq size, %rbx	 #put address of size in rbx
+0x020: 50230000000000000000 |    mrmovq (%rbx), %rdx	 #put size of array in rdx
+0x02a: a02f                 |    pushq %rdx		 #push size parameter onto stack
+0x02c: a07f                 |    pushq %rdi		 #push array address parameter onto stack
+0x02e: 804c00000000000000   |    call mystery		 #call mystery function
+0x037: 30f10009000000000000 |    irmovq output, %rcx	 #put output address in rcx
+0x041: 40010000000000000000 |    rmmovq %rax, (%rcx)	 #move value returned by sum function to output
+0x04b: 00                   |    halt
+                            | 
+0x04c:                      | mystery:
+0x04c: a05f                 |    pushq %rbp		 #save caller's frame pointer
+0x04e: 2045                 |    rrmovq %rsp, %rbp	 #set function's frame pointer
+0x050: 50751800000000000000 |    mrmovq 24(%rbp), %rdi #put size parameter in rdi
+0x05a: 50651000000000000000 |    mrmovq 16(%rbp), %rsi #put array address in rsi	
+0x064: 30f20800000000000000 |    irmovq $8, %rdx	 #put constant in rdx to increment array address
+0x06e: 30f80100000000000000 |    irmovq $1, %r8 	 #put constant in r8 to decrement size
+0x078: 30f90000000000000000 |    irmovq $0, %r9	 #put constant in r9 to determine when size is 0
+0x082: 50060000000000000000 |    mrmovq (%rsi), %rax	 #set return register to initial value
+0x08c: 6026                 |    addq %rdx, %rsi	 #increment array element address by 8
+0x08e: 6187                 |    subq %r8, %rdi	 #sub 1 from size
+0x090:                      | mystery_loop:
+0x090: 6197                 |    subq %r9, %rdi	 #compare size to 0
+0x092: 73ca00000000000000   |    je mystery_finish	 #if equal to 0, jump out of loop
+0x09b: 50160000000000000000 |    mrmovq (%rsi), %rcx	 #move next element from array to rcx
+0x0a5: 200a                 |    rrmovq %rax, %r10	 #copy current return value to r10
+0x0a7: 611a                 |    subq %rcx, %r10	 #compare
+0x0a9: 72bb00000000000000   |    jl swap
+0x0b2: 70bd00000000000000   |    jmp continue
+0x0bb:                      | swap:
+0x0bb: 2010                 |    rrmovq %rcx, %rax
+0x0bd:                      | continue:
+0x0bd: 6026                 |    addq %rdx, %rsi	 #increment array element address by 8
+0x0bf: 6187                 |    subq %r8, %rdi	 #sub 1 from size
+0x0c1: 709000000000000000   |    jmp mystery_loop	 #jump back to top of loop
+0x0ca:                      | mystery_finish:
+0x0ca: 2054                 |    rrmovq %rbp, %rsp	 #set stack pointer back to saved caller's frame pointer
+0x0cc: b05f                 |    popq %rbp		 #restore caller's frame pointer
+0x0ce: 90                   |    ret			 #return to caller
+                            | 	
+                            | 
+                            | 
