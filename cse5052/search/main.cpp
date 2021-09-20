@@ -9,5 +9,8 @@
 
 int main()
 {
+  // create test cases
+  int test1 = 0;
+
   return 0;
 }
