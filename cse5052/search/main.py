@@ -7,10 +7,17 @@
  *     of both the uninformed and informed architecture.
 */
 
+#include <iostream>
+#include <vector>
+using namespace std;
+
 int main()
 {
-  // create test cases
-  int test1 = 0;
+  
+
+  // output matrix to check format
+  // print_mat(test1, s1);
+  // print_mat(test2, s2);
 
   return 0;
 }
