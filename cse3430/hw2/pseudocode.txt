@@ -1,0 +1,39 @@
+(1) establish beginning of stack, i.e. allocated memory location
+(2) declare array of 8 elements (only using 6)
+(3-9) create array variables
+(10) establish record of the size of the array
+(13) declare secondary
+
+
+(35) mystery
+(36) copy stack pointer
+(37) set the base pointer (prev. saved) to that of the stack
+(38) put size parameter of 'rbp' in array 'rdi'
+(39) put array address of 'rdp' in 'rsi'
+(40) place constant [8] into 'rdx' to increment address
+(41) decrement size of 'r8' by placing contant [1]
+(42) place constant [0] in 'r9' to determine size zero
+(43) set 'rax' to the return address for 'rsi'
+(44) add registers: rsi = rsi + rdx
+(45) subtract registers: rdi = rdi - r8
+
+(46) mystery_loop
+(47) subtract registers: rdi = rdi + r9  (zero check)
+(48) rdi = 0, then line (47) will also be 0. If true, finish loop
+(49) else, place word from 'rsi' into 'rcx'
+(50) copy 'rax' into 'r10'
+(51) subtract registers: r10 = r10 - rcx
+(52) if line (51) is less then 0, jump to line (54)
+(53) jump to continue (line 56)
+
+(54) swap
+(55) copy value in 'rcx' to 'rax'
+
+(56) continue
+(57) add registers: rsi = rdx + rsi
+(58) subtract registers: rdi = rdi - r8
+(59) jump back to mystery_loop (line 46)
+
+(60) mystery_finish
+(61) set the stack pointer back to the base pointer (return address)
+(62) restore the base pointers frame
