@@ -62,18 +62,47 @@ void prompt_user(float* data, const int n) {
 }
 
 void enter_loop(const float* data, const int n) {
-  int user_input = 0;
+  int user_input = 6;
 
-  while(user_input != 6)
-  {
+  while (user_input != 6) {
+    printf("1). Find minimum value.\n");
+    printf("2). Find maximum value.\n");
+    printf("3). Calculate the sum of all values.\n");
+    printf("4). Calculate the average of all the values.\n");
+    printf("5). Print the values in the data set.\n");
+    printf("6). Exit the program.\n\n");
+    printf("Choose computation to perform from list above: ");
 
+    scanf("%i", &user_input);
+
+    if (user_input == 1)
+      minimum(data, n);
+    else if (user_input == 2)
+      maximum(data, n);
+    else if (user_input == 3)
+      sum(data, n);
+    else if (user_input == 4)
+      average(data, n);
+    else if (user_input == 5)
+      print_data(data, n);
+    else
+      user_input = 6;
   }
 
   return;  /* return nothing */
 }
 
 float maximum(const float* data, const int n) {
-  return 1.0;
+  int i = 1;
+  float max = data[0];
+
+  for (i; i < n; ++i) {
+    if (data[i] > max) {
+      max = data[i];
+    }
+  }
+
+  return max;
 }
 
 float minimum(const float* data, const int n) {
