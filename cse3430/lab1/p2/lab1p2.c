@@ -6,16 +6,16 @@
 #include <stdio.h>
 
 /* FUNCTION DECLARATIONS */
-void print_data(const float* data, const int n);
-void get_data(float* data, const int n);
+void print_data(const float *data, const int n);
+void get_data(float *data, const int n);
 
-void enter_loop(const float* data, const int n);
+void enter_loop(const float *data, const int n);
 int prompt_user();
 
-float maximum(const float* data, const int n);
-float minimum(const float* data, const int n);
-float sum_data(const float* data, const int n);
-float average_data(const float* data, const int n);
+float maximum(const float *data, const int n);
+float minimum(const float *data, const int n);
+float sum_data(const float *data, const int n);
+float average_data(const float *data, const int n);
 
 
 
@@ -38,7 +38,7 @@ int main() {
 */
 
 /* Prompt the user for data that will be used in loop. */
-void get_data(float* data, const int n) {
+void get_data(float *data, const int n) {
   int i = 0;
 
   printf("Enter data for calculation:\n");
@@ -52,7 +52,7 @@ void get_data(float* data, const int n) {
 }
 
 /* Main loop function which contains user decision tree. */
-void enter_loop(const float* data, const int n) {
+void enter_loop(const float *data, const int n) {
   int user_input = -1;
 
   while (user_input != 6) {
@@ -99,7 +99,7 @@ int prompt_user() {
 
 /* Option 1 */
 /* Find the minimum value in the given array. */
-float minimum(const float* data, const int n) {
+float minimum(const float *data, const int n) {
   int i = 1;
   float min = data[0];
 
@@ -114,7 +114,7 @@ float minimum(const float* data, const int n) {
 
 /* Option 2 */
 /* Find the maximum value in the given array. */
-float maximum(const float* data, const int n) {
+float maximum(const float *data, const int n) {
   int i = 1;
   float max = data[0];
 
@@ -129,7 +129,7 @@ float maximum(const float* data, const int n) {
 
 /* Option 3 */
 /* Calculate the sum of the array given. */
-float sum_data(const float* data, const int n) {
+float sum_data(const float *data, const int n) {
   int i = 0;
   float sum = 0;
 
@@ -142,14 +142,14 @@ float sum_data(const float* data, const int n) {
 
 /* Option 4 */
 /* Calculate the average for the array given. */
-float average_data(const float* data, const int n) {
+float average_data(const float *data, const int n) {
   float sum = sum_data(data, n);
   return sum / n;
 }
 
 /* Option 5 */
 /* Print the array given in comma seperated format. */
-void print_data(const float* data, const int n) {
+void print_data(const float *data, const int n) {
   int i = 0;
 
   printf("Data Set: ");
