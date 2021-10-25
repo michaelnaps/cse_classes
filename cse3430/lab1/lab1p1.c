@@ -1,7 +1,7 @@
-/* File: lab1_napoli38.c */
+/* File: lab1_napoli38.c      */
 /* Created by: Michael Napoli */
-/* Created on: 10/23/2021 */
-/* Due Date: 11/1/2021 */
+/* Created on: 10/23/2021     */
+/* Due Date: 11/1/2021        */
 
 #include <stdio.h>
 
@@ -10,9 +10,14 @@ void print_data(const float* data, const int n);
 void prompt_user(float* data, const int n);
 void enter_loop(const float* data, const int n);
 
+float maximum(const float* data, const int n);
+float minimum(const float* data, const int n);
+float sum(const float* data, const int n);
+float average(const float* data, const int n);
 
-int main()
-{
+
+
+int main() {
   float dataSet[8];
   const int dataSetSize = 8;
 
@@ -65,4 +70,20 @@ void enter_loop(const float* data, const int n) {
   }
 
   return;  /* return nothing */
+}
+
+float maximum(const float* data, const int n) {
+  return 1.0;
+}
+
+float minimum(const float* data, const int n) {
+  return 1.0;
+}
+
+float sum(const float* data, const int n) {
+  return 1.0;
+}
+
+float average(const float* data, const int n) {
+  return 1.0;
 }
