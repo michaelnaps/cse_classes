@@ -6,8 +6,9 @@
 #include <stdio.h>
 
 /* FUNCTION DECLARATIONS */
-void print_data(const float *data, const int n);
-void get_data(float *data, const int n);
+void get_data(float *data, int n);
+void allocate(float *data, const int n);
+void deallocate(float *data, const int n);
 
 void enter_loop(const float *data, const int n);
 int prompt_user();
@@ -16,6 +17,7 @@ float maximum(const float *data, const int n);
 float minimum(const float *data, const int n);
 float sum_data(const float *data, const int n);
 float average_data(const float *data, const int n);
+void print_data(const float *data, const int n);
 
 
 
@@ -38,8 +40,11 @@ int main() {
 */
 
 /* Prompt the user for data that will be used in loop. */
-void get_data(float *data, const int n) {
+void get_data(float *data, int *n) {
   int i = 0;
+
+  /* input the address for the size variable */
+  get_data_count(&n);
 
   printf("Enter data for calculation:\n");
 
@@ -48,6 +53,22 @@ void get_data(float *data, const int n) {
     scanf("%f", &data[i]);
   }
 
+  return;  /* return nothing */
+}
+
+/* Allocate/Deallocate Memory */
+void get_data_count(int *n) {
+  printf("Enter final number of data points: ");
+  scanf("%i", &n);
+
+  return;  /* return nothing */
+}
+void allocate(float *data, const int n) {
+  data = malloc(n);
+  return;  /* return nothing */
+}
+void deallocate(float *data, const int n) {
+  free(data);
   return;  /* return nothing */
 }
 
