@@ -20,11 +20,11 @@ float average_data(const float *data, const int n);
 
 
 int main() {
-  float dataSet[8];
-  const int dataSetSize = 8;
+  float dataSetPtr;
+  int dataSetSize;
 
-  get_data(dataSet, dataSetSize);
-  enter_loop(dataSet, dataSetSize);
+  get_data(dataSetPtr, dataSetSize);
+  enter_loop(dataSetPtr, dataSetSize);
 
   return 0;
 }
