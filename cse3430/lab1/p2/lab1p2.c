@@ -4,9 +4,11 @@
 /* Due Date: 11/1/2021        */
 
 #include <stdio.h>
+#include <stdlib.h>
 
 /* FUNCTION DECLARATIONS */
-void get_data(float *data, int n);
+void get_data(float *data, int *n);
+void get_data_count(int *n);
 void allocate(float *data, const int n);
 void deallocate(float *data, const int n);
 
@@ -22,11 +24,12 @@ void print_data(const float *data, const int n);
 
 
 int main() {
-  float dataSetPtr;
+  float *dataSetPtr;
   int dataSetSize;
 
-  get_data(dataSetPtr, dataSetSize);
+  get_data(dataSetPtr, &dataSetSize);
   enter_loop(dataSetPtr, dataSetSize);
+  deallocate(dataSetPtr, dataSetSize);
 
   return 0;
 }
@@ -39,36 +42,45 @@ int main() {
     'n' - number of values in the given array
 */
 
-/* Prompt the user for data that will be used in loop. */
+/* Allocate/Deallocate Memory */
 void get_data(float *data, int *n) {
   int i = 0;
 
-  /* input the address for the size variable */
-  get_data_count(&n);
+  get_data_count(n);
 
-  printf("Enter data for calculation:\n");
+  allocate(data, *n);
 
-  /* get data from user */
-  for (i = 0; i < n; ++i) {
+  printf("Enter data for calculation: ");
+
+  for (i; i < *n; ++i) {
     scanf("%f", &data[i]);
   }
 
   return;  /* return nothing */
 }
 
-/* Allocate/Deallocate Memory */
 void get_data_count(int *n) {
-  printf("Enter final number of data points: ");
-  scanf("%i", &n);
+  printf("Number of values in the array: ");
+  scanf("%i", n);
 
   return;  /* return nothing */
 }
+
 void allocate(float *data, const int n) {
-  data = malloc(n);
+  data = calloc(n, sizeof(float));
+
+  if (data == 0) {
+    printf("ERROR: Memory allocation failure.");
+  }
+
   return;  /* return nothing */
 }
+
 void deallocate(float *data, const int n) {
-  free(data);
+  if (data != 0) {
+    free(data);
+  }
+
   return;  /* return nothing */
 }
 
