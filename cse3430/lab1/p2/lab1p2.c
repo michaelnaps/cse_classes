@@ -7,10 +7,11 @@
 #include <stdlib.h>
 
 /* FUNCTION DECLARATIONS */
-void get_data(float *data, int *n);
 void get_data_count(int *n);
+void get_data(float *data, const int n);
+
 void allocate(float *data, const int n);
-void deallocate(float *data, const int n);
+void deallocate(float *data);
 
 void enter_loop(const float *data, const int n);
 int prompt_user();
@@ -26,9 +27,11 @@ int main() {
   float *dataSetPtr;
   int dataSetSize = 0;
 
-  get_data(dataSetPtr, &dataSetSize);
+  get_data_count(&dataSetSize);
+  allocate(dataSetPtr, dataSetSize);
+  get_data(dataSetPtr, dataSetSize);
   enter_loop(dataSetPtr, dataSetSize);
-  deallocate(dataSetPtr, dataSetSize);
+  deallocate(dataSetPtr);
 
   return 0;
 }
@@ -36,7 +39,7 @@ int main() {
 
 /* FUNCTION DEFINITIONS */
 /*
-  Important chunks seperated by comment '-' lines...
+  Important chunks seperated by commented '-' lines...
   For all function inputs:
     'data' - array with the data entered by the user
     'n' - number of values in the given array
@@ -44,29 +47,28 @@ int main() {
 
 
 /* ----------------------------------------------------- */
-/* get array 'data' of size 'n' from user */
-void get_data(float *data, int *n) {
-  int i = 0;
-
-  get_data_count(n);
-
-  allocate(data, *n);
-
-  printf("Enter data for calculation: ");
-
-  for (i; i < *n; ++i) {
-    scanf("%f", &data[i]);
-  }
-
-  return;  /* return nothing */
-}
 /* get length of array 'n' from user */
+/* only function that needs size 'n' as address */
 void get_data_count(int *n) {
   printf("Number of values in the array: ");
   scanf("%i", n);
 
   return;  /* return nothing */
 }
+
+/* get array 'data' of size 'n' from user */
+void get_data(float *data, const int n) {
+  int i = 0;
+
+  printf("Enter data for calculation: ");
+
+  for (i; i < n; ++i) {
+    scanf("%f", &data[i]);
+  }
+
+  return;  /* return nothing */
+}
+
 
 /* Allocate/Deallocate Memory */
 /* allocate memory for array 'data' of size 'n' */
@@ -79,20 +81,14 @@ void allocate(float *data, const int n) {
     data[i] = 0.0;
   }
 
-  if (data == NULL) {
-    printf("ERROR: Memory allocation failure.");
-  }
-
   return;  /* return nothing */
 }
-/* deallocate a given array 'data' of size 'n' */
-void deallocate(float *data, const int n) {
-  printf("%i\n", data != NULL);
 
+/* deallocate a given array 'data' of size 'n' */
+void deallocate(float *data) {
   if (data != NULL) {
     free(data);
-
-    printf("2\n");
+    data = NULL;
     printf("Memory deallocated successfully.\n");
   }
 
