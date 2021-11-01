@@ -22,7 +22,6 @@ float average_data(const float *data, const int n);
 void print_data(const float *data, const int n);
 
 
-
 int main() {
   float *dataSetPtr;
   int dataSetSize = 0;
@@ -37,12 +36,15 @@ int main() {
 
 /* FUNCTION DEFINITIONS */
 /*
+  Important chunks seperated by comment '-' lines...
   For all function inputs:
     'data' - array with the data entered by the user
     'n' - number of values in the given array
 */
 
-/* Allocate/Deallocate Memory */
+
+/* ----------------------------------------------------- */
+/* get array 'data' of size 'n' from user */
 void get_data(float *data, int *n) {
   int i = 0;
 
@@ -58,7 +60,7 @@ void get_data(float *data, int *n) {
 
   return;  /* return nothing */
 }
-
+/* get length of array 'n' from user */
 void get_data_count(int *n) {
   printf("Number of values in the array: ");
   scanf("%i", n);
@@ -66,13 +68,15 @@ void get_data_count(int *n) {
   return;  /* return nothing */
 }
 
+/* Allocate/Deallocate Memory */
+/* allocate memory for array 'data' of size 'n' */
 void allocate(float *data, const int n) {
   int i = 0;
 
   data = malloc(n * sizeof(float));
 
   for (i; i < n; ++i) {
-    data[i] = 0;
+    data[i] = 0.0;
   }
 
   if (data == NULL) {
@@ -81,17 +85,22 @@ void allocate(float *data, const int n) {
 
   return;  /* return nothing */
 }
-
+/* deallocate a given array 'data' of size 'n' */
 void deallocate(float *data, const int n) {
+  printf("%i\n", data != NULL);
+
   if (data != NULL) {
     free(data);
-    data = NULL;
+
+    printf("2\n");
     printf("Memory deallocated successfully.\n");
   }
 
   return;  /* return nothing */
 }
 
+
+/* ----------------------------------------------------- */
 /* Main loop function which contains user decision tree. */
 void enter_loop(const float *data, const int n) {
   int user_input = -1;  /* arbitrary initialization to enter loop */
