@@ -10,8 +10,8 @@
 void get_data_count(int *n);
 void get_data(float *data, const int n);
 
-void allocate(float *data, const int n);
-void deallocate(float *data);
+void allocate(float **data, const int n);
+void deallocate(float **data);
 
 void enter_loop(const float *data, const int n);
 int prompt_user();
@@ -24,14 +24,14 @@ void print_data(const float *data, const int n);
 
 
 int main() {
-  float *dataSetPtr;
+  float *dataSetPtr = NULL;
   int dataSetSize = 0;
 
   get_data_count(&dataSetSize);
-  allocate(dataSetPtr, dataSetSize);
+  allocate(&dataSetPtr, dataSetSize);
   get_data(dataSetPtr, dataSetSize);
   enter_loop(dataSetPtr, dataSetSize);
-  deallocate(dataSetPtr);
+  deallocate(&dataSetPtr);
 
   return 0;
 }
@@ -60,10 +60,12 @@ void get_data_count(int *n) {
 void get_data(float *data, const int n) {
   int i = 0;
 
-  printf("Enter data for calculation: ");
+  if (n > 0) {
+    printf("Enter data for calculation: ");
 
-  for (i; i < n; ++i) {
-    scanf("%f", &data[i]);
+    for (i; i < n; ++i) {
+      scanf("%f", &data[i]);
+    }
   }
 
   return;  /* return nothing */
@@ -72,22 +74,22 @@ void get_data(float *data, const int n) {
 
 /* Allocate/Deallocate Memory */
 /* allocate memory for array 'data' of size 'n' */
-void allocate(float *data, const int n) {
-  int i = 0;
-
-  data = malloc(n * sizeof(float));
-
-  for (i; i < n; ++i) {
-    data[i] = 0.0;
+void allocate(float **data, const int n) {
+  if (n < 1) {
+    printf("ERROR: Array size must be a positive integer greater than zero.\n");
+    printf("       Ending program...\n\n");
+    exit(0);  /* exit program... */
   }
-
-  return;  /* return nothing */
+  else {
+    *data = calloc(n, sizeof(float));
+    return;  /* return nothing */
+  }
 }
 
 /* deallocate a given array 'data' of size 'n' */
-void deallocate(float *data) {
+void deallocate(float **data) {
   if (data != NULL) {
-    free(data);
+    free(*data);
     data = NULL;
     printf("Memory deallocated successfully.\n");
   }
