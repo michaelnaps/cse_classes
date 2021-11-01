@@ -25,7 +25,7 @@ void print_data(const float *data, const int n);
 
 int main() {
   float *dataSetPtr;
-  int dataSetSize;
+  int dataSetSize = 0;
 
   get_data(dataSetPtr, &dataSetSize);
   enter_loop(dataSetPtr, dataSetSize);
@@ -67,9 +67,15 @@ void get_data_count(int *n) {
 }
 
 void allocate(float *data, const int n) {
-  data = calloc(n, sizeof(float));
+  int i = 0;
 
-  if (data == 0) {
+  data = malloc(n * sizeof(float));
+
+  for (i; i < n; ++i) {
+    data[i] = 0;  /* initialize array to zero */
+  }
+  
+  if (data == NULL) {
     printf("ERROR: Memory allocation failure.");
   }
 
@@ -77,8 +83,9 @@ void allocate(float *data, const int n) {
 }
 
 void deallocate(float *data, const int n) {
-  if (data != 0) {
+  if (data != NULL) {
     free(data);
+    data = NULL;
   }
 
   return;  /* return nothing */
@@ -86,7 +93,7 @@ void deallocate(float *data, const int n) {
 
 /* Main loop function which contains user decision tree. */
 void enter_loop(const float *data, const int n) {
-  int user_input = -1;
+  int user_input = -1;  /* arbitrary initialization to enter loop */
 
   while (user_input != 6) {
     user_input = prompt_user();
@@ -185,7 +192,7 @@ float average_data(const float *data, const int n) {
 void print_data(const float *data, const int n) {
   int i = 0;
 
-  printf("Data Set: ");
+  printf("Data Set:\n");
   for (i = 0; i < n; ++i) {
     printf("%.2f\n", data[i]);
 
