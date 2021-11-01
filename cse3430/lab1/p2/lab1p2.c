@@ -72,9 +72,9 @@ void allocate(float *data, const int n) {
   data = malloc(n * sizeof(float));
 
   for (i; i < n; ++i) {
-    data[i] = 0;  /* initialize array to zero */
+    data[i] = 0;
   }
-  
+
   if (data == NULL) {
     printf("ERROR: Memory allocation failure.");
   }
@@ -86,6 +86,7 @@ void deallocate(float *data, const int n) {
   if (data != NULL) {
     free(data);
     data = NULL;
+    printf("Memory deallocated successfully.\n");
   }
 
   return;  /* return nothing */
