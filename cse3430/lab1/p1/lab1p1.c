@@ -152,7 +152,7 @@ float average_data(const float *data, const int n) {
 void print_data(const float *data, const int n) {
   int i = 0;
 
-  printf("Data Set: ");
+  printf("Data Set:\n");
   for (i = 0; i < n; ++i) {
     printf("%.2f\n", data[i]);
 

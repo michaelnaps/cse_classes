@@ -1,0 +1,58 @@
+Number of values in the array: Enter data for calculation: 1). Find minimum value.
+2). Find maximum value.
+3). Calculate the sum of all values.
+4). Calculate the average of all the values.
+5). Print the values in the data set.
+6). Exit the program.
+Choose computation to perform from list above: The minimum for the data is: 34.50.
+
+1). Find minimum value.
+2). Find maximum value.
+3). Calculate the sum of all values.
+4). Calculate the average of all the values.
+5). Print the values in the data set.
+6). Exit the program.
+Choose computation to perform from list above: The maximum for the data is: 569.45.
+
+1). Find minimum value.
+2). Find maximum value.
+3). Calculate the sum of all values.
+4). Calculate the average of all the values.
+5). Print the values in the data set.
+6). Exit the program.
+Choose computation to perform from list above: The sum for the data is: 1831.91.
+
+1). Find minimum value.
+2). Find maximum value.
+3). Calculate the sum of all values.
+4). Calculate the average of all the values.
+5). Print the values in the data set.
+6). Exit the program.
+Choose computation to perform from list above: The average for the data is: 228.99.
+
+1). Find minimum value.
+2). Find maximum value.
+3). Calculate the sum of all values.
+4). Calculate the average of all the values.
+5). Print the values in the data set.
+6). Exit the program.
+Choose computation to perform from list above: The data entered by the user was...
+Data Set:
+34.50
+569.45
+335.20
+193.40
+74.39
+122.45
+413.20
+89.32
+
+1). Find minimum value.
+2). Find maximum value.
+3). Calculate the sum of all values.
+4). Calculate the average of all the values.
+5). Print the values in the data set.
+6). Exit the program.
+Choose computation to perform from list above: Ending program...
+
+Memory deallocated successfully.
