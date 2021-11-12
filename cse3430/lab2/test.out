@@ -1,0 +1,97 @@
+Please enter data about the books.
+
+
+Please enter an integer between 1 and 10 to select an operation on the data:
+
+Book list:
+Adventures of Tom Sawyer
+David Copperfield
+Jane Eyre
+Siddhartha
+The Rubaiyat
+The Strange Case of Dr. Jekyll and Mr. Hyde
+
+
+Please enter an integer between 1 and 10 to select an operation on the data:
+
+Please enter the data for the book you wish to add:
+
+Book stock number 5000 added to the inventory.
+
+
+Please enter an integer between 1 and 10 to select an operation on the data:
+
+Book list:
+Adventures of Tom Sawyer
+David Copperfield
+Jane Eyre
+Romance of the Three Kingdoms
+Siddhartha
+The Rubaiyat
+The Strange Case of Dr. Jekyll and Mr. Hyde
+
+
+Please enter an integer between 1 and 10 to select an operation on the data:
+
+Total revenue: 1818.71
+
+Please enter an integer between 1 and 10 to select an operation on the data:
+
+Total wholesale cost: 1596.60
+
+Please enter an integer between 1 and 10 to select an operation on the data:
+
+Total investment in inventory: 499.25
+
+Please enter an integer between 1 and 10 to select an operation on the data:
+
+Total profit: 721.36
+
+Please enter an integer between 1 and 10 to select an operation on the data:
+
+Total number of books sold = 37
+
+Please enter an integer between 1 and 10 to select an operation on the data:
+
+Average profit: 19.50
+
+Please enter an integer between 1 and 10 to select an operation on the data:
+
+Please enter the book stock number of the book you wish to delete, followed by enter.
+Book stock number 1000 deleted from the inventory.
+
+
+Please enter an integer between 1 and 10 to select an operation on the data:
+
+Book list:
+David Copperfield
+Jane Eyre
+Romance of the Three Kingdoms
+Siddhartha
+The Rubaiyat
+The Strange Case of Dr. Jekyll and Mr. Hyde
+
+
+Please enter an integer between 1 and 10 to select an operation on the data:
+
+Please enter the book stock number of the book you wish to delete, followed by enter.
+Book stock number 3000 deleted from the inventory.
+
+
+Please enter an integer between 1 and 10 to select an operation on the data:
+
+Book list:
+David Copperfield
+Romance of the Three Kingdoms
+Siddhartha
+The Rubaiyat
+The Strange Case of Dr. Jekyll and Mr. Hyde
+
+
+Please enter an integer between 1 and 10 to select an operation on the data:
+
+Please enter the book stock number of the book you wish to delete, followed by enter.
+
+ERROR: Book stock number 8500 was not found in the list!
+
+Please enter an integer between 1 and 10 to select an operation on the data:
