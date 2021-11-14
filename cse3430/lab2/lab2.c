@@ -98,23 +98,21 @@ void insertNode(Node **listHeadPtr, Node *newNodePtr) {
 	}
 	else {
 		printf("case 3\n");
-		while (newNodePtr->book.stockNumber > traversePtr->book.stockNumber) {
+		while (traversePtr != NULL && newNodePtr->book.stockNumber > traversePtr->book.stockNumber) {
 			priorNodePtr = traversePtr;
 			traversePtr = traversePtr->next;
-
-			/* end of book list */
-			if (traversePtr == NULL) {
-				break;
-			}
 		}
 
 		if (traversePtr == NULL) {
+			printf("case 3.1\n");
 			traversePtr = newNodePtr;
 			newNodePtr->next = NULL;
+			priorNodePtr->next = newNodePtr;
 		}
 		else {
-			newNodePtr->next = traversePtr->next;
-			traversePtr->next = newNodePtr;
+			printf("case 3.2\n");
+			newNodePtr->next = traversePtr;
+			priorNodePtr->next = newNodePtr;
 		}
 	}
 
