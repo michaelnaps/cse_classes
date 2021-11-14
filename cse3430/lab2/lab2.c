@@ -87,38 +87,30 @@ void insertNode(Node **listHeadPtr, Node *newNodePtr) {
 	Node *priorNodePtr;
 
 	if (*listHeadPtr == NULL) {
-		printf("case 1\n");
 		*listHeadPtr = newNodePtr;
 		newNodePtr->next = NULL;
 	}
 	else if (newNodePtr->book.stockNumber < traversePtr->book.stockNumber) {
-		printf("case 2\n");
 		newNodePtr->next = *listHeadPtr;
 		*listHeadPtr = newNodePtr;
 	}
 	else {
-		printf("case 3\n");
 		while (traversePtr != NULL && newNodePtr->book.stockNumber > traversePtr->book.stockNumber) {
 			priorNodePtr = traversePtr;
 			traversePtr = traversePtr->next;
 		}
 
 		if (traversePtr == NULL) {
-			printf("case 3.1\n");
 			traversePtr = newNodePtr;
 			newNodePtr->next = NULL;
 			priorNodePtr->next = newNodePtr;
 		}
 		else {
-			printf("case 3.2\n");
 			newNodePtr->next = traversePtr;
 			priorNodePtr->next = newNodePtr;
 		}
 	}
-
-	if ((*listHeadPtr)->next == NULL) {
-		printf("Head of book list is pointed to NULL.\n");
-	}
+	
 	printf("Book stock number %i was added to the inventory.\n\n", newNodePtr->book.stockNumber);
 }
 
