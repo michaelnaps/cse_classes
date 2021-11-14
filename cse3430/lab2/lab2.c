@@ -62,12 +62,12 @@ Node *createNodeAndGetData(void) {
 		scanf("%[^\n]", newNodePtr->book.title);
 		if (strcmp(newNodePtr->book.title, "END_DATA") == 0) {
 			/* free Node if end of book data detected */
-			free(newNodePtr);			
+			free(newNodePtr);
 			return NULL;
 		}
 		else {
 			/* consume newline before author string */
-			getchar();				
+			getchar();
 			scanf("%[^\n]s", newNodePtr->book.author);
 			scanf("%i", &newNodePtr->book.stockNumber);
 			scanf("%f", &newNodePtr->book.wholesalePrice);
@@ -75,7 +75,7 @@ Node *createNodeAndGetData(void) {
 			scanf("%i", &newNodePtr->book.wholesaleQuantity);
 			scanf("%i", &newNodePtr->book.retailQuantity);
 			/* consume newline before next title string */
-			getchar();				
+			getchar();
 		}
 		return newNodePtr;
 	}
@@ -84,17 +84,16 @@ Node *createNodeAndGetData(void) {
 
 void insertNode(Node **listHeadPtr, Node *newNodePtr) {
 
-	/* WRITE THE CODE FOR THIS FUNCTION - SEE COMMENTS BELOW */	
-
-	if (/* REPLACE COMMENT WITH CONDITION */ ) {
-		/* WRITE CODE FOR CASE 1: INSERTION INTO EMPTY LIST */
+	if (*listHeadPtr == NULL) {
+		*listHeadPtr = newNodePtr;
+		*listHeadPtr->next = NULL;
 	}
-	else if (/* REPLACE COMMENT WITH CONDITION */ ) {
-		/* WRITE CODE FOR CASE 2: INSERTION BEFORE CURRENT 1ST NODE */
+	else if () {
+
 	}
 	else {
-		/* WRITE CODE FOR CASE 3: INSERTION AFTER CURRENT 1ST NODE */
-	}	
+		while ()
+	}
 }
 
 void getUserOption(Node **listHeadPtr) {
@@ -119,7 +118,7 @@ void getUserOption(Node **listHeadPtr) {
 				printf("\nTotal investment in inventory: %.2f\n", calculateInvestmentInInventory(*listHeadPtr));
 				break;
 			case 5:
-				printf("\nTotal profit: %.2f\n", calculateTotalProfit(*listHeadPtr)); 
+				printf("\nTotal profit: %.2f\n", calculateTotalProfit(*listHeadPtr));
 				break;
 			case 6:
 				printf("\nTotal number of books sold = %i\n", calculateTotalBooksSold(*listHeadPtr));
@@ -127,10 +126,10 @@ void getUserOption(Node **listHeadPtr) {
 			case 7:
 				printf("\nAverage profit: %.2f\n", calculateAverageProfit(*listHeadPtr));
 				break;
-			case 8:		
+			case 8:
 				printf("\nPlease enter the data for the book you wish to add:\n\n");
 				newNodePtr = createNodeAndGetData();
-				insertNode(listHeadPtr, newNodePtr);			
+				insertNode(listHeadPtr, newNodePtr);
 				break;
 			case 9:
 				printf("\nPlease enter the book stock number of the book you wish to delete, ");
@@ -144,31 +143,31 @@ void getUserOption(Node **listHeadPtr) {
 			default:
 				printf("Valid option choices are 1 to 10. Please choose again!\n");
 				break;
-		} 
+		}
 	} while (option != 10);
 }
 
-double calculateTotalRevenue(const Node *listHead) { 
-	
-/* WRITE THE CODE FOR THIS FUNCTION */ 
-}
-
-double calculateInvestmentInInventory(const Node *listHead) { 
-
-/* WRITE THE CODE FOR THIS FUNCTION */ 
-}
-
-double calculateTotalWholesaleCost(const Node *listHead) { 
+double calculateTotalRevenue(const Node *listHead) {
 
 /* WRITE THE CODE FOR THIS FUNCTION */
 }
 
-double calculateTotalProfit(const Node *listHead) { 
-	
+double calculateInvestmentInInventory(const Node *listHead) {
+
 /* WRITE THE CODE FOR THIS FUNCTION */
 }
 
-int calculateTotalBooksSold(const Node *listHead) { 
+double calculateTotalWholesaleCost(const Node *listHead) {
+
+/* WRITE THE CODE FOR THIS FUNCTION */
+}
+
+double calculateTotalProfit(const Node *listHead) {
+
+/* WRITE THE CODE FOR THIS FUNCTION */
+}
+
+int calculateTotalBooksSold(const Node *listHead) {
 
 /* WRITE THE CODE FOR THIS FUNCTION */
 }
@@ -180,7 +179,7 @@ double calculateAverageProfit(const Node *listHead) {
 
 void deleteNode(Node **listHeadPtr, int stockNumToDelete) {
 
-	/* WRITE THE CODE FOR THIS FUNCTION - SEE COMMENTS BELOW */	
+	/* WRITE THE CODE FOR THIS FUNCTION - SEE COMMENTS BELOW */
 
 	if (/* REPLACE COMMENT WITH CONDITION */ ) {
 		/* WRITE CODE FOR CASE 1: DELETION FROM EMPTY LIST */
@@ -192,14 +191,14 @@ void deleteNode(Node **listHeadPtr, int stockNumToDelete) {
 		/* WRITE CODE FOR CASE 3: DELETION OF NODE AFTER CURRENT 1ST
 		   NODE OR ERROR FOR ATTEMPT TO DELETE NODE NOT IN LIST */
 	}
-		
+
 }
 
 void printList(const Node *listHead) {
 	const Node *traversePtr = listHead;
 	printf("\nBook list:\n");
 	while (traversePtr != NULL) {		/* determine not at end of list */
-		printf("%s\n", traversePtr->book.title); 
+		printf("%s\n", traversePtr->book.title);
 		traversePtr = traversePtr->next;
 	}
 	printf("\n");
@@ -207,7 +206,7 @@ void printList(const Node *listHead) {
 
 void freeAllNodes(Node **listHeadPtr) {
 	Node *traversePtr = *listHeadPtr;
-	Node *restOfListPtr = *listHeadPtr;    
+	Node *restOfListPtr = *listHeadPtr;
 	while (restOfListPtr != NULL) {         /* determine list is not empty */
 		restOfListPtr = restOfListPtr->next;
 		free(traversePtr);
@@ -215,4 +214,3 @@ void freeAllNodes(Node **listHeadPtr) {
 	}
 	*listHeadPtr = NULL; /* set listHeadPtr back to NULL after space freed */
 }
-
