@@ -83,17 +83,46 @@ Node *createNodeAndGetData(void) {
 
 
 void insertNode(Node **listHeadPtr, Node *newNodePtr) {
+	Node *traversePtr = *listHeadPtr;
+	Node *priorNodePtr;
 
 	if (*listHeadPtr == NULL) {
+		printf("case 1\n");
 		*listHeadPtr = newNodePtr;
-		*listHeadPtr->next = NULL;
+		newNodePtr->next = NULL;
 	}
-	else if () {
-
+	else if (newNodePtr->book.stockNumber < traversePtr->book.stockNumber) {
+		printf("case 2\n");
+		newNodePtr->next = *listHeadPtr;
+		*listHeadPtr = newNodePtr;
 	}
 	else {
-		while ()
+		printf("case 3\n");
+		traversePtr = *listHeadPtr;
+
+		while (newNodePtr->book.stockNumber > traversePtr->book.stockNumber) {
+			priorNodePtr = traversePtr;
+			traversePtr = traversePtr->next;
+
+			/* end of book list */
+			if (traversePtr == NULL) {
+				break;
+			}
+		}
+		if (traversePtr == NULL) {
+			traversePtr = newNodePtr;
+			newNodePtr->next = NULL;
+		}
+		else if (newNodePtr->book.stockNumber > traversePtr->book.stockNumber) {
+			newNodePtr->next = traversePtr;
+			priorNodePtr->next = newNodePtr;
+		}
 	}
+
+	if ((*listHeadPtr)->next == NULL) {
+		printf("Head of book list is pointed to NULL.\n");
+	}
+	printf("Book stock number %i was added to the inventory.\n\n", newNodePtr->book.stockNumber);
 }
 
 void getUserOption(Node **listHeadPtr) {
@@ -178,20 +207,34 @@ double calculateAverageProfit(const Node *listHead) {
 }
 
 void deleteNode(Node **listHeadPtr, int stockNumToDelete) {
+	Node *traversePtr = *listHeadPtr;
+	Node *priorNodePtr;
 
-	/* WRITE THE CODE FOR THIS FUNCTION - SEE COMMENTS BELOW */
-
-	if (/* REPLACE COMMENT WITH CONDITION */ ) {
-		/* WRITE CODE FOR CASE 1: DELETION FROM EMPTY LIST */
+	if (*listHeadPtr == NULL) {
+		printf("ERROR: Book List is empty...\n\n");
+		return;
 	}
-	else if (/* REPLACE COMMENT WITH CONDITION */ ) {
-		/* WRITE CODE FOR CASE 2: DELETION OF CURRENT 1ST NODE */
+	else if ((*listHeadPtr)->book.stockNumber == stockNumToDelete) {
+		*listHeadPtr = traversePtr->next;
+		free(traversePtr);
 	}
 	else {
-		/* WRITE CODE FOR CASE 3: DELETION OF NODE AFTER CURRENT 1ST
-		   NODE OR ERROR FOR ATTEMPT TO DELETE NODE NOT IN LIST */
+		while (traversePtr->book.stockNumber != stockNumToDelete && traversePtr != NULL) {
+			priorNodePtr = traversePtr;
+			traversePtr = traversePtr->next;
+		}
+
+		if (traversePtr == NULL) {
+			printf("ERROR: Stock number found...\n\n");
+			return;
+		}
+		else {
+			priorNodePtr->next = traversePtr->next;
+			free(traversePtr);
+		}
 	}
 
+	printf("Book with stock number %i deleted from list...\n\n", stockNumToDelete);
 }
 
 void printList(const Node *listHead) {
