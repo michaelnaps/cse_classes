@@ -200,29 +200,24 @@ void deleteNode(Node **listHeadPtr, int stockNumToDelete) {
 	Node *priorNodePtr;
 
 	if (*listHeadPtr == NULL) {
-		printf("case 1\n");
 		printf("ERROR: Book List is empty...\n\n");
 		return;
 	}
 	else if ((*listHeadPtr)->book.stockNumber == stockNumToDelete) {
-		printf("case 2\n");
 		*listHeadPtr = traversePtr->next;
 		free(traversePtr);
 	}
 	else {
-		printf("case 3\n");
 		while (traversePtr != NULL && traversePtr->book.stockNumber != stockNumToDelete) {
 			priorNodePtr = traversePtr;
 			traversePtr = traversePtr->next;
 		}
 
 		if (traversePtr == NULL) {
-			printf("case 3.1\n");
 			printf("ERROR: Stock number not found, no item deleted...\n\n");
 			return;
 		}
 		else {
-			printf("case 3.2\n");
 			priorNodePtr->next = traversePtr->next;
 			free(traversePtr);
 		}
