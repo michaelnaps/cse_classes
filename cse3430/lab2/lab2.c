@@ -110,7 +110,7 @@ void insertNode(Node **listHeadPtr, Node *newNodePtr) {
 			priorNodePtr->next = newNodePtr;
 		}
 	}
-	
+
 	printf("Book stock number %i was added to the inventory.\n\n", newNodePtr->book.stockNumber);
 }
 
@@ -200,24 +200,29 @@ void deleteNode(Node **listHeadPtr, int stockNumToDelete) {
 	Node *priorNodePtr;
 
 	if (*listHeadPtr == NULL) {
+		printf("case 1\n");
 		printf("ERROR: Book List is empty...\n\n");
 		return;
 	}
 	else if ((*listHeadPtr)->book.stockNumber == stockNumToDelete) {
+		printf("case 2\n");
 		*listHeadPtr = traversePtr->next;
 		free(traversePtr);
 	}
 	else {
-		while (traversePtr->book.stockNumber != stockNumToDelete && traversePtr != NULL) {
+		printf("case 3\n");
+		while (traversePtr != NULL && traversePtr->book.stockNumber != stockNumToDelete) {
 			priorNodePtr = traversePtr;
 			traversePtr = traversePtr->next;
 		}
 
 		if (traversePtr == NULL) {
-			printf("ERROR: Stock number found...\n\n");
+			printf("case 3.1\n");
+			printf("ERROR: Stock number not found, no item deleted...\n\n");
 			return;
 		}
 		else {
+			printf("case 3.2\n");
 			priorNodePtr->next = traversePtr->next;
 			free(traversePtr);
 		}
