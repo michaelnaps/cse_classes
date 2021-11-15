@@ -166,33 +166,96 @@ void getUserOption(Node **listHeadPtr) {
 }
 
 double calculateTotalRevenue(const Node *listHead) {
+	double sumRevenue = 0;
+	Node *traversePtr;
 
-/* WRITE THE CODE FOR THIS FUNCTION */
-}
+	if (listHead == NULL) {
+		printf("ERROR: Book list is empty...\n\n");
+		return 0;
+	}
 
-double calculateInvestmentInInventory(const Node *listHead) {
+	/* calculate total revenue of book list */
+	sumRevenue = (listHead->book.retailPrice * listHead->book.retailQuantity);
+	traversePtr = listHead->next;
+	while (traversePtr != NULL) {
+		sumRevenue += (traversePtr->book.retailPrice * traversePtr->book.retailQuantity);
+		traversePtr = traversePtr->next;
+	}
 
-/* WRITE THE CODE FOR THIS FUNCTION */
+	return sumRevenue;
 }
 
 double calculateTotalWholesaleCost(const Node *listHead) {
+	double sumWholesale = 0;
+	Node *traversePtr;
 
-/* WRITE THE CODE FOR THIS FUNCTION */
+	if (listHead == NULL) {
+		printf("ERROR: Book list is empty...\n\n");
+		return 0;
+	}
+
+	/* calculate total revenue of book list */
+	sumWholesale = (listHead->book.wholesalePrice * listHead->book.wholesaleQuantity);
+	traversePtr = listHead->next;
+	while (traversePtr != NULL) {
+		sumWholesale += (traversePtr->book.wholesalePrice * traversePtr->book.wholesaleQuantity);
+		traversePtr = traversePtr->next;
+	}
+
+	return sumWholesale;
+}
+
+double calculateInvestmentInInventory(const Node *listHead) {
+	double sumInvestment = 0;
+	Node *traversePtr;
+
+	if (listHead == NULL) {
+		printf("ERROR: Book list is empty...\n\n");
+		return 0;
+	}
+
+	sumInvestment = ((listHead->book.wholesaleQuantity - listHead->book.retailQuantity) * listHead->book.wholesalePrice);
+	traversePtr = listHead->next;
+	while (traversePtr != NULL) {
+		sumInvestment += ((traversePtr->book.wholesaleQuantity - traversePtr->book.retailQuantity) * traversePtr->book.wholesalePrice);
+		traversePtr = traversePtr->next;
+	}
+
+	return sumInvestment;
 }
 
 double calculateTotalProfit(const Node *listHead) {
+	double sumRevenue = calculateTotalRevenue(listHead);
+	double sumWholesale = calculateTotalWholesaleCost(listHead);
+	double sumInvestment = calculateInvestmentInInventory(listHead);
 
-/* WRITE THE CODE FOR THIS FUNCTION */
+	return sumRevenue + sumInvestment - sumWholesale ;
 }
 
 int calculateTotalBooksSold(const Node *listHead) {
+	int sumBooksSold = 0;
+	Node *traversePtr;
 
-/* WRITE THE CODE FOR THIS FUNCTION */
+	if (listHead == NULL) {
+		printf("ERROR: Book list is empty...\n\n");
+		return 0;
+	}
+
+	sumBooksSold += listHead->book.retailQuantity;
+	traversePtr = listHead->next;
+	while (traversePtr != NULL) {
+		sumBooksSold += traversePtr->book.retailQuantity;
+		traversePtr = traversePtr->next;
+	}
+
+	return sumBooksSold;
 }
 
 double calculateAverageProfit(const Node *listHead) {
+	double sumProfit = calculateTotalProfit(listHead);
+	int sumBooksSold = calculateTotalBooksSold(listHead);
 
-/* WRITE THE CODE FOR THIS FUNCTION */
+	return (sumProfit / sumBooksSold);
 }
 
 void deleteNode(Node **listHeadPtr, int stockNumToDelete) {
@@ -214,7 +277,7 @@ void deleteNode(Node **listHeadPtr, int stockNumToDelete) {
 		}
 
 		if (traversePtr == NULL) {
-			printf("ERROR: Stock number not found, no item deleted...\n\n");
+			printf("\nERROR: Book stock number %i was not found in the list!\n", stockNumToDelete);
 			return;
 		}
 		else {
@@ -223,7 +286,7 @@ void deleteNode(Node **listHeadPtr, int stockNumToDelete) {
 		}
 	}
 
-	printf("Book with stock number %i deleted from list...\n\n", stockNumToDelete);
+	printf("Book stock number %i deleted from the inventory.\n\n", stockNumToDelete);
 }
 
 void printList(const Node *listHead) {
