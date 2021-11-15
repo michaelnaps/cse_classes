@@ -1,25 +1,25 @@
 /* DO NOT REMOVE THIS COMMENT!! CSE 3430 lab2.c AU 21 CODE 05212008 */
 
-/* STUDENT NAME: (REPLACE THIS WITH YOUR NAME) */
+/* STUDENT NAME: Michael Napoli */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-	struct Data {
-		char title[45];
-		char author[45];
-		int stockNumber;
-		float wholesalePrice;
-		float retailPrice;
-		int wholesaleQuantity;
-		int retailQuantity;
-	};
+struct Data {
+	char title[45];
+	char author[45];
+	int stockNumber;
+	float wholesalePrice;
+	float retailPrice;
+	int wholesaleQuantity;
+	int retailQuantity;
+};
 
-	typedef struct Node {
-		struct Data book;
-		struct Node *next;
-	} Node;
+typedef struct Node {
+	struct Data book;
+	struct Node *next;
+} Node;
 
 void getDataAndBuildList(Node **listHeadPtr);
 Node *createNodeAndGetData(void);
@@ -81,39 +81,6 @@ Node *createNodeAndGetData(void) {
 	}
 }
 
-
-void insertNode(Node **listHeadPtr, Node *newNodePtr) {
-	Node *traversePtr = *listHeadPtr;
-	Node *priorNodePtr;
-
-	if (*listHeadPtr == NULL) {
-		*listHeadPtr = newNodePtr;
-		newNodePtr->next = NULL;
-	}
-	else if (newNodePtr->book.stockNumber < traversePtr->book.stockNumber) {
-		newNodePtr->next = *listHeadPtr;
-		*listHeadPtr = newNodePtr;
-	}
-	else {
-		while (traversePtr != NULL && newNodePtr->book.stockNumber > traversePtr->book.stockNumber) {
-			priorNodePtr = traversePtr;
-			traversePtr = traversePtr->next;
-		}
-
-		if (traversePtr == NULL) {
-			traversePtr = newNodePtr;
-			newNodePtr->next = NULL;
-			priorNodePtr->next = newNodePtr;
-		}
-		else {
-			newNodePtr->next = traversePtr;
-			priorNodePtr->next = newNodePtr;
-		}
-	}
-
-	printf("Book stock number %i was added to the inventory.\n\n", newNodePtr->book.stockNumber);
-}
-
 void getUserOption(Node **listHeadPtr) {
 	int option;
 	Node *newNodePtr;
@@ -165,10 +132,92 @@ void getUserOption(Node **listHeadPtr) {
 	} while (option != 10);
 }
 
+
+/* HOMEWORK FUNCTIONS */
+
+/* insert new node into list of books */
+void insertNode(Node **listHeadPtr, Node *newNodePtr) {
+	Node *traversePtr = *listHeadPtr;
+	Node *priorNodePtr;
+
+	/* case 1: insert node into empty list */
+	if (*listHeadPtr == NULL) {
+		*listHeadPtr = newNodePtr;
+		newNodePtr->next = NULL;
+	}
+	/* case 2: insert node at the beginning of list */
+	else if (newNodePtr->book.stockNumber < traversePtr->book.stockNumber) {
+		newNodePtr->next = *listHeadPtr;
+		*listHeadPtr = newNodePtr;
+	}
+	/* case 3: insert node in the middle, or at the end of list */
+	else {
+		while (traversePtr != NULL && newNodePtr->book.stockNumber > traversePtr->book.stockNumber) {
+			priorNodePtr = traversePtr;
+			traversePtr = traversePtr->next;
+		}
+
+		/* case 3.1: end of list */
+		if (traversePtr == NULL) {
+			traversePtr = newNodePtr;
+			newNodePtr->next = NULL;
+			priorNodePtr->next = newNodePtr;
+		}
+		/* case 3.2: middle of list */
+		else {
+			newNodePtr->next = traversePtr;
+			priorNodePtr->next = newNodePtr;
+		}
+	}
+
+	/* inform user that their book was added successfully */
+	printf("Book stock number %i was added to the inventory.\n\n", newNodePtr->book.stockNumber);
+}
+
+/* remove node from list */
+void deleteNode(Node **listHeadPtr, int stockNumToDelete) {
+	Node *traversePtr = *listHeadPtr;
+	Node *priorNodePtr;
+
+	/* case 1: list is empty */
+	if (*listHeadPtr == NULL) {
+		printf("ERROR: Book List is empty...\n\n");
+		return;
+	}
+	/* case 2: book is at the beginning of list */
+	else if ((*listHeadPtr)->book.stockNumber == stockNumToDelete) {
+		*listHeadPtr = traversePtr->next;
+		free(traversePtr);
+	}
+	/* case 3: book is in middle, or at the end of list */
+	else {
+		while (traversePtr != NULL && traversePtr->book.stockNumber != stockNumToDelete) {
+			priorNodePtr = traversePtr;
+			traversePtr = traversePtr->next;
+		}
+
+		/* case 3.1: end of list */
+		if (traversePtr == NULL) {
+			printf("\nERROR: Book stock number %i was not found in the list!\n", stockNumToDelete);
+			return;
+		}
+		/* case 3.2: middle of list */
+		else {
+			priorNodePtr->next = traversePtr->next;
+			free(traversePtr);
+		}
+	}
+
+	/* inform user their book was deleted */
+	printf("Book stock number %i deleted from the inventory.\n\n", stockNumToDelete);
+}
+
+/* calculate total revenue of book list */
 double calculateTotalRevenue(const Node *listHead) {
 	double sumRevenue = 0;
 	Node *traversePtr;
 
+	/* if list is empty, return zero */
 	if (listHead == NULL) {
 		printf("ERROR: Book list is empty...\n\n");
 		return 0;
@@ -182,13 +231,16 @@ double calculateTotalRevenue(const Node *listHead) {
 		traversePtr = traversePtr->next;
 	}
 
+	/* return sum of all book revenue */
 	return sumRevenue;
 }
 
+/* calculate total wholesale cost */
 double calculateTotalWholesaleCost(const Node *listHead) {
 	double sumWholesale = 0;
 	Node *traversePtr;
 
+	/* if list is empty, return zero */
 	if (listHead == NULL) {
 		printf("ERROR: Book list is empty...\n\n");
 		return 0;
@@ -202,18 +254,22 @@ double calculateTotalWholesaleCost(const Node *listHead) {
 		traversePtr = traversePtr->next;
 	}
 
+	/* return sum of wholesale cost for all books */
 	return sumWholesale;
 }
 
+/* calculate the total investment in inventory */
 double calculateInvestmentInInventory(const Node *listHead) {
 	double sumInvestment = 0;
 	Node *traversePtr;
 
+	/* if list is empty, return zero and exit */
 	if (listHead == NULL) {
 		printf("ERROR: Book list is empty...\n\n");
 		return 0;
 	}
 
+	/* calculate total investment */
 	sumInvestment = ((listHead->book.wholesaleQuantity - listHead->book.retailQuantity) * listHead->book.wholesalePrice);
 	traversePtr = listHead->next;
 	while (traversePtr != NULL) {
@@ -224,23 +280,28 @@ double calculateInvestmentInInventory(const Node *listHead) {
 	return sumInvestment;
 }
 
+/* calculate the total profit for all books */
 double calculateTotalProfit(const Node *listHead) {
 	double sumRevenue = calculateTotalRevenue(listHead);
 	double sumWholesale = calculateTotalWholesaleCost(listHead);
 	double sumInvestment = calculateInvestmentInInventory(listHead);
 
-	return sumRevenue + sumInvestment - sumWholesale ;
+	/* return total profit */
+	return (sumRevenue + sumInvestment - sumWholesale) ;
 }
 
+/* calculate the number of books sold */
 int calculateTotalBooksSold(const Node *listHead) {
 	int sumBooksSold = 0;
 	Node *traversePtr;
 
+	/* if book list is empty, return zero */
 	if (listHead == NULL) {
 		printf("ERROR: Book list is empty...\n\n");
 		return 0;
 	}
 
+	/* calculate the sum of the books sold */
 	sumBooksSold += listHead->book.retailQuantity;
 	traversePtr = listHead->next;
 	while (traversePtr != NULL) {
@@ -251,42 +312,13 @@ int calculateTotalBooksSold(const Node *listHead) {
 	return sumBooksSold;
 }
 
+/* calculate average profit */
 double calculateAverageProfit(const Node *listHead) {
 	double sumProfit = calculateTotalProfit(listHead);
 	int sumBooksSold = calculateTotalBooksSold(listHead);
 
+	/* return average profit */
 	return (sumProfit / sumBooksSold);
-}
-
-void deleteNode(Node **listHeadPtr, int stockNumToDelete) {
-	Node *traversePtr = *listHeadPtr;
-	Node *priorNodePtr;
-
-	if (*listHeadPtr == NULL) {
-		printf("ERROR: Book List is empty...\n\n");
-		return;
-	}
-	else if ((*listHeadPtr)->book.stockNumber == stockNumToDelete) {
-		*listHeadPtr = traversePtr->next;
-		free(traversePtr);
-	}
-	else {
-		while (traversePtr != NULL && traversePtr->book.stockNumber != stockNumToDelete) {
-			priorNodePtr = traversePtr;
-			traversePtr = traversePtr->next;
-		}
-
-		if (traversePtr == NULL) {
-			printf("\nERROR: Book stock number %i was not found in the list!\n", stockNumToDelete);
-			return;
-		}
-		else {
-			priorNodePtr->next = traversePtr->next;
-			free(traversePtr);
-		}
-	}
-
-	printf("Book stock number %i deleted from the inventory.\n\n", stockNumToDelete);
 }
 
 void printList(const Node *listHead) {
