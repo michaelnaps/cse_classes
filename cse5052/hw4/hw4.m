@@ -11,8 +11,9 @@ x = [0.5; 1.5; 2.5; 3.5; 4.5];
 y = [0.450; 1.292; 2.449; 3.847; 5.446];
 
 % linear fit
-[p0, p1, e] = least_squares(x, y);
-f1 = @(x) p1*x + p0;
+[a0, a1, e] = least_squares(x, y);
+p1 = [a0; a1];
+f1 = @(x) p1(2)*x + p1(1);
 
 x1 = 0:0.01:5;
 y1 = f1(x1);
@@ -28,8 +29,8 @@ legend('Given Data', 'Calculated Regression')
 hold off
 
 % quadratic fit
-a2 = polynomial_fit(x, y, 2);
-f2 = @(x) a2(3).*x.^2 + a2(2).*x + a2(1);
+p2 = polynomial_fit(x, y, 2);
+f2 = @(x) p2(3).*x.^2 + p2(2).*x + p2(1);
 
 x2 = x1;
 y2 = f2(x2);
@@ -45,8 +46,8 @@ legend('Given Data', 'Calculated Fit')
 hold off
 
 % cubic fit
-a3 = polynomial_fit(x, y, 3);
-f3 = @(x) a3(4).*x.^3 + a3(3).*x.^2 + a3(2).*x + a3(1);
+p3 = polynomial_fit(x, y, 3);
+f3 = @(x) p3(4).*x.^3 + p3(3).*x.^2 + p3(2).*x + p3(1);
 
 x3 = x1;
 y3 = f3(x3);
@@ -62,8 +63,8 @@ legend('Given Data', 'Calculated Fit')
 hold off
 
 % 4th-order polynomial fit
-a4 = polynomial_fit(x, y, 4);
-f4 = @(x) a4(5).*x.^4 + a4(4).*x.^3 + a4(3).*x.^2 + a4(2).*x + a4(1);
+p4 = polynomial_fit(x, y, 4);
+f4 = @(x) p4(5).*x.^4 + p4(4).*x.^3 + p4(3).*x.^2 + p4(2).*x + p4(1);
 
 x4 = x1;
 y4 = f4(x4);
@@ -77,3 +78,11 @@ ylabel('y')
 xlabel('x')
 legend('Given Data', 'Calculated Fit')
 hold off
+
+% create display tale for coefficients
+PowerOfX = [0;1;2;3;4];
+Linear = [p1;zeros(3,1)];
+Quadratic = [p2;zeros(2,1)];
+Cubic = [p3;0];
+FourthOrder = p4;
+disp(table(PowerOfX, Linear, Quadratic, Cubic, FourthOrder))
