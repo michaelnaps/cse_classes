@@ -1,8 +1,6 @@
 %% Function: least_squares()
 % Created by: Michael Napoli
-% Created on: 2/13/2020
-% Last modified on: 2/13/2020
-
+%
 % Purpose: Function that takes x and y data points and computes
 %   the best fit polynomial of the maximum degree given.
 
